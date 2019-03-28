@@ -1,0 +1,1 @@
+The images have been compressed to reduce their size. To run the experiment, extract all images in the folder.

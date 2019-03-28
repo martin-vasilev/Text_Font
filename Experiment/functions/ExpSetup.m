@@ -1,4 +1,7 @@
 function ExpSetup
+% Performs Experiment and Screen set-up
+% Martin Vasilev, 2017
+
 global Visual const Monitor el Audio;
 
 % get participant number:
@@ -17,6 +20,8 @@ whichScreen = max(Screen('Screens'));
 
 % Setup window:
 Monitor.window = Screen('OpenWindow', whichScreen);
+Screen(Monitor.window, 'TextSize', Visual.FontSize);
+Screen(Monitor.window, 'TextFont', Visual.Font);
 Screen('FillRect', Monitor.window, Visual.BGC);
 Screen('Flip', Monitor.window);
 
@@ -91,7 +96,7 @@ if const.hasAudio
     PsychPortAudio('FillBuffer', Audio.standard4, wavedata);
     PsychPortAudio('FillBuffer', Audio.standard5, wavedata);
 else
-    Audio= 0;
+    Audio.exists= 0;
 end
 % Fill deviant buffer:
 %[y, freq] = wavread([cd '\corpus\' 'deviant.wav']);

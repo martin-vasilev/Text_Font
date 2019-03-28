@@ -1,4 +1,7 @@
-global const Visual sent Monitor el Audio; 
+% Presentation of Experimental trials
+% Martin Vasilev, 2017
+
+global const Visual sent Monitor el; %Audio; 
 
 % Blackbox toolkit testing:
 %s= serial('COM11');
@@ -9,26 +12,44 @@ global const Visual sent Monitor el Audio;
 
 %const.ntrials=10; % TEMPORARY!!! Use only for testing
 
-HideCursor;
+HideCursor; % hide the mouse cursor
 
 % Calibrate the eye tracker
 EyelinkDoTrackerSetup(el);
 
 % Trial presentation loop:
 for i=1:const.ntrials
+    
+    %calResult = Eyelink('CalResult');
 %%  stimuli set-up:
     
     trialEnd= false; 
-	item= design.item(i);
-    cond= design.cond(i);
+	item= design(i,1); % item is 1st column
+    cond= design(i,2); % condition is 2nd column
+    
+    % get sent string:
+    whichRow= find(sent.item== item & sent.Cond== cond, 1);
+    line1= char(sent.Line1(whichRow));
+    line2= char(sent.Line2(whichRow));
+    sentenceString= [line1, '\n', line2];
+    
+    % get ppl, etc. for current sent:
+    if ismember(cond, [1,3,9])
+        Visual.Pix_per_Letter= 12;
+        Visual.LetterHeight= 21;
+        Visual.FontSize= 16;
+    else
+        Visual.Pix_per_Letter= 16;
+        Visual.LetterHeight= 28;
+        Visual.FontSize= 22;
+    end
+    
 	
 	% get image dir:
     imageFile= ['img/Item' num2str(item) '_Cond' num2str(cond) '.bmp'];
+    img= imread(imageFile); % read in image
     
-    img= imread(imageFile);
-    
-    %% drift check:
-    
+    % drift check:
     EyelinkDoDriftCorrection(el);
     
     %% Eyelink & Screen trial set-up:
@@ -38,12 +59,15 @@ for i=1:const.ntrials
         if item> const.Maxtrials % if practice
             Eyelink('Message', ['TRIALID ' 'P' num2str(cond) 'I' num2str(item) 'D0']);
 			% print trial ID on tracker screen:
-            Eyelink('command', ['record_status_message ' [ num2str(i) ':' 'P' num2str(cond) 'I' num2str(item) 'D0']]);
+            Eyelink('command', ['record_status_message ' [ num2str(round((i/const.ntrials)*100)) 'Prcnt:' 'P' num2str(cond) 'I' num2str(item) 'D0']]);
         else
 			Eyelink('Message', ['TRIALID ' 'E' num2str(cond) 'I' num2str(item) 'D0']);
 			% print trial ID on tracker screen:
-			Eyelink('command', ['record_status_message ' [num2str(i) ':' 'E' num2str(cond) 'I' num2str(item)]]); 
+			Eyelink('command', ['record_status_message ' [ num2str(round((i/const.ntrials)*100)) 'Prcnt:' 'E' num2str(cond) 'I' num2str(item) 'D0']]); 
         end
+        
+        % print image url to edf:
+        Eyelink('Message', imageFile);
 
 % 		if cond<9
 %             Eyelink('Message', ['SOUND ONSET DELAY: ' num2str(design.delay(i))]);
@@ -55,14 +79,10 @@ for i=1:const.ntrials
 %         end
         
         % print text stimuli to edf:
-        %stim2edf(sentenceString);
+        %stim2edf(sentenceString); % Single line
+        stim2edfML(sentenceString); % Multi-line
         
         % prepare Screens:
-        Screen('FillRect', Monitor.buffer(1), Visual.FGC, [Visual.offsetX Visual.resY/2- Visual.GazeBoxSize/2 Visual.offsetX+Visual.GazeBoxSize ...
-            Visual.resY/2+ Visual.GazeBoxSize]) % gazebox
-        gazeBnds_x= [Visual.offsetX Visual.offsetX+Visual.GazeBoxSize];
-		gazeBnds_y= [Visual.resY/2- Visual.GazeBoxSize/2 Visual.resY/2+ Visual.GazeBoxSize];
-        
         % sentence presentation:
         Screen('FillRect', Monitor.buffer(2), Visual.BGC);
         % put image on the screen:
@@ -72,9 +92,17 @@ for i=1:const.ntrials
         %Screen('DrawText', Monitor.buffer(2), sentenceString, Visual.sentPos(1), Visual.sentPos(2), Visual.FGC); % sentence
         
         if const.checkPPL
+            MLcheck= strfind(sentenceString, '\n');
+            
+            if ~isempty(MLcheck)
+                sentenceString= strrep(sentenceString, '\n', '@');
+                sentenceString= strsplit(sentenceString, '@');
+                sentenceString= char(sentenceString{1});
+            end
+            
 			lngth= length(sentenceString)*Visual.Pix_per_Letter;
             Screen('FrameRect', Monitor.buffer(2), Visual.FGC, [Visual.offsetX Visual.resY/2- Visual.GazeBoxSize/2 ...
-                Visual.offsetX+lngth Visual.resY/2+ Visual.GazeBoxSize])
+                Visual.offsetX+lngth Visual.resY/2+ Visual.GazeBoxSize]);
         end
         
         % Print stimuli to Eyelink monitor:
@@ -92,7 +120,7 @@ for i=1:const.ntrials
         status= Eyelink('ImageTransfer', 'disp.bmp', 0, 0, 0, 0,0, 0, 16);
         
         %% Present Gaze-box:
-        stimuliOn= gazeBox(stimuliOn, gazeBnds_x, gazeBnds_y);
+        stimuliOn= gazeBox(stimuliOn);
         
     end
     
@@ -143,21 +171,17 @@ for i=1:const.ntrials
     
     
      %% Questioms:
-%      if strcmp(sent(item).ans1, '')==0
-%          switch frame
-%              case 1
-%                  quest= sent(item).quest1;
-%                  corr_ans= sent(item).ans1;
-%              case 2
-%                  quest= sent(item).quest2;
-%                  corr_ans= sent(item).ans2;
-%              case 3
-%                  quest= sent(item).quest3;
-%                  corr_ans= sent(item).ans3;
-%          end
-%          
-%          answer= Question(quest, corr_ans, item, cond);
-%      end
-%     
+      if sent.hasQuest(whichRow)==1
+          % present question:
+          answer= Question(char(sent.Question(whichRow)), sent.Answer(whichRow), ...
+              item, cond, 'TRUE', 'FALSE', true);
+      end     
     
 end
+
+
+% end of Experiment text:
+text= 'The experiment is finished! Thank you for participating!';
+Screen(Monitor.window, 'TextSize', Visual.InstrTextSize);
+Screen('DrawText', Monitor.window, text, Visual.resX/2- (Visual.Pix_per_Letter+3)*length(text)/2, Visual.resY/2, [139, 0, 0]);
+Screen('Flip', Monitor.window);

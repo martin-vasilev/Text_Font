@@ -1,4 +1,4 @@
-% Reading experiment with font size manipulation
+% Return-sweep experiment with font size and line length manipulation
 
 % Martin R. Vasilev, 2019
 
@@ -16,9 +16,11 @@ settings; % load settings
 ExpSetup; % do window and tracker setup
 
 %% Load stimuli and design:
-importDesign;
 load('sent.mat');
-const.ntrials= height(design);
+
+%importDesign; % old fun for loading txt files
+design= genDesign(); % generate the design matrix for this subject
+const.ntrials= length(design);
 
 %% Run Experiment:
 runTrials;

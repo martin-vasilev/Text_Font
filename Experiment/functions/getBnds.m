@@ -1,6 +1,6 @@
 function [ Bnds ] = getBnds(sentenceString)
 %getBnds Finds word boundaries in the sentence
-%   Detailed explanation goes here
+%   Martin Vasilev, 2017
 
 global Visual;
 
