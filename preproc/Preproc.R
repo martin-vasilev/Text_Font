@@ -11,8 +11,9 @@
 
 library(EMreading)
 
-
-# Comprehension accuracy:
+###########################
+# Comprehension accuracy: #
+###########################
 
 Quest<- Question(data_list = "D:/Data/Font_size", maxtrial = 100)
 
@@ -26,8 +27,10 @@ mQuest<- cast(DesQuest, item ~ variable
               ,function(x) c(M=signif(mean(x),3)
                              , SD= sd(x) ))
 
+################
+# Trial times: #
+################
 
-# Trial times:
 Trialt<- trialTime(data_list = "D:/Data/Font_size/", maxtrial = 100)
 
 save(Trialt, file= "data/Trial_time.Rda")
@@ -44,6 +47,6 @@ mTime<- cast(DesTime, cond ~ variable
 M<- MultiLine(data_list = "D:/Data/Font_size/new", maxtrial = 100, reAlign = F)
 
 
-EyeDoctor_PadLines("D:/Data/Font_size/")
+EyeDoctor_PadLines("D:/Data/Font_size/new")
 
 
