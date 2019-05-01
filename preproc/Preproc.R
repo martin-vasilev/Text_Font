@@ -23,7 +23,7 @@ save(Quest, file= "data/Quest.Rda")
 library(reshape)
 DesQuest<- melt(Quest, id=c('sub', 'item', 'cond'), 
                 measure=c("accuracy"), na.rm=TRUE)
-mQuest<- cast(DesQuest, item ~ variable
+mQuest<- cast(DesQuest, sub ~ variable
               ,function(x) c(M=signif(mean(x),3)
                              , SD= sd(x) ))
 
