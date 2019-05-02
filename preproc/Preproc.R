@@ -44,7 +44,7 @@ mTime<- cast(DesTime, cond ~ variable
 
 
 
-M<- MultiLine(data_list = "D:/Data/Font_size/new", maxtrial = 100, reAlign = F)
+#M<- MultiLine(data_list = "D:/Data/Font_size/new", maxtrial = 100, reAlign = F)
 
 
 EyeDoctor_PadLines("D:/Data/Font_size/new")
