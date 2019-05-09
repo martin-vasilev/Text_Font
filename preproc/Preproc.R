@@ -12,31 +12,30 @@
 
 library(EMreading)
 
+#data_dir= "D:/Data/Font_size" # Martin
+data_dir= "E:/FontSizeData" # Victoria
+
 ###########################
 # Comprehension accuracy: #
 ###########################
 
-<<<<<<< HEAD
-Quest<- Question(data_list = "E:/FontSizeData", maxtrial = 100)
-=======
-Quest<- Question(data_list = "D:/Data/Font_size", maxtrial = 100)
->>>>>>> eb2605d88f422e57fab0ffacc81f382dd1b92126
+Quest<- Question(data_list = data_dir, maxtrial = 100)
+
 
 save(Quest, file= "data/Quest.Rda")
 
 
-<<<<<<< HEAD
 # Trial times:
-Trialt<- trialTime(data_list = "E:/FontSizeData", maxtrial = 100)
+Trialt<- trialTime(data_list = data_dir, maxtrial = 100)
 
 save(Trialt, file= "data/Trial_time.Rda")
 
-M<- MultiLine(data_list = "D:/Data/Font_size/new", maxtrial = 100, reAlign = F)
+M<- MultiLine(data_list = data_dir, maxtrial = 100, reAlign = F)
 
-data_dir<-setwd()
+#data_dir<-setwd()
 
-Paddedfiles <-EyeDoctor_PadLines(data_dir = "E:/FontSizeData", paddingSize = 5)
-=======
+Paddedfiles <-EyeDoctor_PadLines(data_dir = data_dir, paddingSize = 5)
+
 library(reshape)
 DesQuest<- melt(Quest, id=c('sub', 'item', 'cond'), 
                 measure=c("accuracy"), na.rm=TRUE)
@@ -48,7 +47,7 @@ mQuest<- cast(DesQuest, sub ~ variable
 # Trial times: #
 ################
 
-Trialt<- trialTime(data_list = "D:/Data/Font_size/", maxtrial = 100)
+Trialt<- trialTime(data_list = data_dir, maxtrial = 100)
 
 save(Trialt, file= "data/Trial_time.Rda")
 
@@ -64,7 +63,5 @@ mTime<- cast(DesTime, cond ~ variable
 #M<- MultiLine(data_list = "D:/Data/Font_size/new", maxtrial = 100, reAlign = F)
 
 
-EyeDoctor_PadLines("D:/Data/Font_size/new")
+EyeDoctor_PadLines(data_dir)
 
-
->>>>>>> eb2605d88f422e57fab0ffacc81f382dd1b92126
