@@ -267,6 +267,9 @@ for(i in 1:nrow(outliers)){
   raw_fix<- raw_fix[-which(raw_fix$sub== outliers$sub[i] & raw_fix$item== outliers$item[i]), ]
 }
 
+# remove remaining outlier fixations (not next to return sweeps)
+raw_fix<- raw_fix[-which(raw_fix$fix_dur>1000),]
+
 
 # Now, let's merge fixations smaller than 80 ms
 less80<- raw_fix[which(raw_fix$fix_dur<80 & raw_fix$Rtn_sweep==1), ]
@@ -322,7 +325,7 @@ raw_fix$prev_RS<- NULL
 raw_fix$next_RS<- NULL
 
 cl<- colnames(raw_fix)
-raw_fix<- raw_fix[, c(cl[1:15], cl[24:27], c[16:23])]
+raw_fix<- raw_fix[, c(cl[1:15], cl[24:27], cl[16:23])]
 
 # add landing position relative to line start (in letters):
 raw_fix$LandStartLet<- raw_fix$char_line
