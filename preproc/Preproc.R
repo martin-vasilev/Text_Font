@@ -95,6 +95,81 @@ load("preproc/raw_fix.Rda")
 
 raw_fix$hasText<- NULL
 
+
+# first, let's code some new variables:
+
+raw_fix_new<- NULL
+
+raw_fix$prev_RS<- NA
+raw_fix$next_RS<- NA
+raw_fix$prevChar<-NA
+raw_fix$nextChar<- NA
+raw_fix$prevX<- NA
+raw_fix$nextX<- NA
+
+for(i in 1:64){
+  n<- subset(raw_fix, sub==i)
+  nitems<- unique(n$item)
+  cat(i); cat(" ")
+  
+  for(j in 1:length(nitems)){
+    m<- subset(n, item== nitems[j])
+    
+    for(k in 1:nrow(m)){
+      if(k==1){
+        m$prev_RS[k]<- 0
+        m$next_RS[k]<- 0
+        m$next_RS[k+1]<- 0
+        
+        ####
+        m$nextChar[k]<- m$char_line[k+1] # next char
+        m$nextX[k]<- m$xPos[k+1]
+        
+      }else{
+        if(m$Rtn_sweep[k]==1){
+          m$prev_RS[k-1]<- 1
+          
+          if(k+1 <= nrow(m)){
+            m$next_RS[k+1]<- 1
+          }
+          
+        }else{
+          m$prev_RS[k-1]<- 0
+          
+          if(k+1 <= nrow(m)){
+            m$next_RS[k+1]<- 0
+          }
+        }
+        ###
+        m$prevChar[k]<- m$char_line[k-1] # prev char
+        m$prevX[k] <- m$xPos[k-1] # prev x
+        
+        if(k+1<= nrow(m)){
+          m$nextChar[k]<- m$char_line[k+1] # next char
+          m$nextX[k]<- m$xPos[k+1] # next x
+        }
+        
+        
+      }
+      
+      if(k== nrow(m)){
+        m$prev_RS[k]<- 0
+      }
+      
+    } # end of m
+    raw_fix_new<- rbind(raw_fix_new, m)
+  } # end of j
+  
+  
+}
+
+raw_fix<- raw_fix_new;
+rm(raw_fix_new)
+
+
+
+
+
 nAllTrials<- 64*100
 
 # check number of trials per subject
@@ -153,6 +228,11 @@ for(i in 1:nrow(RS_blinks)){
   raw_fix<- raw_fix[-which(raw_fix$sub== RS_blinks$sub[i]& raw_fix$item== RS_blinks$item[i]),]
 }
 
+# remove also blinks that did not occur next to return sweeps:
+
+raw_fix<- raw_fix[-which(raw_fix$blink==1 | raw_fix$prev_blink==1 | raw_fix$after_blink==1),]
+
+
 # confirm we got the correct num of trials:
 RS_blinks<- raw_fix[which(raw_fix$Rtn_sweep==1), ]
 nrow(RS_blinks)== nAllTrials- nBlinks- nNoRS- nDiscardedTrials
@@ -166,77 +246,16 @@ if(nrow(RS_blinks)==0){
   cat(":(")
 }
 
+table(raw_fix$blink)
+table(raw_fix$prev_blink)
+table(raw_fix$after_blink)
+# remove blink columns
+raw_fix$blink<- NULL
+raw_fix$prev_blink<- NULL
+raw_fix$after_blink<- NULL
+
+
 # check for outliers:
-
-# first, we need to code in the data if prev or next fixation is a return sweep:
-
-raw_fix_new<- NULL
-
-raw_fix$prev_RS<- NA
-raw_fix$next_RS<- NA
-raw_fix$prevChar<-NA
-raw_fix$nextChar<- NA
-raw_fix$prevX<- NA
-raw_fix$nextX<- NA
-
-for(i in 1:64){
-  n<- subset(raw_fix, sub==i)
-  nitems<- unique(n$item)
-  cat(i); cat(" ")
-  
-  for(j in 1:length(nitems)){
-    m<- subset(n, item== nitems[j])
-    
-    for(k in 1:nrow(m)){
-      if(k==1){
-        m$prev_RS[k]<- 0
-        m$next_RS[k]<- 0
-        m$next_RS[k+1]<- 0
-        
-        ####
-        raw_fix$nextChar[k]<- raw_fix$char_line[k+1] # next char
-        raw_fix$nextX[k]<- raw_fix$xPos[k+1]
-        
-      }else{
-        if(m$Rtn_sweep[k]==1){
-          m$prev_RS[k-1]<- 1
-          
-          if(k+1 <= nrow(m)){
-            m$next_RS[k+1]<- 1
-          }
-          
-        }else{
-          m$prev_RS[k-1]<- 0
-          
-          if(k+1 <= nrow(m)){
-            m$next_RS[k+1]<- 0
-          }
-        }
-        ###
-        raw_fix$prevChar[k]<- raw_fix$char_line[k-1] # prev char
-        raw_fix$prevX[k] <- raw_fix$xPos[k-1] # prev x
-        
-        if(k+1<= nrow(m)){
-          raw_fix$nextChar[k]<- raw_fix$char_line[k+1] # next char
-          raw_fix$nextX[k]<- raw_fix$xPos[k+1] # next x
-        }
-        
-        
-      }
-      
-      if(k== nrow(m)){
-        m$prev_RS[k]<- 0
-      }
-      
-    } # end of m
-    raw_fix_new<- rbind(raw_fix_new, m)
-  } # end of j
-  
-  
-}
-
-raw_fix<- raw_fix_new;
-rm(raw_fix_new)
 
 outliers<- raw_fix[which(raw_fix$fix_dur>1000),]
 
@@ -260,6 +279,10 @@ rm(raw_fix_new)
 
 # remove remaining fixations less than 80 only if they are not return sweeps:
 raw_fix<- raw_fix[-which(raw_fix$fix_dur<80 & raw_fix$Rtn_sweep==0), ]
+
+
+# remove fixations outside screen bounds:
+raw_fix<- raw_fix[-which(raw_fix$outOfBnds==1 & raw_fix$Rtn_sweep==0 & raw_fix$prev_RS==0 & raw_fix$next_RS==0),]
 
 
 # let's verify we have the correct number of trials:
@@ -288,4 +311,12 @@ writeLines(sprintf("- %#.2f percent of trials remaining for analysis",
 
 close(fileConn)
 
+# re-organise file:
+raw_fix$sent<- NULL # all items are 1 sentence
+raw_fix$outOfBnds<- NULL # remove above
+raw_fix$time_since_start<- NULL # no longer necessary
+raw_fix$prev_RS<- NULL
+raw_fix$next_RS<- NULL
 
+cl<- colnames(raw_fix)
+raw_fix<- raw_fix[, c(cl[1:15], cl[24:27], c[16:23])]
