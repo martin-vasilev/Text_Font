@@ -78,7 +78,7 @@ mTime
 
 if(!file.exists("preproc/raw_fix.Rda")){
   # extract raw data & merge it with da1 files:
-  raw_fix<- preprocFromDA1(data_dir = data_dir, maxtrial = 100, padding = 5)
+  raw_fix<- preprocFromDA1(data_dir = data_dir, maxtrial = 100, padding = 5, tBlink = 100)
   save(raw_fix, file= "preproc/raw_fix.Rda")
   write.csv2(raw_fix, file= "preproc/raw_fix.csv")
 }
@@ -284,6 +284,9 @@ raw_fix<- raw_fix[-which(raw_fix$fix_dur<80 & raw_fix$Rtn_sweep==0), ]
 # remove fixations outside screen bounds:
 raw_fix<- raw_fix[-which(raw_fix$outOfBnds==1 & raw_fix$Rtn_sweep==0 & raw_fix$prev_RS==0 & raw_fix$next_RS==0),]
 
+# not really sure why we still have these, but we remove them here:
+raw_fix<- raw_fix[-which(raw_fix$prevX<0 |raw_fix$nextX<0),]
+
 
 # let's verify we have the correct number of trials:
 RS<- subset(raw_fix, Rtn_sweep==1)
@@ -320,3 +323,33 @@ raw_fix$next_RS<- NULL
 
 cl<- colnames(raw_fix)
 raw_fix<- raw_fix[, c(cl[1:15], cl[24:27], c[16:23])]
+
+# add landing position relative to line start (in letters):
+raw_fix$LandStartLet<- raw_fix$char_line
+
+# landing position relative to line start (in degrees per visual angle)
+
+offset= 200 # x offset in pixels
+DPP<- 0.02461393513610085 # degree per pixel in the experiment
+
+raw_fix$LandStartVA<- (raw_fix$xPos - 200)*DPP
+
+# code undersweep probability:
+raw_fix$undersweep_prob<- 0
+raw_fix$undersweep_prob[which(raw_fix$Rtn_sweep_type== "undersweep")]<- 1
+
+
+# code (absolute) launch site distance in letters:
+raw_fix$launchDistLet<- abs(raw_fix$char_line- raw_fix$prevChar)
+
+# code (absolute) launch site distance in visual angle:
+raw_fix$launchDistVA<- abs(raw_fix$xPos-raw_fix$prevX)*DPP
+
+## Finally, save data for analysis:
+Alldata<- raw_fix
+save(Alldata, file= "data/Alldata.Rda")
+write.csv(Alldata, "data/Alldata.csv")
+
+RS<- subset(raw_fix, Rtn_sweep==1)
+save(RS, file= "data/Return_sweep.Rda")
+write.csv(RS, file= "data/Return_sweep.csv")
