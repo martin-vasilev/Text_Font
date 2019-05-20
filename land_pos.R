@@ -18,8 +18,8 @@ for(i in 1:length(packages)){
 }
 
 # Load data:
-load("C:/Users/duniv/Documents/GitHub/Text_Font/data/Alldata.Rda")
-load("C:/Users/duniv/Documents/GitHub/Text_Font/data/Return_sweep.Rda")
+load("C:/Users/Public/Documents/Text_Font/data/Alldata.Rda")
+load("C:/Users/Public/Documents//Text_Font/data/Return_sweep.Rda")
 
 
 ############################################################################################################
@@ -44,7 +44,6 @@ str(RS)
 qqnorm(RS$LandStartLet)
 qqnorm(RS$LandStartVA)
 
-
 #descriptive statistics (letters)
 tapply (RS$LandStartLet,RS$cond, FUN= mean, na.rm= T )
 tapply (RS$LandStartLet,RS$cond, FUN= sd, na.rm= T)
@@ -53,23 +52,20 @@ tapply (RS$LandStartLet,RS$cond, FUN= sd, na.rm= T)
 tapply (RS$LandStartVA,RS$cond, FUN= mean, na.rm= T )
 tapply (RS$LandStartVA,RS$cond, FUN= sd, na.rm= T)
 
+#plots across all 4 conditions 
 plot(RS$LandStartLet~RS$cond)
 plot(RS$LandStartVA~RS$cond)
 
-ggplot(data= RS, aes(x= RS$cond, y= RS$LandStartLet), na.rm= T)
-
 ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartLet)) + 
-  geom_boxplot(fill="slateblue", alpha=0.2)
-  xlab("RS$cond")
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Conditions")
 
 
 ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) + 
-    geom_boxplot(fill="slateblue", alpha=0.2)
-  xlab("RS$cond")
+    geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Conditions")
   
 #merge conditions for main effect analysis 
-
-RS$cond= as.factor(RS$cond)
 
 RS$line_len= ifelse(RS$cond==1| RS$cond==2, 1,2 )
 RS$font_size= ifelse(RS$cond==1| RS$cond==3, 1,2 )
@@ -90,12 +86,25 @@ font_size= cbind( Let1, VA1)
 font_size
 
 ##plots 
+par(mfrow= c(2,2))
 #line length
 
 ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartVA)) + 
-  geom_boxplot(fill="slateblue", alpha=0.2)
-xlab("RS$line_len")
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+xlab("Line Length")
 
 ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartLet)) + 
-  geom_boxplot(fill="slateblue", alpha=0.2)
-xlab("RS$line_len")
+  geom_boxplot(fill="slateblue", alpha=0.2) + 
+xlab("Line Length")
+
+#font size
+
+ggplot(RS, aes(x=as.factor(RS$font_size), y=RS$LandStartVA)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+  xlab("Font Size")
+
+ggplot(RS, aes(x=as.factor(RS$font_size), y=RS$LandStartLet)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2) +
+xlab("Font Size")
+
+rm(list= ls())
