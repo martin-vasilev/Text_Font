@@ -37,8 +37,8 @@ RS$Rtn_sweep_type = as.factor(RS$Rtn_sweep_type)
 #examine data again 
 str(RS)
 #exclude outliers less than 80ms and more than 800ms 
-RS = RS[RS$fix_dur >80 & RS$fix_dur <1000, ]
-RS = RS [RS$LandStartLet<40, ] ########
+#RS = RS[RS$fix_dur >80 & RS$fix_dur <1000, ]
+#RS = RS [RS$LandStartLet<40, ] ########
 
 #visualize distribution 
 qqnorm(RS$LandStartLet)
@@ -58,23 +58,44 @@ plot(RS$LandStartVA~RS$cond)
 
 ggplot(data= RS, aes(x= RS$cond, y= RS$LandStartLet), na.rm= T)
 
+ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartLet)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2)
+  xlab("RS$cond")
 
+
+ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) + 
+    geom_boxplot(fill="slateblue", alpha=0.2)
+  xlab("RS$cond")
+  
 #merge conditions for main effect analysis 
 
-RS$line_len=  as.factor(ifelse(RS$cond== 1 & 2, 1, 2))
-RS$font_size= as.factor(ifelse(RS$cond== 1 & 3, 1, 2))
+RS$cond= as.factor(RS$cond)
+
+RS$line_len= ifelse(RS$cond==1| RS$cond==2, 1,2 )
+RS$font_size= ifelse(RS$cond==1| RS$cond==3, 1,2 )
 
 RS$line_len= factor(RS$line_len, levels = c(1,2), labels = c("short line", "long line"))
 RS$font_size= factor(RS$font_size, levels = c(1,2), labels = c("small font", "big font"))
 
 #descriptives based on line length
-Let= tapply (RS$LandStartLet, RS$line_len, FUN= mean)
-VA= tapply (RS$LandStartVA, RS$line_len, FUN= mean)
+Let= tapply (RS$LandStartLet, RS$line_len, FUN= mean, na.rm=T)
+VA= tapply (RS$LandStartVA, RS$line_len, FUN= mean, na.rm=T)
 line_len= cbind( Let, VA) 
 line_len
 
 #descriptives based on font_size
-Let1= tapply (RS$LandStartLet, RS$font_size, FUN= mean)
-VA1= tapply (RS$LandStartVA, RS$font_size, FUN= mean)
+Let1= tapply (RS$LandStartLet, RS$font_size, FUN= mean,na.rm=T)
+VA1= tapply (RS$LandStartVA, RS$font_size, FUN= mean, na.rm=T)
 font_size= cbind( Let1, VA1)
 font_size
+
+##plots 
+#line length
+
+ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartVA)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2)
+xlab("RS$line_len")
+
+ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartLet)) + 
+  geom_boxplot(fill="slateblue", alpha=0.2)
+xlab("RS$line_len")
