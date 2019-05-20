@@ -86,9 +86,8 @@ font_size= cbind( Let1, VA1)
 font_size
 
 ##plots 
-par(mfrow= c(2,2))
-#line length
 
+#line length
 ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartVA)) + 
   geom_boxplot(fill="slateblue", alpha=0.2) +
 xlab("Line Length")
@@ -98,7 +97,6 @@ ggplot(RS, aes(x=as.factor(RS$line_len), y=RS$LandStartLet)) +
 xlab("Line Length")
 
 #font size
-
 ggplot(RS, aes(x=as.factor(RS$font_size), y=RS$LandStartVA)) + 
   geom_boxplot(fill="slateblue", alpha=0.2) +
   xlab("Font Size")
