@@ -106,7 +106,7 @@ ggplot(RS, aes(x=as.factor(RS$font_size), y=RS$LandStartLet)) +
 xlab("Font Size")
 
 
-###### LMM
+###### LMM for Character(LandStartLet)
 
 library(lmer4)
 land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet + 
@@ -126,8 +126,25 @@ contr.land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet +
 
 summary(contr.land_pos.lm)
 
-###plot effects
+####### plot effects
 library(effects)
 plot(allEffects(contr.land_pos.lm))
+
+
+###### LMM for visual angle (LandStartVA)
+
+
+land_pos.lm2a= lmer(LandStartVA ~ line_len *font_size*launchDistVA + 
+                          (1|item) + (1+ line_len|sub), RS, REML=T)
+#####or 
+land_pos.lm2b= lmer(LandStartVA ~ line_len *font_size*launchDistVA + 
+                     (1|item) + (1+ font_size|sub), RS, REML=T)
+summary(land_pos.lm2a)
+summary(land_pos.lm2b)
+
+####### plot effects
+plot(allEffects(land_pos.lm2a))
+plot(allEffects(land_pos.lm2b))
+
 
 rm(list= ls())
