@@ -105,4 +105,29 @@ ggplot(RS, aes(x=as.factor(RS$font_size), y=RS$LandStartLet)) +
   geom_boxplot(fill="slateblue", alpha=0.2) +
 xlab("Font Size")
 
+
+###### LMM
+
+library(lmer4)
+land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet + 
+                    (1|item) + (1+ line_len+ font_size|sub), RS, REML=T)
+
+summary(land_pos.lm)
+
+##### setting up contrasts for main effects 
+
+contrasts(RS$line_len) <- contr.sdif(2)  # contr.sdif sets up the contrast
+contrasts(RS$font_size) <- contr.sdif(2)
+
+
+contr.land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet + 
+                    (1|item) + (1+ line_len+ font_size|sub), RS, REML=T)
+
+
+summary(contr.land_pos.lm)
+
+###plot effects
+library(effects)
+plot(allEffects(contr.land_pos.lm))
+
 rm(list= ls())
