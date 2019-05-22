@@ -106,6 +106,7 @@ raw_fix$prevChar<-NA
 raw_fix$nextChar<- NA
 raw_fix$prevX<- NA
 raw_fix$nextX<- NA
+raw_fix$prevY<- NA
 
 for(i in 1:64){
   n<- subset(raw_fix, sub==i)
@@ -143,6 +144,7 @@ for(i in 1:64){
         ###
         m$prevChar[k]<- m$char_line[k-1] # prev char
         m$prevX[k] <- m$xPos[k-1] # prev x
+        m$prevY[k]<- m$yPos[k-1]
         
         if(k+1<= nrow(m)){
           m$nextChar[k]<- m$char_line[k+1] # next char
@@ -325,7 +327,7 @@ raw_fix$prev_RS<- NULL
 raw_fix$next_RS<- NULL
 
 cl<- colnames(raw_fix)
-raw_fix<- raw_fix[, c(cl[1:15], cl[24:27], cl[16:23])]
+raw_fix<- raw_fix[, c(cl[1:15], cl[24:28], cl[16:23])]
 
 # add landing position relative to line start (in letters):
 raw_fix$LandStartLet<- raw_fix$char_line
@@ -356,3 +358,4 @@ write.csv(Alldata, "data/Alldata.csv")
 RS<- subset(raw_fix, Rtn_sweep==1)
 save(RS, file= "data/Return_sweep.Rda")
 write.csv(RS, file= "data/Return_sweep.csv")
+
