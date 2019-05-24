@@ -18,8 +18,8 @@ for(i in 1:length(packages)){
 }
 
 # Load data:
-load("C:/Users/Public/Documents/Text_Font/data/Alldata.Rda")
-load("C:/Users/Public/Documents//Text_Font/data/Return_sweep.Rda")
+load("data/Alldata.Rda")
+load("data/Return_sweep.Rda")
 
 
 ############################################################################################################
@@ -84,6 +84,12 @@ Let1= tapply (RS$LandStartLet, RS$font_size, FUN= mean,na.rm=T)
 VA1= tapply (RS$LandStartVA, RS$font_size, FUN= mean, na.rm=T)
 font_size= cbind( Let1, VA1)
 font_size
+
+DesTime1<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
+               measure=c("undersweep_prob"), na.rm=TRUE)
+mTime1<- cast(DesTime1, font_size + line_len ~ variable
+             ,function(x) c(M=signif(mean(x),3)
+                            , SD= sd(x) ))
 
 ##plots 
 
