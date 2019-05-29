@@ -47,9 +47,9 @@ rm(list= ls())
 # Please note: counting in the present data (e.g., fixation/ character/ line numbers) always starts at 1.
 
 
-
 # load/ install required packages:
-packages= c("reshape", "lme4", "ggplot2", "MASS", "arm", "effects", "lattice") # list of used packages:
+packages= c("reshape", "lme4", "ggplot2", "MASS", "arm", "effects", "lattice",
+            "mgcv", "itsadug") # list of used packages:
 
 for(i in 1:length(packages)){
   
@@ -60,6 +60,10 @@ for(i in 1:length(packages)){
     library(packages[i], character.only=TRUE)
   }
 }
+
+
+# colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
+pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
 
 
 # Load data:
@@ -146,3 +150,80 @@ land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA +
 summary(land_pos.lm2)
 plot(allEffects(land_pos.lm2))
      
+
+##############################################################
+#                 Modulation by trial order:                 #
+##############################################################
+
+#-------------------------------
+# Prepare dataset for analsysis:
+#-------------------------------
+
+# check contrast coding:
+contrasts(RS$font_size)
+contrasts(RS$line_len)
+RS$sub<- as.numeric(as.character(RS$sub))
+
+# Add block order:
+
+RS$block_order<- NA
+RS$big_font_block<- NA
+
+for(i in 1:nrow(RS)){
+  
+  if(RS$sub[i]%%2==1){ # odd subject, small font first
+   
+    RS$big_font_block[i]<- 2
+    
+    if(RS$font_size[i]== "small font"){ # small font, block seq= seq
+      RS$block_order[i]<- RS$seq[i]
+    }else{ # big font, block seq = seq-50 (50 is halfway point; 100 items)
+      RS$block_order[i]<- RS$seq[i]- 50
+    }
+     
+  }else{ # even subject, big font first
+    
+    RS$big_font_block[i]<- 1
+    
+    if(RS$font_size[i]== "small font"){ # big font, block seq = seq-50 (50 is halfway point; 100 items)
+      RS$block_order[i]<- RS$seq[i]- 50
+    }else{ # small font, block seq= seq
+      RS$block_order[i]<- RS$seq[i] 
+    }
+    
+  }
+  
+}
+
+
+# take a smaller, more managable dataset:
+tDat<- RS[,c("sub", "item", "seq", "cond", "font_size", "line_len", "LandStartVA", "block_order", "big_font_block")]
+
+#tDat$big_font_block<- as.factor(tDat$big_font_block)
+#tDat$big_font_block<- factor(tDat$big_font_block, levels= c("small font", "big font"))
+#contrasts(tDat$big_font_block)
+is.numeric(tDat$block_order)
+
+
+# gamm model:
+
+gam1 <- bam(LandStartVA ~ font_size+
+              s(sub, bs="re", k=10) +
+              s(sub, font_size, bs="re", k=10) +
+              s(item, bs= "re", k=10)+
+              s(item, font_size, bs="re") +
+              s(block_order, bs= "cr", k=10)+
+              s(block_order, by= big_font_block, k=10, bs= "cr")+
+#              s(big_font_block, by= font_size, k=10, bs= "cr")+
+              s(block_order, sub, bs= "fs", m=1, k=4),
+            data=tDat)
+
+summary(gam1)
+
+plot_smooth(gam1, view="block_order", plot_all="font_size", rug=F)
+plot_smooth(gam1, view="big_font_block", plot_all="font_size", rug=F)
+
+plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font",  "big font")), 
+          col = pallete1[2],
+          ylab= "Mean difference in landing position (deg)", xlab= "Trial order in block", print.summary = T, 
+          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)

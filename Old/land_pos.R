@@ -86,10 +86,36 @@ font_size= cbind( Let1, VA1)
 font_size
 
 DesTime1<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
-               measure=c("undersweep_prob"), na.rm=TRUE)
-mTime1<- cast(DesTime1, font_size + line_len ~ variable
+               measure=c("LandStartLet", "LandStartVA"), na.rm=TRUE)
+mTime1<- cast(DesTime1, font_size ~ variable
              ,function(x) c(M=signif(mean(x),3)
                             , SD= sd(x) ))
+
+# df1<- data.frame(font_size= mTime1$font_size, line_len= mTime1$line_len, Mean= mTime1$LandStartLet_M, 
+#                  SD= mTime1$LandStartLet_SD, Measure= "Letters")
+# df2<- data.frame(font_size= mTime1$font_size, line_len= mTime1$line_len, Mean= mTime1$LandStartVA_M, 
+#                  SD=mTime1$LandStartVA_SD, Measure= "Visual Angle")
+
+ df1<- data.frame(font_size= mTime1$font_size, Mean= mTime1$LandStartLet_M, 
+                  SD= mTime1$LandStartLet_SD, Measure= "Letters")
+ df2<- data.frame(font_size= mTime1$font_size, Mean= mTime1$LandStartVA_M, 
+                  SD=mTime1$LandStartVA_SD, Measure= "Visual Angle")
+
+df<- rbind(df1, df2)
+
+df$SE<- df$SD/sqrt(64)
+
+Dplot<- ggplot(data= df, aes(x=font_size, y= Mean, group=1, ymax = Mean + SE, ymin= Mean - SE))+ 
+  #scale_y_continuous(breaks=c(200, 250, 300, 350, 400, 450))+
+  theme_bw(24) + theme(panel.grid.major = element_line(colour = "#E3E5E6", size=0.7), 
+                       axis.line = element_line(colour = "black", size=1),
+                       panel.border = element_rect(colour = "black", size=1.5, fill = NA))+
+  geom_line(size=2)+ ylab('Landing position')+ xlab('Font size')+
+  geom_point(size=7) + facet_grid(.~ Measure, scales = "free") + theme(strip.text.x = element_text(size = 22,  face="bold",family="serif"),
+  strip.background = element_rect(fill="#F5F7F7", colour="black", size=1.5),
+  legend.key = element_rect(colour = "#000000", size=1)) + geom_ribbon(alpha=0.10, 
+  colour=NA); Dplot
+
 
 ##plots 
 
