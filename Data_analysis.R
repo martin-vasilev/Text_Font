@@ -129,11 +129,13 @@ ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) +
 
 #########GLMM for undersweep probability
 #setting contrast
-contrasts(RS$line_len) <- contr.sdif(2)  
-contrasts(RS$font_size) <- contr.sdif(2)
+contrasts(RS$line_len) <- c(-1, 1)  
+contrasts(RS$font_size) <- c(-1, 1)  
 
-GLM1=glmer(undersweep_prob ~ font_size + line_len
-           +launchDistVA +(1|item)+(1|sub) , data= RS, family= binomial)
+
+RS$launchDistVA_C<- scale(RS$launchDistVA)
+GLM1=glmer(undersweep_prob ~ font_size* line_len
+           +launchDistVA_C +(1|item)+(1|sub) , data= RS, family= binomial)
 summary(GLM1)
 plot(allEffects(GLM1))
 
