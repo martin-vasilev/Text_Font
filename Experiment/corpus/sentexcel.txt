@@ -1,0 +1,401 @@
+Var1	Var2	Var3	Var4	Var5	Var6	Var7	Var8	Var9	Var10	Var11	Var12
+1	1	295	16	The three musicians organised a tour last year to meet	their fans and celebrate the release of their new studio album.	54	1594982997	54	63	The	last year to meet
+1	2	394	16	The two DJs did a tour last year to meet	their fans and celebrate the release of their new studio album.	40	1575291849	41	63	The	last year to meet
+1	3	295	26	The three award-winning musicians decided to organise a national tour last year to meet	their fans and celebrate the release of their new studio album.	87	2569694828	88	63	The	last year to meet
+1	4	394	26	The award-winning DJs organised a national tour last year to meet	their fans and celebrate the release of their new studio album.	65	2559849254	66	63	The	last year to meet
+2	1	295	16	"While the farmer steered the tractor, his 17 year old"	son was busy milking the cows in the barn.	53	1565446275	54	42	While	his 17 year old
+2	2	394	16	"While he fixed the mower, his 17 year old"	son was busy milking the cows in the barn.	41	1614674145	41	42	While	his 17 year old
+2	3	295	26	"While the agricultural farmer whistled and steered the expensive tractor, his 17 year old"	son was busy milking the cows in the barn.	89	2628768273	88	42	While	his 17 year old
+2	4	394	26	"While the old farmer steered the expensive tractor, his 17 year old"	son was busy milking the cows in the barn.	67	2638613847	66	42	While	his 17 year old
+3	1	295	16	The group of tourists flocked to the open field where a	music festival was being held for the first time.	55	1624519719	54	49	The	open field where a
+3	2	394	16	The group went to the open field where a	music festival was being held for the first time.	40	1575291849	41	49	The	open field where a
+3	3	295	26	The overjoyed tourists could be heard singing as they flocked to the open field where a	music festival was being held for the first time.	87	2569694828	88	49	The	open field where a
+3	4	394	26	The huge group of tourists slowly flocked to the open field where a	music festival was being held for the first time.	67	2638613847	66	49	The	open field where a
+4	1	295	16	The two youngest sisters played and laughed in the sun	as they enjoyed the last days of summer.	54	1594982997	54	40	The	laughed in the sun
+4	2	394	16	The sisters played and laughed in the sun	as they enjoyed the last days of summer.	41	1614674145	41	40	The	laughed in the sun
+4	3	295	26	"The two youngest sisters, who had been born a year apart, played and laughed in the sun"	as they enjoyed the last days of summer.	87	2569694828	88	40	The	laughed in the sun
+4	4	394	26	The two youngest sisters both happily played and laughed in the sun	as they enjoyed the last days of summer.	67	2638613847	66	40	The	laughed in the sun
+5	1	295	16	The two ancient graves were located in the old cemetery	where some of the tallest trees could be found.	55	1624519719	54	47	The	in the old cemetery
+5	2	394	16	The tomb was located in the old cemetery	where some of the tallest trees could be found.	40	1575291849	41	47	The	in the old cemetery
+5	3	295	26	"The group of ancient, unmarked graves and various tombs were located in the old cemetery"	where some of the tallest trees could be found.	88	259923155	88	47	The	in the old cemetery
+5	4	394	26	The ancient graves and small tombs were located in the old cemetery	where some of the tallest trees could be found.	67	2638613847	66	47	The	in the old cemetery
+6	1	295	16	She spent her break nervously pacing down the hallway	because she was worried about what would happen next.	53	1565446275	54	53	She	pacing down the hallway
+6	2	394	16	She was nervously pacing down the hallway	because she was worried about what would happen next.	41	1614674145	41	53	She	pacing down the hallway
+6	3	295	26	She was very anxious and spent her entire lunch break nervously pacing down the hallway	because she was worried about what would happen next.	87	2569694828	88	53	She	pacing down the hallway
+6	4	394	26	She spent her entire lunch break nervously pacing down the hallway	because she was worried about what would happen next.	66	259923155	66	53	She	pacing down the hallway
+7	1	295	16	"After he closed the door, the room was dark except for"	a small light coming from the LED clock.	54	1594982997	54	40	After	was dark except for
+7	2	394	16	"After hours, the room was dark except for"	a small light coming from the LED clock.	41	1614674145	41	40	After	was dark except for
+7	3	295	26	"After the security guards closed the two steel safety doors, the room was dark except for"	a small light coming from the LED clock.	89	2628768273	88	40	After	was dark except for
+7	4	394	26	"After the guards closed the two doors, the room was dark except for"	a small light coming from the LED clock.	67	2638613847	66	40	After	was dark except for
+8	1	295	16	The old house near the hill was believed to be haunted	because a whole family had disappeared under strange circumstances there.	54	1594982997	54	73	The	believed to be haunted
+8	2	394	16	The old house was believed to be haunted	because a whole family had disappeared under strange circumstances there.	40	1575291849	41	73	The	believed to be haunted
+8	3	295	26	The mysterious old house that stood near the top of the hill was believed to be haunted	because a whole family had disappeared under strange circumstances there.	87	2569694828	88	73	The	believed to be haunted
+8	4	394	26	The old house near the top of the hill was believed to be haunted	because a whole family had disappeared under strange circumstances there.	65	2559849254	66	73	The	believed to be haunted
+9	1	295	16	The villagers were awoken before dawn by the sound of	dogs barking somewhere in the distance.	53	1565446275	54	39	The	by the sound of
+9	2	394	16	The villagers were awoken by the sound of	dogs barking somewhere in the distance.	41	1614674145	41	39	The	by the sound of
+9	3	295	26	The villagers were annoyed because they were awoken early in the morning by the sound of	dogs barking somewhere in the distance.	88	259923155	88	39	The	by the sound of
+9	4	394	26	The villagers were awoken very early in the morning by the sound of	dogs barking somewhere in the distance.	67	2638613847	66	39	The	by the sound of
+10	1	295	16	"During the cold and snowy winter, a coal mine was built"	near the Massachusetts seaport of Innsmouth. 	55	1624519719	54	45	During	coal mine was built
+10	2	394	16	"During the winter, a coal mine was built"	near the Massachusetts seaport of Innsmouth. 	40	1575291849	41	45	During	coal mine was built
+10	3	295	26	"During the cold winter of 1927-1928 when the sea almost froze over, a coal mine was built"	near the Massachusetts seaport of Innsmouth. 	89	2628768273	88	45	During	coal mine was built
+10	4	394	26	"During the cold and snowy winter of 1927-28, a coal mine was built"	near the Massachusetts seaport of Innsmouth. 	66	259923155	66	45	During	coal mine was built
+11	1	295	16	Wu was really fond of the modern flats in the big city	even if they were very overpriced.	54	1594982997	54	34	Wu	in the big city
+11	2	394	16	Wu liked the modern flats in the big city	even if they were very overpriced.	41	1614674145	41	34	Wu	in the big city
+11	3	295	26	Wu Yang had often contemplated living in one of the spacious modern flats in the big city	even if they were very overpriced.	89	2628768273	88	34	Wu	in the big city
+11	4	394	26	Wu often thought about living in the modern flats in the big city	even if they were very overpriced.	65	2559849254	66	34	Wu	in the big city
+12	1	295	16	That same night a huge storm had caused the new team to	move indoors quickly for their own protection.	55	1624519719	54	46	That	the new team to
+12	2	394	16	That night a storm caused the new team to	move indoors quickly for their own protection.	41	1614674145	41	46	That	the new team to
+12	3	295	26	"That same night a huge storm, which had come from the far north, caused the new team to"	move indoors quickly for their own protection.	87	2569694828	88	46	That	the new team to
+12	4	394	26	That night a storm came from the north and caused the new team to	move indoors quickly for their own protection.	65	2559849254	66	46	That	the new team to
+13	1	295	16	"Mr. Lee, our old next door neighbour, sat in his garden"	as he watched his grandchildren play football.	55	1624519719	54	46	Mr.	sat in his garden
+13	2	394	16	"Mr. Lee, our neighbour, sat in his garden"	as he watched his grandchildren play football.	41	1614674145	41	46	Mr.	sat in his garden
+13	3	295	26	"Mr. Lee, our old time neighbour who had fought in the Second World War, sat in his garden"	as he watched his grandchildren play football.	89	2628768273	88	46	Mr.	sat in his garden
+13	4	394	26	"Mr. Lee, our neighbour who had fought in the war, sat in his garden"	as he watched his grandchildren play football.	67	2638613847	66	46	Mr.	sat in his garden
+14	1	295	16	"Gary, the security guard that day, found the small baby"	who had been abandoned in the middle of the parking lot.	55	1624519719	54	56	"Gary,"	found the small baby
+14	2	394	16	"Gary, the old guard, found the small baby"	who had been abandoned in the middle of the parking lot.	41	1614674145	41	56	"Gary,"	found the small baby
+14	3	295	26	"Gary, the old guard who had been called as a replacement that day, found the small baby"	who had been abandoned in the middle of the parking lot.	87	2569694828	88	56	"Gary,"	found the small baby
+14	4	394	26	"Gary, the guard who covered for a colleague, found the small baby"	who had been abandoned in the middle of the parking lot.	65	2559849254	66	56	"Gary,"	found the small baby
+15	1	295	16	It was only after lunch that he found out he had left	his wallet in the restaurant around the corner.	53	1565446275	54	47	It	out he had left
+15	2	394	16	It was then that he found out he had left	his wallet in the restaurant around the corner.	41	1614674145	41	47	It	out he had left
+15	3	295	26	It was only after he received an urgent call from the owner that he found out he had left	his wallet in the restaurant around the corner.	89	2628768273	88	47	It	out he had left
+15	4	394	26	It was only after he received a call that he found out he had left	his wallet in the restaurant around the corner.	66	259923155	66	47	It	out he had left
+16	1	295	16	"When she woke up that morning feeling sick, Sally knew"	she probably had food poisoning from the dinner she ate the previous night.	54	1594982997	54	75	When	"feeling sick, Sally knew"
+16	2	394	16	"When she woke up feeling sick, Sally knew"	she probably had food poisoning from the dinner she ate the previous night.	41	1614674145	41	75	When	"feeling sick, Sally knew"
+16	3	295	26	"When she inexplicably woke up in the early hours of the morning feeling sick, Sally knew"	she probably had food poisoning from the dinner she ate the previous night.	88	259923155	88	75	When	"feeling sick, Sally knew"
+16	4	394	26	"When she woke up very early in the morning feeling sick, Sally knew"	she probably had food poisoning from the dinner she ate the previous night.	67	2638613847	66	75	When	"feeling sick, Sally knew"
+17	1	295	16	"When Gregory finally woke up, he found out that nobody"	had bothered to clean up the flat after the party last night.	54	1594982997	54	61	When	found out that nobody
+17	2	394	16	"When he woke up, he found out that nobody"	had bothered to clean up the flat after the party last night.	41	1614674145	41	61	When	found out that nobody
+17	3	295	26	"When Gregory woke up with a throbbing headache the next morning, he found out that nobody"	had bothered to clean up the flat after the party last night.	89	2628768273	88	61	When	found out that nobody
+17	4	394	26	"When Gregory woke up with a huge headache, he found out that nobody"	had bothered to clean up the flat after the party last night.	67	2638613847	66	61	When	found out that nobody
+18	1	295	16	"I put a vest and a jumper in my backpack, took my keys"	and headed towards the underground parking lot.	54	1594982997	54	47	I	"backpack, took my keys"
+18	2	394	16	"I put a vest in my backpack, took my keys"	and headed towards the underground parking lot.	41	1614674145	41	47	I	"backpack, took my keys"
+18	3	295	26	"I thought it may be cold today, so I put a hat and a jumper in my backpack, took my keys"	and headed towards the underground parking lot.	88	259923155	88	47	I	"backpack, took my keys"
+18	4	394	26	"I decided to put a vest and a jumper in my backpack, took my keys"	and headed towards the underground parking lot.	65	2559849254	66	47	I	"backpack, took my keys"
+19	1	295	16	I picked up the green coffee mug that our last visitor	had forgotten and made a note to return it.	54	1594982997	54	43	I	that our last visitor
+19	2	394	16	I picked up the mug that our last visitor	had forgotten and made a note to return it.	41	1614674145	41	43	I	that our last visitor
+19	3	295	26	I immediately picked up the small but expensive-looking coffee mug that our last visitor	had forgotten and made a note to return it.	88	259923155	88	43	I	that our last visitor
+19	4	394	26	I immediately picked up the small coffee mug that our last visitor	had forgotten and made a note to return it.	66	259923155	66	43	I	that our last visitor
+20	1	295	16	"The investment banker worked hard this quarter, which"	led to a dramatic rise in her salary.	53	1565446275	54	37	The	"hard this quarter, which"
+20	2	394	16	"The woman worked hard this quarter, which"	led to a dramatic rise in her salary.	41	1614674145	41	37	The	"hard this quarter, which"
+20	3	295	26	"The new female company executive ensured that she worked extra hard this quarter, which"	led to a dramatic rise in her salary.	87	2569694828	88	37	The	"hard this quarter, which"
+20	4	394	26	"The new female executive worked extremely hard this quarter, which"	led to a dramatic rise in her salary.	66	259923155	66	37	The	"hard this quarter, which"
+21	1	295	16	"His dark blue eyes gleamed with joy, and his pale face"	was now flushed and unusually animated.	54	1594982997	54	39	His	and his pale face
+21	2	394	16	"His blue eyes twinkled, and his pale face"	was now flushed and unusually animated.	41	1614674145	41	39	His	and his pale face
+21	3	295	26	"His dark blue eyes gleamed with joy after the quick board game victory, and his pale face"	was now flushed and unusually animated.	89	2628768273	88	39	His	and his pale face
+21	4	394	26	"His blue eyes gleamed with joy after the victory, and his pale face"	was now flushed and unusually animated.	67	2638613847	66	39	His	and his pale face
+22	1	295	16	"John protested the new plan, but in the end he decided"	not to argue with his mother-in-law.	54	1594982997	54	36	John	the end he decided
+22	2	394	16	"John protested, but in the end he decided"	not to argue with his mother-in-law.	41	1614674145	41	36	John	the end he decided
+22	3	295	26	"John protested the plan to spend the whole weekend by the lake, but in the end he decided"	not to argue with his mother-in-law.	89	2628768273	88	36	John	the end he decided
+22	4	394	26	"John protested the plan to go to the sea, but in the end he decided"	not to argue with his mother-in-law.	67	2638613847	66	36	John	the end he decided
+23	1	295	16	He was not aware of the fact that he was adopted until	he met his biological mother many years later.	54	1594982997	54	46	He	he was adopted until
+23	2	394	16	He did not find out he was adopted until	he met his biological mother many years later.	40	1575291849	41	46	He	he was adopted until
+23	3	295	26	He had somehow never been told by anyone during his whole life that he was adopted until	he met his biological mother many years later.	88	259923155	88	46	He	he was adopted until
+23	4	394	26	He had never been told in his whole life that he was adopted until	he met his biological mother many years later.	66	259923155	66	46	He	he was adopted until
+24	1	295	16	Many tourists from abroad who came to visit the castle	were disappointed that they weren't allowed to see the king's chambers.	54	1594982997	54	71	Many	to visit the castle
+24	2	394	16	Many people who came to visit the castle	were disappointed that they weren't allowed to see the king's chambers.	40	1575291849	41	71	Many	to visit the castle
+24	3	295	26	Many old tourists who had travelled from the other side of the world to visit the castle	were disappointed that they weren't allowed to see the king's chambers.	88	259923155	88	71	Many	to visit the castle
+24	4	394	26	Many tourists who had travelled from far away to visit the castle	were disappointed that they weren't allowed to see the king's chambers.	65	2559849254	66	71	Many	to visit the castle
+25	1	295	16	The rumour is that the uninhabited island in this area	was claimed by a group of guerrilla fighters.	54	1594982997	54	45	The	island in this area
+25	2	394	16	The only uninhabited island in this area	was claimed by a group of guerrilla fighters.	40	1575291849	41	45	The	island in this area
+25	3	295	26	The TV anchor reported that during the past week the tiny uninhabited island in this area	was claimed by a group of guerrilla fighters.	89	2628768273	88	45	The	island in this area
+25	4	394	26	The TV presenter reported that the uninhabited island in this area	was claimed by a group of guerrilla fighters.	66	259923155	66	45	The	island in this area
+26	1	295	16	We spent an hour walking aimlessly in the forested area	until our parents called us to come back for dinner.	55	1624519719	54	52	We	in the forested area
+26	2	394	16	We walked aimlessly in the forested area	until our parents called us to come back for dinner.	40	1575291849	41	52	We	in the forested area
+26	3	295	26	"We had nothing to do that day, so we spent an hour walking aimlessly in the forested area"	until our parents called us to come back for dinner.	89	2628768273	88	52	We	in the forested area
+26	4	394	26	"We had nothing to do, so we walked aimlessly in the forested area"	until our parents called us to come back for dinner.	65	2559849254	66	52	We	in the forested area
+27	1	295	16	"When I returned from shopping, they were already in the"	restaurant and had left me a voicemail telling me to join them.	55	1624519719	54	63	When	were already in the
+27	2	394	16	"When I returned, they were already in the"	restaurant and had left me a voicemail telling me to join them.	41	1614674145	41	63	When	were already in the
+27	3	295	26	"When I returned home from a very busy day of Christmas shopping, they were already in the"	restaurant and had left me a voicemail telling me to join them.	89	2628768273	88	63	When	were already in the
+27	4	394	26	"When I returned from Christmas shopping, they were already in the"	restaurant and had left me a voicemail telling me to join them.	65	2559849254	66	63	When	were already in the
+28	1	295	16	The two Hibiscus flowers in our garden were taken from	"overseas, but they do not seem to fare too well in the colder climate."	54	1594982997	54	70	The	garden were taken from
+28	2	394	16	The flowers in our garden were taken from	"overseas, but they do not seem to fare too well in the colder climate."	41	1614674145	41	70	The	garden were taken from
+28	3	295	26	The half a dozen Hibiscus flowers and other tropical plants in our garden were taken from	"overseas, but they do not seem to fare too well in the colder climate."	89	2628768273	88	70	The	garden were taken from
+28	4	394	26	The sub-tropical flowers and plants in our garden were taken from	"overseas, but they do not seem to fare too well in the colder climate."	65	2559849254	66	70	The	garden were taken from
+29	1	295	16	People in the area usually avoided the mountain trail	because all the signs had faded away due to the lack of maintenance.	53	1565446275	54	68	People	avoided the mountain trail
+29	2	394	16	People usually avoided the mountain trail	because all the signs had faded away due to the lack of maintenance.	41	1614674145	41	68	People	avoided the mountain trail
+29	3	295	26	People who were interested in hiking or wild camping usually avoided the mountain trail	because all the signs had faded away due to the lack of maintenance.	87	2569694828	88	68	People	avoided the mountain trail
+29	4	394	26	People interested in backpacking usually avoided the mountain trail	because all the signs had faded away due to the lack of maintenance.	67	2638613847	66	68	People	avoided the mountain trail
+30	1	295	16	There were at least some reports of gunfire in the area	during the short period of civil unrest.	55	1624519719	54	40	There	gunfire in the area
+30	2	394	16	There were reports of gunfire in the area	during the short period of civil unrest.	41	1614674145	41	40	There	gunfire in the area
+30	3	295	26	There were at least half a dozen witnesses who reported intermittent gunfire in the area	during the short period of civil unrest.	88	259923155	88	40	There	gunfire in the area
+30	4	394	26	There were at least several people who reported gunfire in the area	during the short period of civil unrest.	67	2638613847	66	40	There	gunfire in the area
+31	1	295	16	"When king Alexander was one year and nine months old,"	he was already showing an impressive aptitude to learning new things.	53	1565446275	54	69	When	"and nine months old,"
+31	2	394	16	"When he was one year and nine months old,"	he was already showing an impressive aptitude to learning new things.	41	1614674145	41	69	When	"and nine months old,"
+31	3	295	26	"When king Alexander, the great conqueror, was no more than one year and nine months old,"	he was already showing an impressive aptitude to learning new things.	88	259923155	88	69	When	"and nine months old,"
+31	4	394	26	"When king Alexander was no more than one year and nine months old,"	he was already showing an impressive aptitude to learning new things.	66	259923155	66	69	When	"and nine months old,"
+32	1	295	16	Penny decided it was time to move indoors after she had	spent the whole afternoon skiing on the slope.	55	1624519719	54	46	Penny	indoors after she had
+32	2	394	16	Penny quickly moved indoors after she had	spent the whole afternoon skiing on the slope.	41	1614674145	41	46	Penny	indoors after she had
+32	3	295	26	"Penny Parker was already feeling quite cold, so she decided to move indoors after she had"	spent the whole afternoon skiing on the slope.	89	2628768273	88	46	Penny	indoors after she had
+32	4	394	26	"Penny was feeling cold, so she wanted to move indoors after she had"	spent the whole afternoon skiing on the slope.	67	2638613847	66	46	Penny	indoors after she had
+33	1	295	16	The cold temperature last winter had caused the water	pipe in the garden to completely freeze over.	53	1565446275	54	45	The	had caused the water
+33	2	394	16	The cold temperature had caused the water	pipe in the garden to completely freeze over.	41	1614674145	41	45	The	had caused the water
+33	3	295	26	The very low temperature during one of the coldest winters on record had caused the water	pipe in the garden to completely freeze over.	89	2628768273	88	45	The	had caused the water
+33	4	394	26	The surprisingly low temperature last winter had caused the water	pipe in the garden to completely freeze over.	65	2559849254	66	45	The	had caused the water
+34	1	295	16	The new virulent disease affected many of the children	who were visiting the same day care centre in the city.	54	1594982997	54	55	The	many of the children
+34	2	394	16	The disease affected many of the children	who were visiting the same day care centre in the city.	41	1614674145	41	55	The	many of the children
+34	3	295	26	The newly discovered disease was easily transmitted and it affected many of the children	who were visiting the same day care centre in the city.	88	259923155	88	55	The	many of the children
+34	4	394	26	The disease was very virulent and it affected many of the children	who were visiting the same day care centre in the city.	66	259923155	66	55	The	many of the children
+35	1	295	16	The water was rising very quickly and the four friends	jumped inside the lifeboat with a sense of urgency.	54	1594982997	54	51	The	and the four friends
+35	2	394	16	The water was rising and the four friends	jumped inside the lifeboat with a sense of urgency.	41	1614674145	41	51	The	and the four friends
+35	3	295	26	The murky water from the overflowing river was rising very quickly and the four friends	jumped inside the lifeboat with a sense of urgency.	87	2569694828	88	51	The	and the four friends
+35	4	394	26	The murky water from the river was rising fast and the four friends	jumped inside the lifeboat with a sense of urgency.	67	2638613847	66	51	The	and the four friends
+36	1	295	16	"On top of the hill near the trees, there were many huts"	overlooking the beautiful beach in the Indian ocean.	55	1624519719	54	52	On	there were many huts
+36	2	394	16	"On top of the hill, there were many huts"	overlooking the beautiful beach in the Indian ocean.	40	1575291849	41	52	On	there were many huts
+36	3	295	26	"On top of the hill, hidden behind the large number of coconut trees, there were many huts"	overlooking the beautiful beach in the Indian ocean.	89	2628768273	88	52	On	there were many huts
+36	4	394	26	"On top of the hill behind the coconut trees, there were many huts"	overlooking the beautiful beach in the Indian ocean.	65	2559849254	66	52	On	there were many huts
+37	1	295	16	"In the yellow hunting cabin, the sound of wood chopping"	could be heard from workers in the nearby forest.	55	1624519719	54	49	In	sound of wood chopping
+37	2	394	16	"In the cabin, the sound of wood chopping"	could be heard from workers in the nearby forest.	40	1575291849	41	49	In	sound of wood chopping
+37	3	295	26	"In the yellow hunting cabin behind the rapid mountain stream, the sound of wood chopping"	could be heard from workers in the nearby forest.	88	259923155	88	49	In	sound of wood chopping
+37	4	394	26	"In the hunting cabin behind the stream, the sound of wood chopping"	could be heard from workers in the nearby forest.	66	259923155	66	49	In	sound of wood chopping
+38	1	295	16	"When Jenifer was about five years old, her mum took her"	to the park and taught her how to ride a bicycle.	55	1624519719	54	49	When	her mum took her
+38	2	394	16	"When Jenifer was young, her mum took her"	to the park and taught her how to ride a bicycle.	40	1575291849	41	49	When	her mum took her
+38	3	295	26	"When Jenifer was just about to start primary school at the age of five, her mum took her"	to the park and taught her how to ride a bicycle.	88	259923155	88	49	When	her mum took her
+38	4	394	26	"When Jane was no more than five years and a half, her mum took her"	to the park and taught her how to ride a bicycle.	66	259923155	66	49	When	her mum took her
+39	1	295	16	The bride was told she had inherited a large amount of	money and a big mansion from her late mother.	54	1594982997	54	45	The	a large amount of
+39	2	394	16	The bride had inherited a large amount of	money and a big mansion from her late mother.	41	1614674145	41	45	The	a large amount of
+39	3	295	26	The bride was told on the day after her wedding that she had inherited a large amount of	money and a big mansion from her late mother.	88	259923155	88	45	The	a large amount of
+39	4	394	26	The bride was later told that she had inherited a large amount of	money and a big mansion from her late mother.	65	2559849254	66	45	The	a large amount of
+40	1	295	16	She went to the newly-opened beach with her best friend	from another college in England.	55	1624519719	54	32	She	with her best friend
+40	2	394	16	She visited a beach with her best friend	from another college in England.	40	1575291849	41	32	She	with her best friend
+40	3	295	26	She spontaneously decided to go to the beautiful beach on Wednesday with her best friend	from another college in England.	88	259923155	88	32	She	with her best friend
+40	4	394	26	She visited the beautiful beach on Wednesday with her best friend	from another college in England.	65	2559849254	66	32	She	with her best friend
+41	1	295	16	The elderly man who lives with his son in the big house	is said to have inherited a lot of money. 	55	1624519719	54	42	The	in the big house
+41	2	394	16	The man who lives alone in the big house	is said to have inherited a lot of money. 	40	1575291849	41	42	The	in the big house
+41	3	295	26	The elderly man who is relatively new to the area and lives with his son in the big house	is said to have inherited a lot of money. 	89	2628768273	88	42	The	in the big house
+41	4	394	26	The old man who is new to the area and lives alone in the big house	is said to have inherited a lot of money. 	67	2638613847	66	42	The	in the big house
+42	1	295	16	The shop robber was long gone by the time the sheriff	arrived on the scene with reinforcements.	53	1565446275	54	41	The	the time the sheriff
+42	2	394	16	The man was gone by the time the sheriff	arrived on the scene with reinforcements.	40	1575291849	41	41	The	the time the sheriff
+42	3	295	26	The man suspected in the brazen supermarket robbery was long gone by the time the sheriff	arrived on the scene with reinforcements.	89	2628768273	88	41	The	the time the sheriff
+42	4	394	26	The man suspected in the robbery was gone by the time the sheriff	arrived on the scene with reinforcements.	65	2559849254	66	41	The	the time the sheriff
+43	1	295	16	He walked almost the whole day on the grass in view of	the gentle rolling hills of Kadath.	54	1594982997	54	35	He	grass in view of
+43	2	394	16	He walked all day on the grass in view of	the gentle rolling hills of Kadath.	41	1614674145	41	35	He	grass in view of
+43	3	295	26	"He was slow and absent-minded that day, but he walked for hours on the grass in view of"	the gentle rolling hills of Kadath.	87	2569694828	88	35	He	grass in view of
+43	4	394	26	He was slow and tired as he walked all day on the grass in view of	the gentle rolling hills of Kadath.	66	259923155	66	35	He	grass in view of
+44	1	295	16	"The light that came from the sea could still be seen,"	though the ship had already departed.	53	1565446275	54	37	The	"could still be seen,"
+44	2	394	16	"The light by the sea could still be seen,"	though the ship had already departed.	41	1614674145	41	37	The	"could still be seen,"
+44	3	295	26	"The light that glimmered faintly near the two old trees by the sea could still be seen,"	though the ship had already departed.	87	2569694828	88	37	The	"could still be seen,"
+44	4	394	26	"The light that shone faintly near the old tree could still be seen,"	though the ship had already departed.	67	2638613847	66	37	The	"could still be seen,"
+45	1	295	16	The room behind the bathroom was recently painted blue	in preparation for the new tenants.	54	1594982997	54	35	The	was recently painted blue
+45	2	394	16	The small room was recently painted blue	in preparation for the new tenants.	40	1575291849	41	35	The	was recently painted blue
+45	3	295	26	"The small room behind the stairs, which was previously unused, was recently painted blue"	in preparation for the new tenants.	88	259923155	88	35	The	was recently painted blue
+45	4	394	26	The small room behind the mahogany stairs was recently painted blue	in preparation for the new tenants.	67	2638613847	66	35	The	was recently painted blue
+46	1	295	16	A mother bird knows that she has to feed her offspring	and protect them from different types of predators.	54	1594982997	54	51	A	to feed her offspring
+46	2	394	16	A mother bird needs to feed her offspring	and protect them from different types of predators.	41	1614674145	41	51	A	to feed her offspring
+46	3	295	26	A mother hummingbird usually knows without experience that she has to feed her offspring	and protect them from different types of predators.	88	259923155	88	51	A	to feed her offspring
+46	4	394	26	A mother bird intuitively knows that she has to feed her offspring	and protect them from different types of predators.	66	259923155	66	51	A	to feed her offspring
+47	1	295	16	That evening the young women came to the wedding party	in good spirits and sat down to have dinner.	54	1594982997	54	44	That	to the wedding party
+47	2	394	16	That evening he came to the wedding party	in good spirits and sat down to have dinner.	41	1614674145	41	44	That	to the wedding party
+47	3	295	26	"That evening Mr. White, his wife, and their two young daughters came to the wedding party"	in good spirits and sat down to have dinner.	89	2628768273	88	44	That	to the wedding party
+47	4	394	26	That evening Mr. White and his daughters came to the wedding party	in good spirits and sat down to have dinner.	66	259923155	66	44	That	to the wedding party
+48	1	295	16	I ended up spending a lot of time looking at the screen	that day as I had to do many assignments on my laptop.	55	1624519719	54	54	I	looking at the screen
+48	2	394	16	I spent a long time looking at the screen	that day as I had to do many assignments on my laptop.	41	1614674145	41	54	I	looking at the screen
+48	3	295	26	"I had other things that I wanted to do, but I spent a lot of time looking at the screen"	that day as I had to do many assignments on my laptop.	87	2569694828	88	54	I	looking at the screen
+48	4	394	26	"I had other plans, but I spent a lot of time looking at the screen"	that day as I had to do many assignments on my laptop.	66	259923155	66	54	I	looking at the screen
+49	1	295	16	The old expert witness was well known around the world	for her great expertise in forensic medicine.	54	1594982997	54	45	The	known around the world
+49	2	394	16	The woman was well known around the world	for her great expertise in forensic medicine.	41	1614674145	41	45	The	known around the world
+49	3	295	26	"The expert witness, who was invited by the defence team, was well known around the world"	for her great expertise in forensic medicine.	88	259923155	88	45	The	known around the world
+49	4	394	26	The witness invited by the defence was well known around the world	for her great expertise in forensic medicine.	66	259923155	66	45	The	known around the world
+50	1	295	16	The board of directors approved the new budget for next	year in order to increase confidence among their investors.	55	1624519719	54	59	The	new budget for next
+50	2	394	16	The men approved the new budget for next	year in order to increase confidence among their investors.	40	1575291849	41	59	The	new budget for next
+50	3	295	26	The CEO hosted a meeting with the board of directors to approve the new budget for next	year in order to increase confidence among their investors.	87	2569694828	88	59	The	new budget for next
+50	4	394	26	The CEO hosted an urgent meeting to approve the new budget for next	year in order to increase confidence among their investors.	67	2638613847	66	59	The	new budget for next
+51	1	295	16	"In some of the deepest parts of the ocean, the pressure"	is so high that no human can survive without special equipment.	55	1624519719	54	63	In	"the ocean, the pressure"
+51	2	394	16	"In some parts of the ocean, the pressure"	is so high that no human can survive without special equipment.	40	1575291849	41	63	In	"the ocean, the pressure"
+51	3	295	26	"In some of the deepest, darkest, and mostly uncharted sections of the ocean, the pressure"	is so high that no human can survive without special equipment.	89	2628768273	88	63	In	"the ocean, the pressure"
+51	4	394	26	"In some of the deepest and darkest parts of the ocean, the pressure"	is so high that no human can survive without special equipment.	67	2638613847	66	63	In	"the ocean, the pressure"
+52	1	295	16	"While the man was buying bread in the shop, there was"	a huge commotion outside due to the arrival of the celebrity guests.	53	1565446275	54	68	While	"the shop, there was"
+52	2	394	16	"While the man was in the shop, there was"	a huge commotion outside due to the arrival of the celebrity guests.	40	1575291849	41	68	While	"the shop, there was"
+52	3	295	26	"While the businessman's assistant was buying groceries and drinks in the shop, there was"	a huge commotion outside due to the arrival of the celebrity guests.	88	259923155	88	68	While	"the shop, there was"
+52	4	394	26	"While the man was buying groceries and wine in the shop, there was"	a huge commotion outside due to the arrival of the celebrity guests.	66	259923155	66	68	While	"the shop, there was"
+53	1	295	16	The witty nurse could not find her card at the shopping	mall after searching thoroughly in her bag.	55	1624519719	54	43	The	card at the shopping
+53	2	394	16	The doctor lost her card at the shopping	mall after searching thoroughly in her bag.	40	1575291849	41	43	The	card at the shopping
+53	3	295	26	The chief nursing officer realised that she could not find her bank card at the shopping	mall after searching thoroughly in her bag.	88	259923155	88	43	The	card at the shopping
+53	4	394	26	The nurse realised she couldn't find her bank card at the shopping	mall after searching thoroughly in her bag.	66	259923155	66	43	The	card at the shopping
+54	1	295	16	Jane and her sister decided to have a surprise birthday	party for a friend at the end of December.	55	1624519719	54	42	Jane	have a surprise birthday
+54	2	394	16	Jane decided to have a surprise birthday	party for a friend at the end of December.	40	1575291849	41	42	Jane	have a surprise birthday
+54	3	295	26	Jane and her two older brothers and sisters decided together to have a surprise birthday	party for a friend at the end of December.	88	259923155	88	42	Jane	have a surprise birthday
+54	4	394	26	Jane and her brothers decided together to have a surprise birthday	party for a friend at the end of December.	66	259923155	66	42	Jane	have a surprise birthday
+55	1	295	16	The businessman brought some yellow coloured dominoes	and was playing with them absent-mindedly.	53	1565446275	54	42	The	some yellow coloured dominoes
+55	2	394	16	The man had some yellow coloured dominoes	and was playing with them absent-mindedly.	41	1614674145	41	42	The	some yellow coloured dominoes
+55	3	295	26	"The businessman, who was very tired that evening, took out some yellow coloured dominoes"	and was playing with them absent-mindedly.	88	259923155	88	42	The	some yellow coloured dominoes
+55	4	394	26	"The man, after a long day, took out some yellow coloured dominoes"	and was playing with them absent-mindedly.	65	2559849254	66	42	The	some yellow coloured dominoes
+56	1	295	16	"While she stood and waited patiently, the truck slowly"	pulled over just around the corner.	54	1594982997	54	35	While	"patiently, the truck slowly"
+56	2	394	16	"While he sat patiently, the truck slowly"	pulled over just around the corner.	40	1575291849	41	35	While	"patiently, the truck slowly"
+56	3	295	26	"While the three middle-aged women chattered away and waited patiently, the truck slowly"	pulled over just around the corner.	87	2569694828	88	35	While	"patiently, the truck slowly"
+56	4	394	26	"While the two women chatted and waited patiently, the truck slowly"	pulled over just around the corner.	66	259923155	66	35	While	"patiently, the truck slowly"
+57	1	295	16	The poor village women expected many crimes to happen	during the long and bloody civil war.	53	1565446275	54	37	The	many crimes to happen
+57	2	394	16	The women expected many crimes to happen	during the long and bloody civil war.	40	1575291849	41	37	The	many crimes to happen
+57	3	295	26	The poor women living outside the large metropolitan city expected many crimes to happen	during the long and bloody civil war.	88	259923155	88	37	The	many crimes to happen
+57	4	394	26	The poor women from the large city expected many crimes to happen	during the long and bloody civil war.	65	2559849254	66	37	The	many crimes to happen
+58	1	295	16	The offices in town have windows with venetian blinds	that look very professional from the outside.	53	1565446275	54	45	The	windows with venetian blinds
+58	2	394	16	The inn has windows with venetian blinds	that look very professional from the outside.	40	1575291849	41	45	The	windows with venetian blinds
+58	3	295	26	The fourteen newly built hostel accommodations in town have windows with venetian blinds	that look very professional from the outside.	88	259923155	88	45	The	windows with venetian blinds
+58	4	394	26	The newly built offices in town have windows with venetian blinds	that look very professional from the outside.	65	2559849254	66	45	The	windows with venetian blinds
+59	1	295	16	She is often seen as a brilliant and young entrepreneur	with strong opinions about the economy.	55	1624519719	54	39	She	brilliant and young entrepreneur
+59	2	394	16	She is a brilliant and young entrepreneur	with strong opinions about the economy.	41	1614674145	41	39	She	brilliant and young entrepreneur
+59	3	295	26	She very quickly gained popularity around the world as a brilliant and young entrepreneur	with strong opinions about the economy.	89	2628768273	88	39	She	brilliant and young entrepreneur
+59	4	394	26	She quickly gained popularity as a brilliant and young entrepreneur	with strong opinions about the economy.	67	2638613847	66	39	She	brilliant and young entrepreneur
+60	1	295	16	"At the fourth annual festival, Tom will be performing a"	piano solo to raise money for charity.	55	1624519719	54	38	At	will be performing a
+60	2	394	16	"At the concert, Tom will be performing a"	piano solo to raise money for charity.	40	1575291849	41	38	At	will be performing a
+60	3	295	26	"At the thirty-seventh annual music festival in late September, Tom will be performing a"	piano solo to raise money for charity.	87	2569694828	88	38	At	will be performing a
+60	4	394	26	"At the seventeenth annual music festival, Tom will be performing a"	piano solo to raise money for charity.	66	259923155	66	38	At	will be performing a
+61	1	295	16	Dan was happy to sit at his mother?s table for dinner	shortly after the guests had left the house.	53	1565446275	54	44	Dan	mother?s table for dinner
+61	2	394	16	Dan sat at his mother?s table for dinner	shortly after the guests had left the house.	40	1575291849	41	44	Dan	mother?s table for dinner
+61	3	295	26	Dan was very excited because he was finally able to sit at his mother?s table for dinner	shortly after the guests had left the house.	88	259923155	88	44	Dan	mother?s table for dinner
+61	4	394	26	Dan was excited to be able to sit at his mother?s table for dinner	shortly after the guests had left the house.	66	259923155	66	44	Dan	mother?s table for dinner
+62	1	295	16	"Unlike her sisters, Phillipa is more open and relaxed"	when she is around unfamiliar people.	53	1565446275	54	37	Unlike	more open and relaxed
+62	2	394	16	"Unlike Phil, she is more open and relaxed"	when she is around unfamiliar people.	41	1614674145	41	37	Unlike	more open and relaxed
+62	3	295	26	"Unlike her three sisters who live down south, Phillipa is usually more open and relaxed"	when she is around unfamiliar people.	87	2569694828	88	37	Unlike	more open and relaxed
+62	4	394	26	"Unlike her two younger sisters, Phillipa is more open and relaxed"	when she is around unfamiliar people.	65	2559849254	66	37	Unlike	more open and relaxed
+63	1	295	16	"While the two young children were playing in the park,"	their parents were talking about last night's football game.	54	1594982997	54	60	While	"playing in the park,"
+63	2	394	16	"While the boys were playing in the park,"	their parents were talking about last night's football game.	40	1575291849	41	60	While	"playing in the park,"
+63	3	295	26	"While the young sisters and their friends were having a lot of fun playing in the park,"	their parents were talking about last night's football game.	87	2569694828	88	60	While	"playing in the park,"
+63	4	394	26	"While the young boys were having a lot of fun playing in the park,"	their parents were talking about last night's football game.	66	259923155	66	60	While	"playing in the park,"
+64	1	295	16	The office secretary was more friendly and apologetic	after she discovered that she may get in trouble with her manager.	53	1565446275	54	66	The	more friendly and apologetic
+64	2	394	16	The lady was more friendly and apologetic	after she discovered that she may get in trouble with her manager.	41	1614674145	41	66	The	more friendly and apologetic
+64	3	295	26	The newly hired departmental secretary became increasingly more friendly and apologetic	after she discovered that she may get in trouble with her manager.	87	2569694828	88	66	The	more friendly and apologetic
+64	4	394	26	The newly hired office secretary was more friendly and apologetic	after she discovered that she may get in trouble with her manager.	65	2559849254	66	66	The	more friendly and apologetic
+65	1	295	16	He usually thought a lot about the huge difference that	his charity work would make if he could raise more money.	55	1624519719	54	57	He	the huge difference that
+65	2	394	16	He thought about the huge difference that	his charity work would make if he could raise more money.	41	1614674145	41	57	He	the huge difference that
+65	3	295	26	He couldn't stop thinking towards the end of the campaign about the huge difference that	his charity work would make if he could raise more money.	88	259923155	88	57	He	the huge difference that
+65	4	394	26	He could not stop thinking that day about the huge difference that	his charity work would make if he could raise more money.	66	259923155	66	57	He	the huge difference that
+66	1	295	16	"Despite his long list of crimes, the old burglar spent"	only three years in prison because he received a lenient sentence.	54	1594982997	54	66	Despite	the old burglar spent
+66	2	394	16	"Despite his crimes, the old burglar spent"	only three years in prison because he received a lenient sentence.	41	1614674145	41	66	Despite	the old burglar spent
+66	3	295	26	"Despite committing a large number of crimes all over the big city, the old burglar spent"	only three years in prison because he received a lenient sentence.	88	259923155	88	66	Despite	the old burglar spent
+66	4	394	26	"Despite committing crimes all over the city, the old burglar spent"	only three years in prison because he received a lenient sentence.	66	259923155	66	66	Despite	the old burglar spent
+67	1	295	16	"Though Sammy was very delighted, he was a little uneasy"	that he had just married the criminal's daughter.	55	1624519719	54	49	Though	was a little uneasy
+67	2	394	16	"Though cheerful, Sam was a little uneasy"	that he had just married the criminal's daughter.	40	1575291849	41	49	Though	was a little uneasy
+67	3	295	26	"Though Sammy was understandably delighted to see his pretty bride, he was a little uneasy"	that he had just married the criminal's daughter.	89	2628768273	88	49	Though	was a little uneasy
+67	4	394	26	"Though Sammy was delighted to see his bride, he was a little uneasy"	that he had just married the criminal's daughter.	67	2638613847	66	49	Though	was a little uneasy
+68	1	295	16	The West National Zoo has a very high white iron fence	that is designed to keep all the animals safe.	54	1594982997	54	46	The	high white iron fence
+68	2	394	16	The zoo has a very high white iron fence	that is designed to keep all the animals safe.	40	1575291849	41	46	The	high white iron fence
+68	3	295	26	"The National Zoo, which is just next to the history museum, has a high white iron fence"	that is designed to keep all the animals safe.	87	2569694828	88	46	The	high white iron fence
+68	4	394	26	The National Zoo near the museum has a very high white iron fence	that is designed to keep all the animals safe.	65	2559849254	66	46	The	high white iron fence
+69	1	295	16	One quick look at the old man revealed how glum he was	after he heard about the demise of the famous social advocate. 	54	1594982997	54	63	One	how glum he was
+69	2	394	16	One look at him revealed how glum he was	after he heard about the demise of the famous social advocate. 	40	1575291849	41	63	One	how glum he was
+69	3	295	26	One quick glance at the elderly pensioner with the red raincoat revealed how glum he was	after he heard about the demise of the famous social advocate. 	88	259923155	88	63	One	how glum he was
+69	4	394	26	One quick glance at the pensioner close by revealed how glum he was	after he heard about the demise of the famous social advocate. 	67	2638613847	66	63	One	how glum he was
+70	1	295	16	Our grandparents from Scotland were usually less strict	than our mother and would often let us play outside for hours.	55	1624519719	54	62	Our	were usually less strict
+70	2	394	16	Our grandparents were usually less strict	than our mother and would often let us play outside for hours.	41	1614674145	41	62	Our	were usually less strict
+70	3	295	26	"Our grandparents, who used to live in the countryside of Wales, were usually less strict"	than our mother and would often let us play outside for hours.	88	259923155	88	62	Our	were usually less strict
+70	4	394	26	Our two aunts from the Welsh countryside were usually less strict	than our mother and would often let us play outside for hours.	65	2559849254	66	62	Our	were usually less strict
+71	1	295	16	The shameless young man had no patience with the woman	who had accidentally fallen on the icy road.	54	1594982997	54	44	The	patience with the woman
+71	2	394	16	The worker had no patience with the woman	who had accidentally fallen on the icy road.	41	1614674145	41	44	The	patience with the woman
+71	3	295	26	The shameless young man who was already very late for work had no patience with the woman	who had accidentally fallen on the icy road.	89	2628768273	88	44	The	patience with the woman
+71	4	394	26	The shameless young man showed very little patience with the woman	who had accidentally fallen on the icy road.	66	259923155	66	44	The	patience with the woman
+72	1	295	16	Although the new director's wife spoke very clearly and	"fluently, many of her words were unintelligible in the background chatter of the party."	55	1624519719	54	87	Although	spoke very clearly and
+72	2	394	16	Although his wife spoke very clearly and	"fluently, many of her words were unintelligible in the background chatter of the party."	40	1575291849	41	87	Although	spoke very clearly and
+72	3	295	26	Although the young wife of the new director of business operations spoke very clearly and	"fluently, many of her words were unintelligible in the background chatter of the party."	89	2628768273	88	87	Although	spoke very clearly and
+72	4	394	26	Although the wife of the business director spoke very clearly and	"fluently, many of her words were unintelligible in the background chatter of the party."	65	2559849254	66	87	Although	spoke very clearly and
+73	1	295	16	Most of the important life decisions that Mary made for	her family were based on a deep understanding of her ancestry.	55	1624519719	54	62	Most	that Mary made for
+73	2	394	16	Most of the decisions that Mary made for	her family were based on a deep understanding of her ancestry.	40	1575291849	41	62	Most	that Mary made for
+73	3	295	26	Most of the difficult life choices and important personal commitments that Mary made for	her family were based on a deep understanding of her ancestry.	88	259923155	88	62	Most	that Mary made for
+73	4	394	26	Most of the important decisions and commitments that Mary made for	her family were based on a deep understanding of her ancestry.	66	259923155	66	62	Most	that Mary made for
+74	1	295	16	The funny clown slowly left the stage after receiving	a big round of applause for his excellent performance.	53	1565446275	54	54	The	the stage after receiving
+74	2	394	16	The clown left the stage after receiving	a big round of applause for his excellent performance.	40	1575291849	41	54	The	the stage after receiving
+74	3	295	26	The slightly eccentric but very entertaining clown slowly left the stage after receiving	a big round of applause for his excellent performance.	88	259923155	88	54	The	the stage after receiving
+74	4	394	26	The slightly eccentric clown slowly left the stage after receiving	a big round of applause for his excellent performance.	66	259923155	66	54	The	the stage after receiving
+75	1	295	16	The men and women planned many new trips and adventures	during the long winter months when they had to focus on their work.	55	1624519719	54	67	The	new trips and adventures
+75	2	394	16	The men planned new trips and adventures	during the long winter months when they had to focus on their work.	40	1575291849	41	67	The	new trips and adventures
+75	3	295	26	"The group of women, who met during the summer holidays, planned new trips and adventures"	during the long winter months when they had to focus on their work.	88	259923155	88	67	The	new trips and adventures
+75	4	394	26	The group of men and women eagerly planned new trips and adventures	during the long winter months when they had to focus on their work.	67	2638613847	66	67	The	new trips and adventures
+76	1	295	16	The detailed information they had about everyone?s life	on the ship was quite extraordinary.	55	1624519719	54	36	The	had about everyone?s life
+76	2	394	16	The facts they had about everyone?s life	on the ship was quite extraordinary.	40	1575291849	41	36	The	had about everyone?s life
+76	3	295	26	The extensive information and photographic materials that they had about everyone?s life	on the ship was quite extraordinary.	88	259923155	88	36	The	had about everyone?s life
+76	4	394	26	The information and trivial details they had about everyone?s life	on the ship was quite extraordinary.	66	259923155	66	36	The	had about everyone?s life
+77	1	295	16	Mrs. Bennett tactfully excused herself from the event	because she needed to attend an urgent meeting.	53	1565446275	54	47	Mrs.	herself from the event
+77	2	394	16	Mrs. Bell excused herself from the event	because she needed to attend an urgent meeting.	40	1575291849	41	47	Mrs.	herself from the event
+77	3	295	26	"Mrs. Bennett, the party leader, had no other option but to excuse herself from the event"	because she needed to attend an urgent meeting.	88	259923155	88	47	Mrs.	herself from the event
+77	4	394	26	Mrs. Bell had no other option but to excuse herself from the event	because she needed to attend an urgent meeting.	66	259923155	66	47	Mrs.	herself from the event
+78	1	295	16	The tall and athletic detective had been invited from	France in order to help out with the international investigation.	53	1565446275	54	65	The	had been invited from
+78	2	394	16	The tall detective had been invited from	France in order to help out with the international investigation.	40	1575291849	41	65	The	had been invited from
+78	3	295	26	The short and athletic detective who spoke with a distinct accent had been invited from	France in order to help out with the international investigation.	87	2569694828	88	65	The	had been invited from
+78	4	394	26	The detective who spoke with a foreign accent had been invited from	France in order to help out with the international investigation.	67	2638613847	66	65	The	had been invited from
+79	1	295	16	The much-anticipated TV series will follow the life of	the royal family during the Middle Ages.	54	1594982997	54	40	The	follow the life of
+79	2	394	16	The new TV series will follow the life of	the royal family during the Middle Ages.	41	1614674145	41	40	The	follow the life of
+79	3	295	26	The new and much-anticipated TV series will feature famous actors and follow the life of	the royal family during the Middle Ages.	88	259923155	88	40	The	follow the life of
+79	4	394	26	The new TV series will feature famous actors and follow the life of	the royal family during the Middle Ages.	67	2638613847	66	40	The	follow the life of
+80	1	295	16	The steel door opened slowly and the guard let the men	inside the restricted section of the government building.	54	1594982997	54	57	The	guard let the men
+80	2	394	16	The door opened and the guard let the men	inside the restricted section of the government building.	41	1614674145	41	57	The	guard let the men
+80	3	295	26	The steel security door at the end of the hallway opened slowly and the guard let the men	inside the restricted section of the government building.	89	2628768273	88	57	The	guard let the men
+80	4	394	26	The door at the end of the hallway opened and the guard let the men	inside the restricted section of the government building.	67	2638613847	66	57	The	guard let the men
+81	1	295	16	The adventurous woman felt very weak after the illness	that she picked up while visiting Southeast Asia.	54	1594982997	54	49	The	weak after the illness
+81	2	394	16	The girl felt very weak after the illness	that she picked up while visiting Southeast Asia.	41	1614674145	41	49	The	weak after the illness
+81	3	295	26	The adventurous woman had to cancel her next trip as she felt very weak after the illness	that she picked up while visiting Southeast Asia.	89	2628768273	88	49	The	weak after the illness
+81	4	394	26	The girl cancelled her trip as she felt very weak after the illness	that she picked up while visiting Southeast Asia.	67	2638613847	66	49	The	weak after the illness
+82	1	295	16	The two pizzeria cooks were expecting the city plumber	to come and fix the blockage in the pipes.	54	1594982997	54	42	The	expecting the city plumber
+82	2	394	16	The cooks were expecting the city plumber	to come and fix the blockage in the pipes.	41	1614674145	41	42	The	expecting the city plumber
+82	3	295	26	The three cooks from the five-star celebrity restaurant were expecting the city plumber	to come and fix the blockage in the pipes.	87	2569694828	88	42	The	expecting the city plumber
+82	4	394	26	The three cooks from the restaurant were expecting the city plumber	to come and fix the blockage in the pipes.	67	2638613847	66	42	The	expecting the city plumber
+83	1	295	16	"As Bill woke up and looked through the window, he saw"	his friend running to catch the bus.	53	1565446275	54	36	As	"the window, he saw"
+83	2	394	16	"As Bill looked through the window, he saw"	his friend running to catch the bus.	41	1614674145	41	36	As	"the window, he saw"
+83	3	295	26	"As Benjamin Brookfield woke up early in the morning and looked through the window, he saw"	his friend running to catch the bus.	89	2628768273	88	36	As	"the window, he saw"
+83	4	394	26	"As Bill woke up that morning and looked through the window, he saw"	his friend running to catch the bus.	66	259923155	66	36	As	"the window, he saw"
+84	1	295	16	Sam was very happy to learn that he was selected as one	of the five students who will represent his country at the international competition.	55	1624519719	54	85	Sam	was selected as one
+84	2	394	16	Sam found out that he was selected as one	of the five students who will represent his country at the international competition.	41	1614674145	41	85	Sam	was selected as one
+84	3	295	26	Sam was understandably very delighted when he first learned that he was selected as one	of the five students who will represent his country at the international competition.	87	2569694828	88	85	Sam	was selected as one
+84	4	394	26	Sam was very delighted when he learned that he was selected as one	of the five students who will represent his country at the international competition.	66	259923155	66	85	Sam	was selected as one
+85	1	295	16	The old mountain village received so few visitors that	people were genuinely surprised to see any strangers there.	54	1594982997	54	59	The	so few visitors that
+85	2	394	16	The village received so few visitors that	people were genuinely surprised to see any strangers there.	41	1614674145	41	59	The	so few visitors that
+85	3	295	26	The picturesque small village located near the mountain top received so few visitors that	people were genuinely surprised to see any strangers there.	89	2628768273	88	59	The	so few visitors that
+85	4	394	26	The picturesque village near the lake received so few visitors that	people were genuinely surprised to see any strangers there.	67	2638613847	66	59	The	so few visitors that
+86	1	295	16	"When the two brothers stared at the sky, they noticed"	the stars were unusually bright that night.	53	1565446275	54	43	When	"the sky, they noticed"
+86	2	394	16	"When they stared at the sky, they noticed"	the stars were unusually bright that night.	41	1614674145	41	43	When	"the sky, they noticed"
+86	3	295	26	"When Henry and his two brothers stopped at the peak and stared at the sky, they noticed"	the stars were unusually bright that night.	87	2569694828	88	43	When	"the sky, they noticed"
+86	4	394	26	"When they stopped at the peak and stared at the sky, they noticed"	the stars were unusually bright that night.	65	2559849254	66	43	When	"the sky, they noticed"
+87	1	295	16	"After she finished breakfast, Emilia prepared for her"	piano lessons and then went to the gym.	53	1565446275	54	39	After	Emilia prepared for her
+87	2	394	16	"After breakfast, Emilia prepared for her"	piano lessons and then went to the gym.	40	1575291849	41	39	After	Emilia prepared for her
+87	3	295	26	"After she finished breakfast and helped her mum wash the dishes, Emilia prepared for her"	piano lessons and then went to the gym.	88	259923155	88	39	After	Emilia prepared for her
+87	4	394	26	"After she woke up and finished breakfast, Emilia prepared for her"	piano lessons and then went to the gym.	65	2559849254	66	39	After	Emilia prepared for her
+88	1	295	16	The experienced lawyer kept changing the topic in the	hope that the incriminating evidence would go unnoticed.	53	1565446275	54	56	The	the topic in the
+88	2	394	16	The lawyer kept changing the topic in the	hope that the incriminating evidence would go unnoticed.	41	1614674145	41	56	The	the topic in the
+88	3	295	26	"The expert lawyer could not deal with the situation, so he kept changing the topic in the"	hope that the incriminating evidence would go unnoticed.	89	2628768273	88	56	The	the topic in the
+88	4	394	26	The expert criminal defence lawyer kept changing the topic in the	hope that the incriminating evidence would go unnoticed.	65	2559849254	66	56	The	the topic in the
+89	1	295	16	"When the three friends reached the cabin, they sat on"	the bench overlooking the thick forest.	53	1565446275	54	39	When	"cabin, they sat on"
+89	2	394	16	"When they reached the cabin, they sat on"	the bench overlooking the thick forest.	40	1575291849	41	39	When	"cabin, they sat on"
+89	3	295	26	"When the group of men and women eventually reached the deserted wooden cabin, they sat on"	the bench overlooking the thick forest.	89	2628768273	88	39	When	"cabin, they sat on"
+89	4	394	26	"When the group of friends eventually reached the cabin, they sat on"	the bench overlooking the thick forest.	67	2638613847	66	39	When	"cabin, they sat on"
+90	1	295	16	After Bella and Tom exchanged a few words of agreement	"about the contract, she handed over 50 pounds to him."	54	1594982997	54	53	After	few words of agreement
+90	2	394	16	After exchanging a few words of agreement	"about the contract, she handed over 50 pounds to him."	41	1614674145	41	53	After	few words of agreement
+90	3	295	26	After Isabella reluctantly agreed to meet Timothy and exchanged a few words of agreement	"about the contract, she handed over 50 pounds to him."	88	259923155	88	53	After	few words of agreement
+90	4	394	26	After Isabella had reluctantly exchanged a few words of agreement	"about the contract, she handed over 50 pounds to him."	65	2559849254	66	53	After	few words of agreement
+91	1	295	16	The new cleaning maid had left the back door unlocked	as she went out to throw away the rubbish.	53	1565446275	54	42	The	the back door unlocked
+91	2	394	16	The maid had left the back door unlocked	as she went out to throw away the rubbish.	40	1575291849	41	42	The	the back door unlocked
+91	3	295	26	"The old and careless housekeeper, who was recently hired, had left the back door unlocked"	as she went out to throw away the rubbish.	89	2628768273	88	42	The	the back door unlocked
+91	4	394	26	The young and careless housekeeper had left the back door unlocked	as she went out to throw away the rubbish.	66	259923155	66	42	The	the back door unlocked
+92	1	295	16	The attending doctor held his metal pen torch close to	the patient's face to test her pupillary responses.	54	1594982997	54	51	The	pen torch close to
+92	2	394	16	The clinician held his pen torch close to	the patient's face to test her pupillary responses.	41	1614674145	41	51	The	pen torch close to
+92	3	295	26	"The medical student, who was doing rounds that morning, held his metal pen torch close to"	the patient's face to test her pupillary responses.	89	2628768273	88	51	The	pen torch close to
+92	4	394	26	The inexperienced medical student held his metal pen torch close to	the patient's face to test her pupillary responses.	67	2638613847	66	51	The	pen torch close to
+93	1	295	16	Ed rose up meekly and quietly to follow his new tutor	who had just come from a neighbouring town.	53	1565446275	54	43	Ed	follow his new tutor
+93	2	394	16	Ed rose up meekly to follow his new tutor	who had just come from a neighbouring town.	41	1614674145	41	43	Ed	follow his new tutor
+93	3	295	26	Ed rose up confidently and quietly from the polished wooden bench to follow his new tutor	who had just come from a neighbouring town.	89	2628768273	88	43	Ed	follow his new tutor
+93	4	394	26	Ed rose up quietly from the polished bench to follow his new tutor	who had just come from a neighbouring town.	66	259923155	66	43	Ed	follow his new tutor
+94	1	295	16	He assured them one more time that he had no intention	of running off before the end of the presentation.	54	1594982997	54	50	He	he had no intention
+94	2	394	16	He assured them that he had no intention	of running off before the end of the presentation.	40	1575291849	41	50	He	he had no intention
+94	3	295	26	He assured his audience one more time in a soft and gentle voice that he had no intention	of running off before the end of the presentation.	89	2628768273	88	50	He	he had no intention
+94	4	394	26	He repeated again in a very gentle voice that he had no intention	of running off before the end of the presentation.	65	2559849254	66	50	He	he had no intention
+95	1	295	16	The three enthusiastic school children stared with awe	at the aesthetically pleasing painting.	54	1594982997	54	39	The	children stared with awe
+95	2	394	16	The three school children stared with awe	at the aesthetically pleasing painting.	41	1614674145	41	39	The	children stared with awe
+95	3	295	26	The teacher was explaining something about art while the school children stared with awe	at the aesthetically pleasing painting.	88	259923155	88	39	The	children stared with awe
+95	4	394	26	The teacher was talking while the school children stared with awe	at the aesthetically pleasing painting.	65	2559849254	66	39	The	children stared with awe
+96	1	295	16	The newly employed waitress was very smart in attending	to the customers at the five-star restaurant.	55	1624519719	54	45	The	very smart in attending
+96	2	394	16	The waitress was very smart in attending	to the customers at the five-star restaurant.	40	1575291849	41	45	The	very smart in attending
+96	3	295	26	The newly employed waitress and her experienced colleagues were very smart in attending	to the customers at the five-star restaurant.	87	2569694828	88	45	The	very smart in attending
+96	4	394	26	The waitress and her three colleagues were very smart in attending	to the customers at the five-star restaurant.	66	259923155	66	45	The	very smart in attending
+97	1	295	16	"Anna Lee, who turned 5, learned the letters very easily"	and was quickly able to start reading fluently.	55	1624519719	54	47	Anna	the letters very easily
+97	2	394	16	Anna Lee learned the letters very easily	and was quickly able to start reading fluently.	40	1575291849	41	47	Anna	the letters very easily
+97	3	295	26	"Anna Lee, who had just started attending primary school, learned the letters very easily"	and was quickly able to start reading fluently.	88	259923155	88	47	Anna	the letters very easily
+97	4	394	26	"Anna Lee, who had just turned five, learned the letters very easily"	and was quickly able to start reading fluently.	67	2638613847	66	47	Anna	the letters very easily
+98	1	295	16	"Instead of tidying up the bedroom, Al spent the morning"	playing games on his new smartphone.	55	1624519719	54	36	Instead	Al spent the morning
+98	2	394	16	"Instead of cleaning, Al spent the morning"	playing games on his new smartphone.	41	1614674145	41	36	Instead	Al spent the morning
+98	3	295	26	"Instead of cleaning up after himself and hoovering the two bedrooms, Al spent the morning"	playing games on his new smartphone.	89	2628768273	88	36	Instead	Al spent the morning
+98	4	394	26	"Instead of tidying up the two master bedrooms, Al spent the morning"	playing games on his new smartphone.	67	2638613847	66	36	Instead	Al spent the morning
+99	1	295	16	The light-hearted old sailor was generous to offer free	wine to all guests on his cruise ship.	55	1624519719	54	38	The	generous to offer free
+99	2	394	16	The old sailor was generous to offer free	wine to all guests on his cruise ship.	41	1614674145	41	38	The	generous to offer free
+99	3	295	26	"The cheerful sailor, who got married exactly twenty years ago, was generous to offer free"	wine to all guests on his cruise ship.	89	2628768273	88	38	The	generous to offer free
+99	4	394	26	"The sailor, who got married a year ago, was generous to offer free"	wine to all guests on his cruise ship.	66	259923155	66	38	The	generous to offer free
+100	1	295	16	The guests of the hotel were told that dinner will be	served one hour later due to the change in schedule.	53	1565446275	54	52	The	that dinner will be
+100	2	394	16	The guests were told that dinner will be	served one hour later due to the change in schedule.	40	1575291849	41	52	The	that dinner will be
+100	3	295	26	The guests of the hotel were visibly disappointed when they were told that dinner will be	served one hour later due to the change in schedule.	89	2628768273	88	52	The	that dinner will be
+100	4	394	26	The guests were disappointed when they learned that dinner will be	served one hour later due to the change in schedule.	66	259923155	66	52	The	that dinner will be
