@@ -70,6 +70,7 @@ pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & 
 load("data/Alldata.Rda")
 load("data/Return_sweep.Rda")
 
+
 #classify data
 RS$sub = as.factor(RS$sub)
 RS$item = as.factor(RS$item)
@@ -107,7 +108,7 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
            ,function(x) c(M=signif(mean(x),3)
                           , SD= sd(x) ))
 #plots for undersweep probability per condtion 
-tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
+mUPPS =tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
 colnames(mUPPS)= c("SFSL", "SFLL", "BFSL", "BFLL")
 boxplot(mUPPS)
 
@@ -127,27 +128,34 @@ ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) +
   xlab("Conditions") + ylim(0,4)
 
 
-#########GLMM for undersweep probability
+#########################################
+#                  (G)LMMS                 #
+#########################################
+
 #setting contrast
 contrasts(RS$line_len) <- c(-1, 1)  
 contrasts(RS$font_size) <- c(-1, 1)  
 
-
+#centering launch distance
 RS$launchDistVA_C<- scale(RS$launchDistVA)
+RS$launchDistLet_C<- scale(RS$launchDistLet)
+
+
+###GLMM for undersweep probability
 GLM1=glmer(undersweep_prob ~ font_size* line_len
            +launchDistVA_C +(1|item)+(1|sub) , data= RS, family= binomial)
 summary(GLM1)
 plot(allEffects(GLM1))
 
-####LMM for landing position
-land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet + 
-                   (1+ line_len+ font_size|sub), RS, REML=T)
+###LMM for landing position
+land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
+                   (1+line_len+font_size|sub), RS, REML=T)
 summary(land_pos.lm)
 plot(allEffects(land_pos.lm))
 
 #and
 
-land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA + 
+land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA_C + 
                       (1|item) + (1+ font_size|sub), RS, REML=T)
 summary(land_pos.lm2)
 plot(allEffects(land_pos.lm2))
