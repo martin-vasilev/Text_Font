@@ -65,11 +65,14 @@ for(i in 1:length(packages)){
 # colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
 pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
 
+########################
+# Prepare data frames: #
+########################
 
 # Load data:
 load("data/Alldata.Rda")
 load("data/Return_sweep.Rda")
-
+load("data/Quest.Rda")
 
 #classify data
 RS$sub = as.factor(RS$sub)
@@ -81,6 +84,12 @@ Alldata$sub = as.factor(Alldata$sub)
 Alldata$item = as.factor(Alldata$item)
 Alldata$cond= as.factor(Alldata$cond)
 Alldata$land_pos = as.numeric(Alldata$land_pos)
+
+Quest$sub<- as.factor(Quest$sub)
+Quest$item<- as.factor(Quest$item)
+Quest$line_len<- as.factor(Quest$line_len)
+Quest$font_size<- as.factor(Quest$font_size)
+
 #examine data 
 str(RS)
 head(RS)
@@ -94,6 +103,40 @@ RS$font_size= factor(ifelse(RS$cond==1| RS$cond==3, 1,2), labels = c("small font
 
 Alldata$line_len= factor(ifelse(Alldata$cond==1| Alldata$cond==2, 1,2),labels = c("short line", "long line"))
 Alldata$font_size= factor(ifelse(Alldata$cond==1| Alldata$cond==3, 1,2), labels = c("small font", "big font"))
+
+Quest$line_len= factor(ifelse(Quest$cond==1| Quest$cond==2, 1,2),labels = c("short line", "long line"))
+Quest$font_size= factor(ifelse(Quest$cond==1| Quest$cond==3, 1,2), labels = c("small font", "big font"))
+
+
+############################
+#  Comprehension accuracy  #
+############################
+
+100*round(mean(Quest$accuracy),3) # mean accuracy (%)
+100*round(sd(Quest$accuracy),3) # SD accuracy (%)
+
+DesQuest<- melt(Quest, id=c('sub', 'item', 'cond', 'line_len', 'font_size'), 
+                measure=c("accuracy"), na.rm=TRUE)
+mQuest<- cast(DesQuest, line_len+font_size ~ variable
+              ,function(x) c(M=signif(mean(x),3)
+                             , SD= sd(x) ))
+mQuest
+
+# GLMM model:
+contrasts(Quest$line_len)<- c(-1, 1)
+contrasts(Quest$font_size)<- c(-1, 1)
+
+if(!file.exists("Models/CGM.Rda")){
+  # model does not converge with any other random slopes
+  CGM<- glmer(accuracy ~ font_size*line_len + (1|sub)+ (line_len|item), data = Quest, family= binomial)
+  save(CGM, file= "Models/CGM.Rda")
+  summary(CGM)
+}else{
+  load("Models/CGM.Rda")
+  summary(CGM)
+}
+
+round(coef(summary(CGM)), 2)
 
 
 #mean under_sweep per condition 
