@@ -70,20 +70,30 @@ pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & 
 load("data/Alldata.Rda")
 load("data/Return_sweep.Rda")
 
+
 #classify data
 RS$sub = as.factor(RS$sub)
 RS$item = as.factor(RS$item)
 RS$cond= as.factor(RS$cond)
 RS$land_pos = as.numeric(RS$land_pos)
 
+Alldata$sub = as.factor(Alldata$sub)
+Alldata$item = as.factor(Alldata$item)
+Alldata$cond= as.factor(Alldata$cond)
+Alldata$land_pos = as.numeric(Alldata$land_pos)
 #examine data 
 str(RS)
 head(RS)
 
+str(Alldata)
+head(Alldata)
 #merge conditions for main effect analysis 
 
 RS$line_len= factor(ifelse(RS$cond==1| RS$cond==2, 1,2),labels = c("short line", "long line"))
 RS$font_size= factor(ifelse(RS$cond==1| RS$cond==3, 1,2), labels = c("small font", "big font"))
+
+Alldata$line_len= factor(ifelse(Alldata$cond==1| Alldata$cond==2, 1,2),labels = c("short line", "long line"))
+Alldata$font_size= factor(ifelse(Alldata$cond==1| Alldata$cond==3, 1,2), labels = c("small font", "big font"))
 
 
 #mean under_sweep per condition 
@@ -106,8 +116,32 @@ LP1<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'),
 mLP1<- cast(LP1, font_size + line_len ~ variable
            ,function(x) c(M=signif(mean(x),3)
                           , SD= sd(x) ))
+
+#mean incoming saccade length in visual angle per fixation type 
+Alldata2 <- Alldata[Alldata$regress < 1,]
+SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'Rtn_sweep'), 
+           measure=c("launchDistVA"), na.rm=TRUE)
+mSLVA1<- cast(SLVA1, font_size + Rtn_sweep ~ variable
+            ,function(x) c(M=signif(mean(x),3)
+                           , SD= sd(x) ))
+
+#mean incoming saccade length in visual angle per saccade type 
+Alldata3 <- Alldata[Alldata$Rtn_sweep < 1,]
+SLVA2<- melt(Alldata3, id=c('sub', 'item', 'font_size', 'regress'), 
+             measure=c("launchDistVA"), na.rm=TRUE)
+mSLVA2<- cast(SLVA2, font_size + regress ~ variable
+              ,function(x) c(M=signif(mean(x),3)
+                             , SD= sd(x) ))
+
+#mean incoming saccade length in letters per saccade type 
+SLlet<- melt(Alldata3, id=c('sub', 'item', 'font_size', 'regress'), 
+             measure=c("launchDistLet"), na.rm=TRUE)
+mSLlet<- cast(SLlet, font_size + regress ~ variable
+              ,function(x) c(M=signif(mean(x),3)
+                             , SD= sd(x) ))
+
 #plots for undersweep probability per condtion 
-tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
+mUPPS =tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
 colnames(mUPPS)= c("SFSL", "SFLL", "BFSL", "BFLL")
 boxplot(mUPPS)
 
@@ -127,31 +161,46 @@ ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) +
   xlab("Conditions") + ylim(0,4)
 
 
-#########GLMM for undersweep probability
+#########################################
+#                  (G)LMMS                 #
+#########################################
+
 #setting contrast
 contrasts(RS$line_len) <- c(-1, 1)  
 contrasts(RS$font_size) <- c(-1, 1)  
-
-
+Alldata2$Rtn_sweep = as.factor(Alldata2$Rtn_sweep)
+contrasts(Alldata2$Rtn_sweep) <- c(-1, 1)  
+contrasts(Alldata2$font_size) <- c(-1, 1)  
+#centering launch distance
 RS$launchDistVA_C<- scale(RS$launchDistVA)
+RS$launchDistLet_C<- scale(RS$launchDistLet)
+Alldata2$launchDistVA_C<- scale(Alldata2$launchDistVA)
+Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
+
+###GLMM for undersweep probability
 GLM1=glmer(undersweep_prob ~ font_size* line_len
            +launchDistVA_C +(1|item)+(1|sub) , data= RS, family= binomial)
 summary(GLM1)
 plot(allEffects(GLM1))
 
-####LMM for landing position
-land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet + 
-                   (1+ line_len+ font_size|sub), RS, REML=T)
+###LMM for landing position
+land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
+                   (1+line_len+font_size|sub), RS, REML=T)
 summary(land_pos.lm)
 plot(allEffects(land_pos.lm))
 
 #and
 
-land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA + 
+land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA_C + 
                       (1|item) + (1+ font_size|sub), RS, REML=T)
 summary(land_pos.lm2)
 plot(allEffects(land_pos.lm2))
-     
+#saccade lenght comparison     
+length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
+                     (1|item) + (1+ font_size|sub), Alldata2, REML=T)
+summary(length.lm)
+plot(allEffects(length.lm))
+
 
 ##############################################################
 #                 Modulation by trial order:                 #
