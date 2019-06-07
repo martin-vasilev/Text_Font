@@ -202,8 +202,8 @@ for(i in 1:nrow(RS)){
 
 
 # take a smaller, more managable dataset:
-tDat<- RS[,c("sub", "item", "seq", "cond", "font_size", "line_len", "LandStartVA", "block_order", "big_font_block",
-             "small_font_block")]
+tDat<- RS[,c("sub", "item", "seq", "cond", "font_size", "line_len", "LandStartVA", "undersweep_prob" ,  "block_order",
+             "big_font_block", "small_font_block")]
 
 #tDat$big_font_block<- as.factor(tDat$big_font_block)
 #tDat$big_font_block<- factor(tDat$big_font_block, levels= c("small font", "big font"))
@@ -284,3 +284,66 @@ plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block
           col = pallete1[2], main= "Small font (2nd- 1st block difference)",
           ylab= "Mean diff.in landing position (deg)", xlab= "Trial order within block", print.summary = T, 
           family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+
+
+
+##############
+# same analysis, but for undersweep probability
+
+gam3 <- bam(undersweep_prob ~ big_font_block+
+              s(sub, bs="re", k=10) +
+              s(sub, big_font_block, bs="re", k=10) +
+              s(item, bs= "re", k=10)+
+              s(item, big_font_block, bs="re") +
+              s(block_order, bs= "cr", k=10)+
+              s(block_order, by= big_font_block, k=10, bs= "cr")+
+              s(block_order, sub, bs= "fs", m=1, k=4),
+            data= bigF, family = binomial)
+
+summary(gam3)
+
+plot_smooth(gam3, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Undersweep probability", main= "Big font sentences as a function of block order",
+            col = c(pallete1[1], pallete1[2]), family= "serif",
+            cex.axis= 1.2, cex.lab= 1.4, lwd= 2, legend_plot_all = list(x=2, y=2))
+legend(x = 2, y= 1.25, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white")
+
+plot_diff(gam3, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
+          col = pallete1[2], main= "Big font (2nd- 1st block difference)",
+          ylab= "Mean diff. in undersweep probability", xlab= "Trial order within block", print.summary = T, 
+          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+
+
+
+### small font
+
+gam4 <- bam(undersweep_prob ~ small_font_block+
+              s(sub, bs="re", k=10) +
+              s(sub, small_font_block, bs="re", k=10) +
+              s(item, bs= "re", k=10)+
+              s(item, small_font_block, bs="re") +
+              s(block_order, bs= "cr", k=10)+
+              s(block_order, by= small_font_block, k=10, bs= "cr")+
+              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
+              s(block_order, sub, bs= "fs", m=1, k=4),
+            data= smallF, family = binomial)
+
+summary(gam4)
+
+#plot(gam2)
+
+
+plot_smooth(gam4, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Undersweep probability", main= "Small font sentences as a function of block order",
+            col = c(pallete1[2], pallete1[1]), family= "serif",
+            cex.axis= 1.2, cex.lab= 1.4, lwd= 2, legend_plot_all = list(x=-2, y=-2))
+legend(x = 35, y= 1.4, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white")
+
+plot_diff(gam4, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
+          col = pallete1[2], main= "Small font (2nd- 1st block difference)",
+          ylab= "Mean diff. in undersweep probability", xlab= "Trial order within block", print.summary = T, 
+          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+
+
