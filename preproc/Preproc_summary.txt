@@ -1,5 +1,5 @@
 - 0.05 percent of trials manually discarded due to tracking loss, etc.
-- 0.02 percent of trials discarded due to the lack of a return sweep in the trial
-- 4.61 percent of trials discarded due to blinks on or around return sweeps
+- 0.03 percent of trials discarded due to the lack of a return sweep in the trial
+- 4.44 percent of trials discarded due to blinks on or around return sweeps
 - 0.03 percent of trials discarded due to outliers
-- 95.30 percent of trials remaining for analysis
+- 95.45 percent of trials remaining for analysis

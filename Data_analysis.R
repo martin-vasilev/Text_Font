@@ -42,7 +42,8 @@ rm(list= ls())
 # undersweep_prob:  A logical indicating whether the current fixation is an undersweep one (1= yes; 0=no)
 # launchDistLet:    Launch site distance in letters (equivalent to sacc_len)
 # launchDistVA:     Launch site distance in degrees per visual angle
-
+# launchSite:       Launch site distance relative to end of the line (letters)
+# launchSiteVA:     Launch site distance relative to end of the line (visual angle)
 
 # Please note: counting in the present data (e.g., fixation/ character/ line numbers) always starts at 1.
 
@@ -87,8 +88,6 @@ Alldata$land_pos = as.numeric(Alldata$land_pos)
 
 Quest$sub<- as.factor(Quest$sub)
 Quest$item<- as.factor(Quest$item)
-Quest$line_len<- as.factor(Quest$line_len)
-Quest$font_size<- as.factor(Quest$font_size)
 
 #examine data 
 str(RS)
@@ -123,6 +122,9 @@ mQuest<- cast(DesQuest, line_len+font_size ~ variable
 mQuest
 
 # GLMM model:
+Quest$line_len<- as.factor(Quest$line_len)
+Quest$font_size<- as.factor(Quest$font_size)
+
 contrasts(Quest$line_len)<- c(-1, 1)
 contrasts(Quest$font_size)<- c(-1, 1)
 
@@ -203,9 +205,12 @@ ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) +
   geom_boxplot(fill="slateblue", alpha=0.2) +
   xlab("Conditions") + ylim(0,4)
 
+#####
+
+
 
 #########################################
-#                  (G)LMMS                 #
+#              (G)LMMS                  #
 #########################################
 
 #setting contrast
@@ -219,23 +224,28 @@ RS$launchDistVA_C<- scale(RS$launchDistVA)
 RS$launchDistLet_C<- scale(RS$launchDistLet)
 Alldata2$launchDistVA_C<- scale(Alldata2$launchDistVA)
 Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
+# centre launch site:
+RS$launchSiteVA_C<- scale(RS$launchSiteVA)
+
 
 ###GLMM for undersweep probability
-GLM1=glmer(undersweep_prob ~ font_size* line_len
-           +launchDistVA_C +(1|item)+(1|sub) , data= RS, family= binomial)
+GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+             data= RS, family= binomial)
 summary(GLM1)
+
 plot(allEffects(GLM1))
 
 ###LMM for landing position
-land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
-                   (1+line_len+font_size|sub), RS, REML=T)
-summary(land_pos.lm)
-plot(allEffects(land_pos.lm))
+# land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
+#                    (1+line_len+font_size|sub), RS, REML=T)
+# summary(land_pos.lm)
+# plot(allEffects(land_pos.lm))
 
 #and
 
-land_pos.lm2= lmer(LandStartVA ~ line_len *font_size*launchDistVA_C + 
-                      (1|item) + (1+ font_size|sub), RS, REML=T)
+land_pos.lm2<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
+                    data=RS, REML=T)
+
 summary(land_pos.lm2)
 plot(allEffects(land_pos.lm2))
 #saccade lenght comparison     
