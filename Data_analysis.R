@@ -315,10 +315,10 @@ is.numeric(tDat$block_order)
 
 # gamm model:
 tDat$big_font_block<- as.factor(tDat$big_font_block)
-contrasts(tDat$big_font_block)
+contrasts(tDat$big_font_block)<- c(-1, 1)
 
 tDat$small_font_block<- as.factor(tDat$small_font_block)
-contrasts(tDat$small_font_block)
+contrasts(tDat$small_font_block)<- c(-1, 1)
 
 ### big font
 
@@ -449,3 +449,33 @@ plot_diff(gam4, view = "block_order", rm.ranef = F, comp = list(small_font_block
           family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
 
 
+
+####################
+# GAMM panel plot: #
+####################
+
+pdf('Plots/GAMMs.pdf', width = 11, height = 5)
+par(mfrow=c(1,2), mar= c(4,4,4,2))
+
+
+## big font condition
+
+plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Landing position (deg)", main= "a) Big font sentences",
+            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.4, cex.lab= 1.5, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
+            cex.main=1.5)
+
+
+# small font condition
+plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Landing position (deg)", main= "b) Small font sentences",
+            col = c(pallete1[2], pallete1[1]), family= "serif",
+            cex.axis= 1.4, cex.lab= 1.5, legend_plot_all = list(x=0, y=0),
+            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1.15, 2.35), cex.main=1.5)
+
+legend(x = 25, y= 2.37, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.3)
+
+
+dev.off()
