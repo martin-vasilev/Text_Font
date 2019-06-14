@@ -228,29 +228,33 @@ Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 
 
+#------------------------------#
+#    Undersweep probability    #
+#------------------------------#
+
 ###GLMM for undersweep probability
 GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
              data= RS, family= binomial)
 summary(GLM1)
 
-plot(allEffects(GLM1))
+coef(summary(GLM1))
 
-###LMM for landing position
-# land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
-#                    (1+line_len+font_size|sub), RS, REML=T)
-# summary(land_pos.lm)
-# plot(allEffects(land_pos.lm))
+round(coef(summary(GLM1)),3)
 
-#and
+
+#------------------------------#
+#      Landing Position        #
+#------------------------------#
 
 land_pos.lm2<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
                     data=RS, REML=T)
 
 summary(land_pos.lm2)
 plot(allEffects(land_pos.lm2))
+
 #saccade lenght comparison     
 length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
-                     (1|item) + (1+ font_size|sub), Alldata2, REML=T)
+                     (1|item) + (1|sub), Alldata2, REML=T)
 summary(length.lm)
 plot(allEffects(length.lm))
 
@@ -331,7 +335,6 @@ gam1 <- bam(LandStartVA ~ big_font_block+
               s(item, big_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= big_font_block, k=10, bs= "cr")+
-#              s(big_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= bigF)
 
@@ -366,7 +369,6 @@ gam2 <- bam(LandStartVA ~ small_font_block+
               s(item, small_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= small_font_block, k=10, bs= "cr")+
-              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= smallF)
 
