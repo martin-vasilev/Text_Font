@@ -187,23 +187,20 @@ mSLlet<- cast(SLlet, font_size + regress ~ variable
 
 #plots for undersweep probability per condtion 
 mUPPS =tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
-colnames(mUPPS)= c("SFSL", "SFLL", "BFSL", "BFLL")
+colnames(mUPPS)= c("small-font/short-line", "big-font/short-line", "small-font/long-line", "big-font/long-line")
 boxplot(mUPPS)
 
-#plots for land_pos per condition for letters
-boxplot(RS$LandStartLet~RS$cond)
 
-ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartLet)) + 
-  geom_boxplot(fill="slateblue", alpha=0.2) +
-  xlab("Conditions") + ylim(0,15)
-  
 #plots for land_pos per condition for visual angle
 
-boxplot(RS$LandStartVA~RS$cond)
+RS$cond= factor(RS$cond, labels= c("small-font/short-line", "big-font/short-line", 
+                                   "small-font/long-line", "big-font/long-line"))
 
-ggplot(RS, aes(x=as.factor(RS$cond), y=RS$LandStartVA)) + 
-  geom_boxplot(fill="slateblue", alpha=0.2) +
-  xlab("Conditions") + ylim(0,4)
+ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
+  geom_boxplot(alpha=0.4) +
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+  theme(legend.position="none") + 
+  scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
 
 #####
 
@@ -243,11 +240,15 @@ plot(allEffects(GLM1))
 
 #and
 
-land_pos.lm2<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
+land_pos.lm<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
                     data=RS, REML=T)
 
-summary(land_pos.lm2)
-plot(allEffects(land_pos.lm2))
+summary(land_pos.lm)
+
+LPM= round(coef(summary(land_pos.lm)), 2)
+write.csv(LPM, file= "Models/LPM.csv") 
+
+plot(allEffects(land_pos.lm))
 #saccade lenght comparison     
 length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
                      (1|item) + (1+ font_size|sub), Alldata2, REML=T)
