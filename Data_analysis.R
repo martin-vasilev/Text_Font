@@ -246,9 +246,6 @@ round(coef(summary(GLM1)),3)
 land_pos.lm<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
                     data=RS, REML=T)
 
-summary(land_pos.lm2)
-plot(allEffects(land_pos.lm2))
-
 summary(land_pos.lm)
 
 LPM= round(coef(summary(land_pos.lm)), 2)
@@ -256,6 +253,19 @@ write.csv(LPM, file= "Models/LPM.csv")
 
 plot(allEffects(land_pos.lm))
 
+###
+lp= allEffects(land_pos.lm)
+summary(lp)
+x= as.data.frame(lp)
+x=as.data.frame(x)
+colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", "upper")
+
+#geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
+               # width=0.2)
+
+ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
+   theme_gray(base_size=12) +geom_line(aes(group = font_size))+
+  labs(title= "", x= "Launch site from end of first line", y= "Landing positions") +facet_wrap(~line_len)
 
 #saccade lenght comparison     
 length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
