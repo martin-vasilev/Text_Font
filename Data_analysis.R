@@ -253,7 +253,7 @@ write.csv(LPM, file= "Models/LPM.csv")
 
 plot(allEffects(land_pos.lm))
 
-###
+###ALL EFFECTS PLOT -THREE WAY INTERACTION
 lp= allEffects(land_pos.lm)
 summary(lp)
 x= as.data.frame(lp)
@@ -264,8 +264,33 @@ colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", 
                # width=0.2)
 
 ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
-   theme_gray(base_size=12) +geom_line(aes(group = font_size))+
-  labs(title= "", x= "Launch site from end of first line", y= "Landing positions") +facet_wrap(~line_len)
+   theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
+  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
+  
+
+#### EFFECT PLOT - TWO WAY INTERACTION 
+twi= Effect(c("font_size", "launchSiteVA_C"), land_pos.lm)
+summary(twi)
+a= as.data.frame(twi)
+a= as.data.frame(a)
+
+ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) + 
+  theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
+  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
+
+#### EFFECT PLOT - TWO WAY INTERACTION 
+twi2= Effect(c("font_size", "line_len"), land_pos.lm)
+summary(twi2)
+b= as.data.frame(twi2)
+b= as.data.frame(b)
+
+ggplot(b,aes(x= line_len, y=fit, color= font_size)) + 
+  theme_gray(base_size=15)+ geom_point()+ geom_line(aes(group = font_size), size=0.8, color= 1.5)+
+  labs(title= "", x= "Line length", y= "Landing position (deg)")
+
+ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() + 
+  geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
+                width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
 
 #saccade lenght comparison     
 length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
