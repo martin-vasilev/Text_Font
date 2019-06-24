@@ -141,6 +141,11 @@ if(!file.exists("Models/CGM.Rda")){
 round(coef(summary(CGM)), 2)
 
 
+
+############################
+#  Descriptive statistics  #
+############################
+
 #mean under_sweep per condition 
 USP<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
                 measure=c("undersweep_prob"), na.rm=TRUE)
@@ -164,9 +169,9 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
 
 #mean incoming saccade length in visual angle per fixation type 
 Alldata2 <- Alldata[Alldata$regress < 1,]
-SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'Rtn_sweep'), 
+SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'line_len', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
-mSLVA1<- cast(SLVA1, font_size + Rtn_sweep ~ variable
+mSLVA1<- cast(SLVA1, font_size+line_len + Rtn_sweep ~ variable
             ,function(x) c(M=signif(mean(x),3)
                            , SD= sd(x) ))
 
@@ -230,31 +235,45 @@ RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 #------------------------------#
 
 ###GLMM for undersweep probability
-GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
-             data= RS, family= binomial)
+
+if(!file.exists("Models/GLM1.Rda")){
+  GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+               data= RS, family= binomial)
+  save(GLM1, file= "Models/GLM1.Rda")
+}else{
+  load("Models/GLM1.Rda")
+}
+
 summary(GLM1)
 
 coef(summary(GLM1))
 
 round(coef(summary(GLM1)),3)
 
+write.csv(round(coef(summary(GLM1)),3), 'Models/Undersweep_prob_GLM1.csv')
+
 
 #------------------------------#
 #      Landing Position        #
 #------------------------------#
 
-land_pos.lm<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
-                    data=RS, REML=T)
+if(!file.exists('Models/LM1.Rda')){
+  LM1<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
+             data=RS, REML=T)
+  save(LM1, file= "Models/LM1.Rda")
+}else{
+  load('Models/LM1.Rda')
+}
 
-summary(land_pos.lm)
+summary(LM1)
 
-LPM= round(coef(summary(land_pos.lm)), 2)
-write.csv(LPM, file= "Models/LPM.csv") 
+SLM1<- round(coef(summary(LM1)), 3)
+write.csv(SLM1, file= "Models/Landing_posLPM.csv") 
 
-plot(allEffects(land_pos.lm))
+plot(allEffects(LM1))
 
 ###ALL EFFECTS PLOT -THREE WAY INTERACTION
-lp= allEffects(land_pos.lm)
+lp= allEffects(LM1)
 summary(lp)
 x= as.data.frame(lp)
 x=as.data.frame(x)
@@ -269,7 +288,7 @@ ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) +
   
 
 #### EFFECT PLOT - TWO WAY INTERACTION 
-twi= Effect(c("font_size", "launchSiteVA_C"), land_pos.lm)
+twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
 summary(twi)
 a= as.data.frame(twi)
 a= as.data.frame(a)
@@ -279,7 +298,7 @@ ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) +
   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
 
 #### EFFECT PLOT - TWO WAY INTERACTION 
-twi2= Effect(c("font_size", "line_len"), land_pos.lm)
+twi2= Effect(c("font_size", "line_len"), LM1)
 summary(twi2)
 b= as.data.frame(twi2)
 b= as.data.frame(b)
@@ -292,12 +311,27 @@ ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() +
   geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
                 width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
 
-#saccade lenght comparison     
-length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
-                     (1|item) + (1|sub), Alldata2, REML=T)
-summary(length.lm)
-plot(allEffects(length.lm))
 
+
+#------------------------------#
+#        Saccade length        #
+#------------------------------#
+
+if(!file.exists("Models/LM2.Rda")){
+  LM2<- lmer(launchDistVA ~ font_size*line_len*Rtn_sweep + (1|item) + (font_size|sub), Alldata2, REML=T)
+  save(LM2, file= "Models/LM2.Rda")
+}else{
+  load("Models/LM2.Rda")
+}
+
+summary(LM2)
+
+round(coef(summary(LM2)),3)
+
+write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
+
+
+#plot(allEffects(LM2))
 
 ##############################################################
 #                 Modulation by trial order:                 #

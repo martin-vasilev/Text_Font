@@ -1,0 +1,9 @@
+"","Estimate","Std. Error","t value"
+"(Intercept)",1.685,0.117,14.354
+"line_len1",0.464,0.033,13.942
+"font_size1",0.179,0.015,12.157
+"launchSiteVA_C",-0.05,0.016,-3.151
+"line_len1:font_size1",0.01,0.015,0.655
+"line_len1:launchSiteVA_C",0.006,0.016,0.377
+"font_size1:launchSiteVA_C",0.032,0.015,2.144
+"line_len1:font_size1:launchSiteVA_C",0.046,0.015,3.02
