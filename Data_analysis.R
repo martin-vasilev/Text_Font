@@ -1,5 +1,5 @@
 
-# Martin Vasilev, 2019
+# Martin R. Vasilev, 2019
 
 rm(list= ls())
 
@@ -270,7 +270,11 @@ summary(LM1)
 SLM1<- round(coef(summary(LM1)), 3)
 write.csv(SLM1, file= "Models/Landing_posLPM.csv") 
 
-plot(allEffects(LM1))
+#plot(allEffects(LM1))
+
+plot(effect('font_size:launchSiteVA_C', LM1))
+plot(effect('line_len:font_size:launchSiteVA_C', LM1))
+
 
 ###ALL EFFECTS PLOT -THREE WAY INTERACTION
 lp= allEffects(LM1)
@@ -286,6 +290,30 @@ ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) +
    theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
   
+#######################
+# plot 3-way interaction
+df<-  x
+df$line_len <- droplevels(df$line_len)
+#levels(df$line_len)<- c("long", 'short')
+df$line_len<- factor(df$line_len, levels= c("short line", "long line"))
+levels(df$line_len)<- c(" short line", " long line")
+
+G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
+                   color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  labs(x= "Launch site from end of first line (centred in deg)", y= "Landing position (deg)", 
+       color= "", shape= '', linetype= '', fill= '') +
+  facet_wrap(~font_size)+
+  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+  legend.key.width = unit(1, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+  panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+  panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+  strip.background = element_rect(colour="white", fill="white"),
+  strip.text = element_text(size=22, face="bold"))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[2])); G1
+
+ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
 
 #### EFFECT PLOT - TWO WAY INTERACTION 
 twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
