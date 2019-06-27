@@ -62,6 +62,7 @@ for(i in 1:length(packages)){
   }
 }
 
+source('Functions/CohensD_raw.R')
 
 # colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
 pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
@@ -201,11 +202,11 @@ boxplot(mUPPS)
 RS$cond= factor(RS$cond, labels= c("small-font/short-line", "big-font/short-line", 
                                    "small-font/long-line", "big-font/long-line"))
 
-ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
-  geom_boxplot(alpha=0.4) +
-  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
-  theme(legend.position="none") + 
-  scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
+# ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
+#   geom_boxplot(alpha=0.4) +
+#   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+#   theme(legend.position="none") + 
+#   scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
 
 #####
 
@@ -246,12 +247,13 @@ if(!file.exists("Models/GLM1.Rda")){
 
 summary(GLM1)
 
-coef(summary(GLM1))
-
 round(coef(summary(GLM1)),3)
 
 write.csv(round(coef(summary(GLM1)),3), 'Models/Undersweep_prob_GLM1.csv')
 
+CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'line_len', baseline = 'short line')
+
+CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'font_size', baseline = 'small font')
 
 #------------------------------#
 #      Landing Position        #
@@ -270,7 +272,8 @@ summary(LM1)
 SLM1<- round(coef(summary(LM1)), 3)
 write.csv(SLM1, file= "Models/Landing_posLPM.csv") 
 
-#plot(allEffects(LM1))
+CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'line_len', baseline = 'short line')
+CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baseline = 'small font')
 
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
@@ -309,7 +312,7 @@ G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
   panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
   panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
   strip.background = element_rect(colour="white", fill="white"),
-  strip.text = element_text(size=22, face="bold"))+
+  strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
   scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
   scale_color_manual(values=c(pallete1[1], pallete1[2])); G1
 
@@ -359,7 +362,9 @@ round(coef(summary(LM2)),3)
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
 
 
-#plot(allEffects(LM2))
+plot(effect('Rtn_sweep', LM2))
+plot(effect('line_len:Rtn_sweep', LM2))
+
 
 ##############################################################
 #                 Modulation by trial order:                 #
