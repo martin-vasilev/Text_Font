@@ -1,5 +1,5 @@
 
-# Martin R. Vasilev, 2019
+# Martin Vasilev, 2019
 
 rm(list= ls())
 
@@ -62,7 +62,6 @@ for(i in 1:length(packages)){
   }
 }
 
-source('Functions/CohensD_raw.R')
 
 # colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
 pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
@@ -142,11 +141,6 @@ if(!file.exists("Models/CGM.Rda")){
 round(coef(summary(CGM)), 2)
 
 
-
-############################
-#  Descriptive statistics  #
-############################
-
 #mean under_sweep per condition 
 USP<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
                 measure=c("undersweep_prob"), na.rm=TRUE)
@@ -170,9 +164,9 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
 
 #mean incoming saccade length in visual angle per fixation type 
 Alldata2 <- Alldata[Alldata$regress < 1,]
-SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'line_len', 'Rtn_sweep'), 
+SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
-mSLVA1<- cast(SLVA1, font_size+line_len + Rtn_sweep ~ variable
+mSLVA1<- cast(SLVA1, font_size + Rtn_sweep ~ variable
             ,function(x) c(M=signif(mean(x),3)
                            , SD= sd(x) ))
 
@@ -202,11 +196,11 @@ boxplot(mUPPS)
 RS$cond= factor(RS$cond, labels= c("small-font/short-line", "big-font/short-line", 
                                    "small-font/long-line", "big-font/long-line"))
 
-# ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
-#   geom_boxplot(alpha=0.4) +
-#   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
-#   theme(legend.position="none") + 
-#   scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
+ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
+  geom_boxplot(alpha=0.4) +
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+  theme(legend.position="none") + 
+  scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
 
 #####
 
@@ -231,139 +225,35 @@ Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 
 
-#------------------------------#
-#    Undersweep probability    #
-#------------------------------#
-
 ###GLMM for undersweep probability
-
-if(!file.exists("Models/GLM1.Rda")){
-  GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
-               data= RS, family= binomial)
-  save(GLM1, file= "Models/GLM1.Rda")
-}else{
-  load("Models/GLM1.Rda")
-}
-
+GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+             data= RS, family= binomial)
 summary(GLM1)
 
-round(coef(summary(GLM1)),3)
+plot(allEffects(GLM1))
 
-write.csv(round(coef(summary(GLM1)),3), 'Models/Undersweep_prob_GLM1.csv')
+###LMM for landing position
+# land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
+#                    (1+line_len+font_size|sub), RS, REML=T)
+# summary(land_pos.lm)
+# plot(allEffects(land_pos.lm))
 
-CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'line_len', baseline = 'short line')
+#and
 
-CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'font_size', baseline = 'small font')
+land_pos.lm<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
+                    data=RS, REML=T)
 
-#------------------------------#
-#      Landing Position        #
-#------------------------------#
+summary(land_pos.lm)
 
-if(!file.exists('Models/LM1.Rda')){
-  LM1<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
-             data=RS, REML=T)
-  save(LM1, file= "Models/LM1.Rda")
-}else{
-  load('Models/LM1.Rda')
-}
+LPM= round(coef(summary(land_pos.lm)), 2)
+write.csv(LPM, file= "Models/LPM.csv") 
 
-summary(LM1)
-
-SLM1<- round(coef(summary(LM1)), 3)
-write.csv(SLM1, file= "Models/Landing_posLPM.csv") 
-
-CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'line_len', baseline = 'short line')
-CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baseline = 'small font')
-
-plot(effect('font_size:launchSiteVA_C', LM1))
-plot(effect('line_len:font_size:launchSiteVA_C', LM1))
-
-
-###ALL EFFECTS PLOT -THREE WAY INTERACTION
-lp= allEffects(LM1)
-summary(lp)
-x= as.data.frame(lp)
-x=as.data.frame(x)
-colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", "upper")
-
-#geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
-               # width=0.2)
-
-ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
-   theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
-  
-#######################
-# plot 3-way interaction
-df<-  x
-df$line_len <- droplevels(df$line_len)
-#levels(df$line_len)<- c("long", 'short')
-df$line_len<- factor(df$line_len, levels= c("short line", "long line"))
-levels(df$line_len)<- c(" short line", " long line")
-
-G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
-                   color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
-  geom_line(size= 1)+ geom_point(size=4)+
-  labs(x= "Launch site from end of first line (centred in deg)", y= "Landing position (deg)", 
-       color= "", shape= '', linetype= '', fill= '') +
-  facet_wrap(~font_size)+
-  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-  legend.key.width = unit(1, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-  panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-  panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-  strip.background = element_rect(colour="white", fill="white"),
-  strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[2])); G1
-
-ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
-
-#### EFFECT PLOT - TWO WAY INTERACTION 
-twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
-summary(twi)
-a= as.data.frame(twi)
-a= as.data.frame(a)
-
-ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) + 
-  theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
-
-#### EFFECT PLOT - TWO WAY INTERACTION 
-twi2= Effect(c("font_size", "line_len"), LM1)
-summary(twi2)
-b= as.data.frame(twi2)
-b= as.data.frame(b)
-
-ggplot(b,aes(x= line_len, y=fit, color= font_size)) + 
-  theme_gray(base_size=15)+ geom_point()+ geom_line(aes(group = font_size), size=0.8, color= 1.5)+
-  labs(title= "", x= "Line length", y= "Landing position (deg)")
-
-ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() + 
-  geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
-                width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
-
-
-
-#------------------------------#
-#        Saccade length        #
-#------------------------------#
-
-if(!file.exists("Models/LM2.Rda")){
-  LM2<- lmer(launchDistVA ~ font_size*line_len*Rtn_sweep + (1|item) + (font_size|sub), Alldata2, REML=T)
-  save(LM2, file= "Models/LM2.Rda")
-}else{
-  load("Models/LM2.Rda")
-}
-
-summary(LM2)
-
-round(coef(summary(LM2)),3)
-
-write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
-
-
-plot(effect('Rtn_sweep', LM2))
-plot(effect('line_len:Rtn_sweep', LM2))
+plot(allEffects(land_pos.lm))
+#saccade lenght comparison     
+length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
+                     (1|item) + (1+ font_size|sub), Alldata2, REML=T)
+summary(length.lm)
+plot(allEffects(length.lm))
 
 
 ##############################################################
@@ -442,6 +332,7 @@ gam1 <- bam(LandStartVA ~ big_font_block+
               s(item, big_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= big_font_block, k=10, bs= "cr")+
+#              s(big_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= bigF)
 
@@ -476,6 +367,7 @@ gam2 <- bam(LandStartVA ~ small_font_block+
               s(item, small_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= small_font_block, k=10, bs= "cr")+
+              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= smallF)
 
