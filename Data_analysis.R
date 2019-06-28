@@ -238,9 +238,9 @@ plot(allEffects(GLM1))
 # summary(land_pos.lm)
 # plot(allEffects(land_pos.lm))
 
-<<<<<<< HEAD
+
 #and
-=======
+
 #------------------------------#
 #      Landing Position        #
 #------------------------------#
@@ -252,24 +252,14 @@ if(!file.exists('Models/LM1.Rda')){
 }else{
   load('Models/LM1.Rda')
 }
->>>>>>> 16ae5938ae8d1fbc150f1d6effc320283daedc62
 
-land_pos.lm<- lmer(LandStartVA ~ line_len *font_size*launchSiteVA_C + (line_len|sub) + (line_len|item),
-                    data=RS, REML=T)
 
-summary(land_pos.lm)
+
 
 LPM= round(coef(summary(land_pos.lm)), 2)
 write.csv(LPM, file= "Models/LPM.csv") 
 
-<<<<<<< HEAD
-plot(allEffects(land_pos.lm))
-#saccade lenght comparison     
-length.lm= lmer(launchDistVA ~ font_size*Rtn_sweep + 
-                     (1|item) + (1+ font_size|sub), Alldata2, REML=T)
-summary(length.lm)
-plot(allEffects(length.lm))
-=======
+
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
 
@@ -355,11 +345,41 @@ summary(LM2)
 round(coef(summary(LM2)),3)
 
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
+#SL= allEffects(LM2)
+#summary(SL)
+#z= as.data.frame(SL)
+#z=as.data.frame(z)
+#colnames(z)= c("font_size", "line_len", "Rtn_sweep", "fit", "se", "lower", "upper")
+twiSL= Effect(c("font_size", "Rtn_sweep"), LM2)
+summary(twiSL)
+SLa= as.data.frame(twiSL)
+SLa= as.data.frame(SLa)
+dfSL<-  SLa
+dfSL$font_size <- droplevels(dfSL$font_size)
+dfSL$Rtn_sweep <- droplevels(dfSL$Rtn_sweep)
+#levels(df$line_len)<- c("long", 'short')
+#dfSL$Rtn_sweep<- factor(dfSL$Rtn_sweep, levels= c("Intra-line", "Return-sweep"))
+levels(dfSL$Rtn_sweep)<- c("Intra-line", 'Return-sweep')
 
+G7<- ggplot(dfSL, aes(x= font_size, y=fit, ymax= upper, ymin= lower,
+                    color=Rtn_sweep, linetype= Rtn_sweep, fill= Rtn_sweep, shape= Rtn_sweep)) + theme_bw (22)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  labs(x= "Saccade Type (intra-line vs. return-sweep)", y= "Saccade Length (deg)", 
+       color= "", shape= '', linetype= '', fill= '') +
+  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+                                             legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+                                             panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+                                             panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+                                             strip.background = element_rect(colour="white", fill="white"),
+                                             strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[2])); G7
+
+ggsave(filename = 'Plots/SL.pdf', plot = G7, width = 10, height = 7)
 
 plot(effect('Rtn_sweep', LM2))
 plot(effect('line_len:Rtn_sweep', LM2))
->>>>>>> 16ae5938ae8d1fbc150f1d6effc320283daedc62
+
 
 
 ##############################################################
