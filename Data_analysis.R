@@ -232,6 +232,35 @@ summary(GLM1)
 
 plot(allEffects(GLM1))
 
+if(!file.exists("Models/GLM1.Rda")){
+  GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+               data= RS, family= binomial)
+  save(GLM1, file= "Models/GLM1.Rda")
+}else{
+  load("Models/GLM1.Rda")
+}
+
+summary(GLM1)
+
+round(coef(summary(GLM1)),3)
+
+write.csv(round(coef(summary(GLM1)),3), 'Models/Undersweep_prob_GLM1.csv')
+
+CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'line_len', baseline = 'short line')
+
+CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'font_size', baseline = 'small font')
+
+#Plotting of nice effects graph#
+G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
+
+summary(G)
+
+GD= as.data.frame(G)
+ggplot(GD,aes(x= launchSiteVA_C , y=fit, color= line_len)) + 
+  theme_gray(base_size=15) +geom_line(aes(linetype = line_len), size=0.1, color= 1.5)+ geom_point(color=2)+
+  labs(title= "", x= "Launch distance from end of first line", y= "Undersweep Probability")+facet_wrap(~font_size)
+
+
 ###LMM for landing position
 # land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
 #                    (1+line_len+font_size|sub), RS, REML=T)
