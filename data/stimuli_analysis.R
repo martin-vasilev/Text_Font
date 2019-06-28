@@ -1,4 +1,4 @@
-sentexcel <- read.csv("C:/Users/Public/Documents/Text_Font/Experiment/corpus/sentexcel.txt", header=TRUE)
+sentexcel <- read.csv("Experiment/corpus/sentexcel.txt", header=TRUE)
 tapply(sentexcel$Var7, sentexcel$Var2, FUN= mean)
 str(sentexcel)
 
