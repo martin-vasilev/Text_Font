@@ -256,9 +256,25 @@ G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
 summary(G)
 
 GD= as.data.frame(G)
-ggplot(GD,aes(x= launchSiteVA_C , y=fit, color= line_len)) + 
-  theme_gray(base_size=15) +geom_line(aes(linetype = line_len), size=0.1, color= 1.5)+ geom_point(color=2)+
-  labs(title= "", x= "Launch distance from end of first line", y= "Undersweep Probability")+facet_wrap(~font_size)
+NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
+                        color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  labs(x= "Launch distance from end of 1st line", y= "Undersweep Probability", 
+       color= "", shape= '', linetype= '', fill= '') +
+  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+                                             legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+                                             panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+                                             panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+                                             strip.background = element_rect(colour="white", fill="white"),
+                                             strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[2])); NP4USP+facet_wrap(~font_size)
+
+
+  save(GD, file= "Models/GD.Rda")
+  save(NP4USP,file="Plots/NP4USP.png")
+
+
 
 <<<<<<< HEAD
 =======
