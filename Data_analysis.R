@@ -255,6 +255,16 @@ CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'line_len', base
 
 CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'font_size', baseline = 'small font')
 
+#Plotting of nice effects graph#
+G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
+
+summary(G)
+
+GD= as.data.frame(G)
+ggplot(GD,aes(x= launchSiteVA_C , y=fit, color= line_len)) + 
+  theme_gray(base_size=15) +geom_line(aes(linetype = line_len), size=0.1, color= 1.5)+ geom_point(color=2)+
+  labs(title= "", x= "Launch distance from end of first line", y= "Undersweep Probability")+facet_wrap(~font_size)
+
 #------------------------------#
 #      Landing Position        #
 #------------------------------#
