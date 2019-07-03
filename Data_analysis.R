@@ -1,5 +1,5 @@
 
-# Martin R. Vasilev, 2019
+# Martin Vasilev, 2019
 
 rm(list= ls())
 
@@ -62,7 +62,6 @@ for(i in 1:length(packages)){
   }
 }
 
-source('Functions/CohensD_raw.R')
 
 # colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
 pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
@@ -142,11 +141,6 @@ if(!file.exists("Models/CGM.Rda")){
 round(coef(summary(CGM)), 2)
 
 
-
-############################
-#  Descriptive statistics  #
-############################
-
 #mean under_sweep per condition 
 USP<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
                 measure=c("undersweep_prob"), na.rm=TRUE)
@@ -170,9 +164,9 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
 
 #mean incoming saccade length in visual angle per fixation type 
 Alldata2 <- Alldata[Alldata$regress < 1,]
-SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'line_len', 'Rtn_sweep'), 
+SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
-mSLVA1<- cast(SLVA1, font_size+line_len + Rtn_sweep ~ variable
+mSLVA1<- cast(SLVA1, font_size + Rtn_sweep ~ variable
             ,function(x) c(M=signif(mean(x),3)
                            , SD= sd(x) ))
 
@@ -202,11 +196,11 @@ boxplot(mUPPS)
 RS$cond= factor(RS$cond, labels= c("small-font/short-line", "big-font/short-line", 
                                    "small-font/long-line", "big-font/long-line"))
 
-# ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
-#   geom_boxplot(alpha=0.4) +
-#   stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
-#   theme(legend.position="none") + 
-#   scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
+ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
+  geom_boxplot(alpha=0.4) +
+  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
+  theme(legend.position="none") + 
+  scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
 
 #####
 
@@ -231,11 +225,12 @@ Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 
 
-#------------------------------#
-#    Undersweep probability    #
-#------------------------------#
-
 ###GLMM for undersweep probability
+GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+             data= RS, family= binomial)
+summary(GLM1)
+
+plot(allEffects(GLM1))
 
 if(!file.exists("Models/GLM1.Rda")){
   GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
@@ -265,6 +260,19 @@ ggplot(GD,aes(x= launchSiteVA_C , y=fit, color= line_len)) +
   theme_gray(base_size=15) +geom_line(aes(linetype = line_len), size=0.1, color= 1.5)+ geom_point(color=2)+
   labs(title= "", x= "Launch distance from end of first line", y= "Undersweep Probability")+facet_wrap(~font_size)
 
+<<<<<<< HEAD
+=======
+
+###LMM for landing position
+# land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
+#                    (1+line_len+font_size|sub), RS, REML=T)
+# summary(land_pos.lm)
+# plot(allEffects(land_pos.lm))
+
+
+#and
+
+>>>>>>> 6299d5eb042422a3feb0eda51a332b54b32b3550
 #------------------------------#
 #      Landing Position        #
 #------------------------------#
@@ -277,13 +285,12 @@ if(!file.exists('Models/LM1.Rda')){
   load('Models/LM1.Rda')
 }
 
-summary(LM1)
 
-SLM1<- round(coef(summary(LM1)), 3)
-write.csv(SLM1, file= "Models/Landing_posLPM.csv") 
 
-CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'line_len', baseline = 'short line')
-CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baseline = 'small font')
+
+LPM= round(coef(summary(land_pos.lm)), 2)
+write.csv(LPM, file= "Models/LPM.csv") 
+
 
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
@@ -370,10 +377,41 @@ summary(LM2)
 round(coef(summary(LM2)),3)
 
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
+#SL= allEffects(LM2)
+#summary(SL)
+#z= as.data.frame(SL)
+#z=as.data.frame(z)
+#colnames(z)= c("font_size", "line_len", "Rtn_sweep", "fit", "se", "lower", "upper")
+twiSL= Effect(c("font_size", "Rtn_sweep"), LM2)
+summary(twiSL)
+SLa= as.data.frame(twiSL)
+SLa= as.data.frame(SLa)
+dfSL<-  SLa
+dfSL$font_size <- droplevels(dfSL$font_size)
+dfSL$Rtn_sweep <- droplevels(dfSL$Rtn_sweep)
+#levels(df$line_len)<- c("long", 'short')
+#dfSL$Rtn_sweep<- factor(dfSL$Rtn_sweep, levels= c("Intra-line", "Return-sweep"))
+levels(dfSL$Rtn_sweep)<- c("Intra-line", 'Return-sweep')
 
+G7<- ggplot(dfSL, aes(x= font_size, y=fit, ymax= upper, ymin= lower,
+                    color=Rtn_sweep, linetype= Rtn_sweep, fill= Rtn_sweep, shape= Rtn_sweep)) + theme_bw (22)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  labs(x= "Saccade Type (intra-line vs. return-sweep)", y= "Saccade Length (deg)", 
+       color= "", shape= '', linetype= '', fill= '') +
+  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+                                             legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+                                             panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+                                             panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+                                             strip.background = element_rect(colour="white", fill="white"),
+                                             strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[2])); G7
+
+ggsave(filename = 'Plots/SL.pdf', plot = G7, width = 10, height = 7)
 
 plot(effect('Rtn_sweep', LM2))
 plot(effect('line_len:Rtn_sweep', LM2))
+
 
 
 ##############################################################
@@ -452,6 +490,7 @@ gam1 <- bam(LandStartVA ~ big_font_block+
               s(item, big_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= big_font_block, k=10, bs= "cr")+
+#              s(big_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= bigF)
 
@@ -486,6 +525,7 @@ gam2 <- bam(LandStartVA ~ small_font_block+
               s(item, small_font_block, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= small_font_block, k=10, bs= "cr")+
+              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= smallF)
 
