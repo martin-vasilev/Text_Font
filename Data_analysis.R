@@ -50,7 +50,7 @@ rm(list= ls())
 
 # load/ install required packages:
 packages= c("reshape", "lme4", "ggplot2", "MASS", "arm", "effects", "lattice",
-            "mgcv", "itsadug") # list of used packages:
+            "mgcv", "itsadug", 'ggpubr') # list of used packages:
 
 for(i in 1:length(packages)){
   
@@ -218,21 +218,21 @@ contrasts(RS$font_size) <- c(-1, 1)
 Alldata2$Rtn_sweep = as.factor(Alldata2$Rtn_sweep)
 contrasts(Alldata2$Rtn_sweep) <- c(-1, 1)  
 contrasts(Alldata2$font_size) <- c(-1, 1)  
+
 #centering launch distance
 RS$launchDistVA_C<- scale(RS$launchDistVA)
 RS$launchDistLet_C<- scale(RS$launchDistLet)
 Alldata2$launchDistVA_C<- scale(Alldata2$launchDistVA)
 Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
+
 # centre launch site:
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 
 
-# ###GLMM for undersweep probability
-# GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
-#              data= RS, family= binomial)
-# summary(GLM1)
-# 
-# plot(allEffects(GLM1))
+
+#------------------------------#
+#   Undersweep probability     #
+#------------------------------#
 
 if(!file.exists("Models/GLM1.Rda")){
   GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
@@ -245,47 +245,12 @@ if(!file.exists("Models/GLM1.Rda")){
 summary(GLM1)
 
 round(coef(summary(GLM1)),3)
-
 write.csv(round(coef(summary(GLM1)),3), 'Models/Undersweep_prob_GLM1.csv')
 
+# Effect size:
 CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'line_len', baseline = 'short line')
-
 CohensD_raw(data = RS, measure = 'undersweep_prob', group_var = 'font_size', baseline = 'small font')
 
-#Plotting of nice effects graph#
-G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
-
-summary(G)
-
-GD= as.data.frame(G)
-NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
-                        color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
-  geom_line(size= 1)+ geom_point(size=4)+
-  labs(x= "Launch distance from end of 1st line", y= "Undersweep Probability", 
-       color= "", shape= '', linetype= '', fill= '') +
-  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-                                             legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-                                             panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-                                             panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-                                             strip.background = element_rect(colour="white", fill="white"),
-                                             strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[2])); NP4USP+facet_wrap(~font_size)
-
-
-  save(GD, file= "Models/GD.Rda")
-  save(NP4USP,file="Plots/NP4USP.png")
-
-
-
-###LMM for landing position
-# land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
-#                    (1+line_len+font_size|sub), RS, REML=T)
-# summary(land_pos.lm)
-# plot(allEffects(land_pos.lm))
-
-
-#and
 
 #------------------------------#
 #      Landing Position        #
@@ -299,15 +264,18 @@ if(!file.exists('Models/LM1.Rda')){
   load('Models/LM1.Rda')
 }
 
+summary(LM1)
 
-
-
-LPM= round(coef(summary(land_pos.lm)), 2)
+LPM= round(coef(summary(LM1)), 2)
 write.csv(LPM, file= "Models/LPM.csv") 
+
+CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'line_len', baseline = 'short line')
+CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baseline = 'small font')
 
 
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
+
 
 
 ###ALL EFFECTS PLOT -THREE WAY INTERACTION
@@ -320,12 +288,12 @@ colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", 
 #geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
                # width=0.2)
 
-ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
-   theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
-  
-#######################
-# plot 3-way interaction
+# ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
+#    theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
+#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
+#   
+
+
 df<-  x
 df$line_len <- droplevels(df$line_len)
 #levels(df$line_len)<- c("long", 'short')
@@ -349,31 +317,6 @@ G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
 
 ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
 
-#### EFFECT PLOT - TWO WAY INTERACTION 
-twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
-summary(twi)
-a= as.data.frame(twi)
-a= as.data.frame(a)
-
-ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) + 
-  theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-  labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
-
-#### EFFECT PLOT - TWO WAY INTERACTION 
-twi2= Effect(c("font_size", "line_len"), LM1)
-summary(twi2)
-b= as.data.frame(twi2)
-b= as.data.frame(b)
-
-ggplot(b,aes(x= line_len, y=fit, color= font_size)) + 
-  theme_gray(base_size=15)+ geom_point()+ geom_line(aes(group = font_size), size=0.8, color= 1.5)+
-  labs(title= "", x= "Line length", y= "Landing position (deg)")
-
-ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() + 
-  geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
-                width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
-
-
 
 #------------------------------#
 #        Saccade length        #
@@ -391,41 +334,83 @@ summary(LM2)
 round(coef(summary(LM2)),3)
 
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
-#SL= allEffects(LM2)
-#summary(SL)
-#z= as.data.frame(SL)
-#z=as.data.frame(z)
-#colnames(z)= c("font_size", "line_len", "Rtn_sweep", "fit", "se", "lower", "upper")
-twiSL= Effect(c("font_size", "Rtn_sweep"), LM2)
-summary(twiSL)
-SLa= as.data.frame(twiSL)
-SLa= as.data.frame(SLa)
-dfSL<-  SLa
-dfSL$font_size <- droplevels(dfSL$font_size)
-dfSL$Rtn_sweep <- droplevels(dfSL$Rtn_sweep)
-#levels(df$line_len)<- c("long", 'short')
-#dfSL$Rtn_sweep<- factor(dfSL$Rtn_sweep, levels= c("Intra-line", "Return-sweep"))
-levels(dfSL$Rtn_sweep)<- c("Intra-line", 'Return-sweep')
 
-G7<- ggplot(dfSL, aes(x= font_size, y=fit, ymax= upper, ymin= lower,
-                    color=Rtn_sweep, linetype= Rtn_sweep, fill= Rtn_sweep, shape= Rtn_sweep)) + theme_bw (22)+
-  geom_line(size= 1)+ geom_point(size=4)+
-  labs(x= "Saccade Type (intra-line vs. return-sweep)", y= "Saccade Length (deg)", 
-       color= "", shape= '', linetype= '', fill= '') +
-  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-                                             legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-                                             panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-                                             panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-                                             strip.background = element_rect(colour="white", fill="white"),
-                                             strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[2])); G7
 
-ggsave(filename = 'Plots/SL.pdf', plot = G7, width = 10, height = 7)
+#------------------------------#
+#      Descriptives plot       #
+#------------------------------#
 
-plot(effect('Rtn_sweep', LM2))
-plot(effect('line_len:Rtn_sweep', LM2))
+# UNDERSWEEP PROBABILITY:
+dfU<- subset(RS, !is.na(RS$launchDistVA_C))
+dfU$fitted<- fitted(GLM1)
 
+# average over subjects:
+DesUSP_M<- melt(dfU, id=c('sub', 'item', 'font_size', 'line_len'), 
+                measure=c("fitted", 'undersweep_prob'), na.rm=TRUE)
+dfUSP<- cast(DesUSP_M, font_size + line_len+ sub ~ variable
+             ,function(x) c(M=signif(mean(x),3)
+                            , SD= sd(x) ))
+
+dfUSP$font_size= paste(' ', dfUSP$font_size, '    ', sep = '')
+dfUSP$font_size<- as.factor(dfUSP$font_size)
+dfUSP$font_size<- factor(dfUSP$font_size, levels = c(" small font    ", " big font    "))
+
+
+
+USP_plot <- ggplot(dfUSP, aes(x=line_len, y=fitted_M, fill= font_size, shape= font_size, linetype= font_size)) + 
+  theme_classic (22)+ geom_violin(alpha= 0.3, size=1)+ ylim(0, 1)+
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.6, position=position_dodge(0.9), alpha= 0.8)+
+  geom_boxplot(width=0.1, position=position_dodge(0.9), size=1 , notch = T, notchwidth = 0.4, varwidth =F,
+               fill= 'white', color= 'black', show.legend=FALSE, linetype='solid')+
+  labs(x= "Line length", y= "Under-sweep probability", color= "", shape= '', linetype= '', fill= '')+
+  theme(legend.position = 'none', legend.title=element_blank(),
+        legend.key.width = unit(1.25, 'cm'), legend.key.height = unit(1, 'cm'),
+        plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[4]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('a)')
+
+USP_plot
+
+ggsave(filename = 'Plots/USP.pdf', plot = USP_plot, width = 7, height = 7)
+
+
+
+# LANDING POSITION:
+dfL<- subset(RS, !is.na(RS$launchDistVA_C))
+dfL$fitted<- fitted(LM1)
+
+# average over subjects:
+DesLP_M<- melt(dfL, id=c('sub', 'item', 'font_size', 'line_len'), 
+               measure=c("fitted", 'LandStartVA'), na.rm=TRUE)
+dfLP<- cast(DesLP_M, font_size + line_len+ sub ~ variable
+            ,function(x) c(M=signif(mean(x),3)
+                           , SD= sd(x) ))
+
+dfLP$font_size= paste(' ', dfLP$font_size, '    ', sep = '')
+dfLP$font_size<- as.factor(dfLP$font_size)
+dfLP$font_size<- factor(dfLP$font_size, levels = c(" small font    ", " big font    "))
+
+
+
+LP_plot <- ggplot(dfLP, aes(x=line_len, y=fitted_M, fill= font_size, shape= font_size, linetype= font_size)) + 
+  theme_classic (22)+ geom_violin(alpha= 0.3, size=1)+ #ylim(0, 8)+
+  geom_dotplot(binaxis='y', stackdir='center', dotsize=0.6, position=position_dodge(0.9), alpha= 0.8)+
+  geom_boxplot(width=0.1, position=position_dodge(0.9), size=1 , notch = T, notchwidth = 0.4, varwidth =F,
+               fill= 'white', color= 'black', show.legend=FALSE, linetype= 'solid')+
+  labs(x= "Line length", y= "Landing position (deg)", color= "", shape= '', linetype= '', fill= '')+
+  theme(legend.position =  c(0.2, 0.88), legend.title=element_blank(),
+        legend.key.width = unit(1.25, 'cm'), legend.key.height = unit(1, 'cm'),
+        plot.title = element_text(hjust = 0.5))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[4]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('b)')
+
+LP_plot
+
+ggsave(filename = 'Plots/LP.pdf', plot = LP_plot, width = 7, height = 7)
+
+#### merge two descriptives plots:
+figure <- ggarrange(USP_plot, LP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
+ggsave(filename = 'Plots/Des_merged.pdf', plot = figure, width = 15, height = 7)
 
 
 ##############################################################
@@ -652,3 +637,99 @@ dev.off()
 #           col = pallete1[2], main= "Small font (2nd- 1st block difference)",
 #           ylab= "Mean diff. in undersweep probability", xlab= "Trial order within block", print.summary = T, 
 #           family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+
+
+
+#### Calvin, undersweep probability:
+
+
+# # Plots:
+# G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
+# 
+# summary(G)
+# 
+# GD= as.data.frame(G)
+# NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
+#                         color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
+#   geom_line(size= 1)+ geom_point(size=4)+
+#   labs(x= "Launch distance from end of 1st line", y= "Undersweep Probability", 
+#        color= "", shape= '', linetype= '', fill= '') +
+#   geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+#                                              legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+#                                              panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+#                                              panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+#                                              strip.background = element_rect(colour="white", fill="white"),
+#                                              strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+#   scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+#   scale_color_manual(values=c(pallete1[1], pallete1[2])); NP4USP+facet_wrap(~font_size)
+# 
+# 
+#   #save(GD, file= "Models/GD.Rda")
+#   save(NP4USP,file="Plots/NP4USP.png")
+
+
+# Victoria, landing positions:
+
+
+# #### EFFECT PLOT - TWO WAY INTERACTION 
+# twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
+# summary(twi)
+# a= as.data.frame(twi)
+# a= as.data.frame(a)
+# 
+# ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) + 
+#   theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
+#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
+# 
+# #### EFFECT PLOT - TWO WAY INTERACTION 
+# twi2= Effect(c("font_size", "line_len"), LM1)
+# summary(twi2)
+# b= as.data.frame(twi2)
+# b= as.data.frame(b)
+# 
+# ggplot(b,aes(x= line_len, y=fit, color= font_size)) + 
+#   theme_gray(base_size=15)+ geom_point()+ geom_line(aes(group = font_size), size=0.8, color= 1.5)+
+#   labs(title= "", x= "Line length", y= "Landing position (deg)")
+# 
+# ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() + 
+#   geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
+#                 width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
+
+
+## Tim, saccade length:
+
+
+#SL= allEffects(LM2)
+#summary(SL)
+#z= as.data.frame(SL)
+#z=as.data.frame(z)
+#colnames(z)= c("font_size", "line_len", "Rtn_sweep", "fit", "se", "lower", "upper")
+# twiSL= Effect(c("font_size", "Rtn_sweep"), LM2)
+# summary(twiSL)
+# SLa= as.data.frame(twiSL)
+# SLa= as.data.frame(SLa)
+# dfSL<-  SLa
+# dfSL$font_size <- droplevels(dfSL$font_size)
+# dfSL$Rtn_sweep <- droplevels(dfSL$Rtn_sweep)
+# #levels(df$line_len)<- c("long", 'short')
+# #dfSL$Rtn_sweep<- factor(dfSL$Rtn_sweep, levels= c("Intra-line", "Return-sweep"))
+# levels(dfSL$Rtn_sweep)<- c("Intra-line", 'Return-sweep')
+# 
+# G7<- ggplot(dfSL, aes(x= font_size, y=fit, ymax= upper, ymin= lower,
+#                     color=Rtn_sweep, linetype= Rtn_sweep, fill= Rtn_sweep, shape= Rtn_sweep)) + theme_bw (22)+
+#   geom_line(size= 1)+ geom_point(size=4)+
+#   labs(x= "Saccade Type (intra-line vs. return-sweep)", y= "Saccade Length (deg)", 
+#        color= "", shape= '', linetype= '', fill= '') +
+#   geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+#                                              legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+#                                              panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+#                                              panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+#                                              strip.background = element_rect(colour="white", fill="white"),
+#                                              strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+#   scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+#   scale_color_manual(values=c(pallete1[1], pallete1[2])); G7
+# 
+# ggsave(filename = 'Plots/SL.pdf', plot = G7, width = 10, height = 7)
+# 
+# plot(effect('Rtn_sweep', LM2))
+# plot(effect('line_len:Rtn_sweep', LM2))
