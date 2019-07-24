@@ -338,7 +338,7 @@ USP_plot <- ggplot(dfUSP, aes(x=line_len, y=fitted_M, fill= font_size, shape= fo
         legend.key.width = unit(1.25, 'cm'), legend.key.height = unit(1, 'cm'),
         plot.title = element_text(hjust = 0.5))+
   scale_fill_manual(values=c(pallete1[1], pallete1[4]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('a)')
+  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('b)')
 
 USP_plot
 
@@ -373,14 +373,14 @@ LP_plot <- ggplot(dfLP, aes(x=line_len, y=fitted_M, fill= font_size, shape= font
         legend.key.width = unit(1.25, 'cm'), legend.key.height = unit(1, 'cm'),
         plot.title = element_text(hjust = 0.5))+
   scale_fill_manual(values=c(pallete1[1], pallete1[4]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('b)')
+  scale_color_manual(values=c(pallete1[1], pallete1[4]))+ ggtitle('a)')
 
 LP_plot
 
 ggsave(filename = 'Plots/LP.pdf', plot = LP_plot, width = 7, height = 7)
 
 #### merge two descriptives plots:
-figure <- ggarrange(USP_plot, LP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
+figure <- ggarrange(LP_plot, USP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 ggsave(filename = 'Plots/Des_merged.pdf', plot = figure, width = 15, height = 7)
 
 
@@ -395,7 +395,7 @@ lp= allEffects(LM1)
 summary(lp)
 x= as.data.frame(lp)
 x=as.data.frame(x)
-colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", "upper")
+colnames(x)= c("font_size", "line_len", "launchSiteVA_C", "fit", "se", "lower", "upper")
 
 #geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
 # width=0.2)
