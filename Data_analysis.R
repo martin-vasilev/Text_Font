@@ -66,6 +66,8 @@ for(i in 1:length(packages)){
 # colorblind palletes: # https://venngage.com/blog/color-blind-friendly-palette/
 pallete1= c("#CA3542", "#27647B", "#849FA0", "#AECBC9", "#57575F") # "Classic & trustworthy"
 
+source("Functions/CohensD_raw.R")
+
 ########################
 # Prepare data frames: #
 ########################
@@ -225,12 +227,12 @@ Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
 
 
-###GLMM for undersweep probability
-GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
-             data= RS, family= binomial)
-summary(GLM1)
-
-plot(allEffects(GLM1))
+# ###GLMM for undersweep probability
+# GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
+#              data= RS, family= binomial)
+# summary(GLM1)
+# 
+# plot(allEffects(GLM1))
 
 if(!file.exists("Models/GLM1.Rda")){
   GLM1<- glmer(undersweep_prob ~ font_size* line_len*launchSiteVA_C +(line_len|sub)+(line_len|item),
@@ -276,9 +278,6 @@ NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
 
 
 
-<<<<<<< HEAD
-=======
-
 ###LMM for landing position
 # land_pos.lm= lmer(LandStartLet ~ line_len *font_size*launchDistLet_C + (1|item)+
 #                    (1+line_len+font_size|sub), RS, REML=T)
@@ -288,7 +287,6 @@ NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
 
 #and
 
->>>>>>> 6299d5eb042422a3feb0eda51a332b54b32b3550
 #------------------------------#
 #      Landing Position        #
 #------------------------------#
