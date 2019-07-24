@@ -1,5 +1,5 @@
 
-# Martin Vasilev, 2019
+# Martin R. Vasilev, 2019
 
 rm(list= ls())
 
@@ -143,6 +143,11 @@ if(!file.exists("Models/CGM.Rda")){
 round(coef(summary(CGM)), 2)
 
 
+
+############################
+#       Descriptives       #
+############################
+
 #mean under_sweep per condition 
 USP<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
                 measure=c("undersweep_prob"), na.rm=TRUE)
@@ -278,46 +283,6 @@ plot(effect('line_len:font_size:launchSiteVA_C', LM1))
 
 
 
-###ALL EFFECTS PLOT -THREE WAY INTERACTION
-lp= allEffects(LM1)
-summary(lp)
-x= as.data.frame(lp)
-x=as.data.frame(x)
-colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", "upper")
-
-#geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
-               # width=0.2)
-
-# ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
-#    theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
-#   
-
-
-df<-  x
-df$line_len <- droplevels(df$line_len)
-#levels(df$line_len)<- c("long", 'short')
-df$line_len<- factor(df$line_len, levels= c("short line", "long line"))
-levels(df$line_len)<- c(" short line", " long line")
-
-G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
-                   color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
-  geom_line(size= 1)+ geom_point(size=4)+
-  labs(x= "Launch site from end of first line (centred in deg)", y= "Landing position (deg)", 
-       color= "", shape= '', linetype= '', fill= '') +
-  facet_wrap(~font_size)+
-  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-  legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-  panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-  panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-  strip.background = element_rect(colour="white", fill="white"),
-  strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-  scale_color_manual(values=c(pallete1[1], pallete1[2])); G1
-
-ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
-
-
 #------------------------------#
 #        Saccade length        #
 #------------------------------#
@@ -334,6 +299,12 @@ summary(LM2)
 round(coef(summary(LM2)),3)
 
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
+
+
+
+#########################################
+#             RESULTS PLOTS             #
+#########################################
 
 
 #------------------------------#
@@ -411,6 +382,53 @@ ggsave(filename = 'Plots/LP.pdf', plot = LP_plot, width = 7, height = 7)
 #### merge two descriptives plots:
 figure <- ggarrange(USP_plot, LP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
 ggsave(filename = 'Plots/Des_merged.pdf', plot = figure, width = 15, height = 7)
+
+
+
+
+#---------------------------------#
+#   3-way interaction plot (LP)   #
+#---------------------------------#
+
+###ALL EFFECTS PLOT -THREE WAY INTERACTION
+lp= allEffects(LM1)
+summary(lp)
+x= as.data.frame(lp)
+x=as.data.frame(x)
+colnames(x)= c("line_len", "font_size", "launchSiteVA_C", "fit", "se", "lower", "upper")
+
+#geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
+# width=0.2)
+
+# ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
+#    theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
+#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
+#   
+
+
+df<-  x
+df$line_len <- droplevels(df$line_len)
+#levels(df$line_len)<- c("long", 'short')
+df$line_len<- factor(df$line_len, levels= c("short line", "long line"))
+levels(df$line_len)<- c(" short line", " long line")
+
+G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
+                    color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  labs(x= "Launch site from end of first line (centred in deg)", y= "Landing position (deg)", 
+       color= "", shape= '', linetype= '', fill= '') +
+  facet_wrap(~font_size)+
+  geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
+  legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
+  panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
+  panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
+  strip.background = element_rect(colour="white", fill="white"),
+  strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
+  scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
+  scale_color_manual(values=c(pallete1[1], pallete1[2])); G1
+
+ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
+
 
 
 ##############################################################
