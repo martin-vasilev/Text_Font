@@ -1,7 +1,8 @@
 
-# Martin R. Vasilev, 2019
+#  2019.  Martin R. Vasilev, Victoria Adedeji, Calvin Laursen, Tim Slattery 
 
 rm(list= ls())
+
 
 
 #######################################################
