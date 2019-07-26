@@ -1,0 +1,9 @@
+"","Estimate","Std. Error","z value","Pr(>|z|)"
+"(Intercept)",0.656,0.149,4.402,0
+"font_size1",-0.181,0.032,-5.694,0
+"line_len1",0.744,0.036,20.393,0
+"launchSiteVA_C",-0.308,0.037,-8.367,0
+"font_size1:line_len1",-0.038,0.032,-1.19,0.234
+"font_size1:launchSiteVA_C",0.016,0.034,0.458,0.647
+"line_len1:launchSiteVA_C",-0.007,0.035,-0.213,0.831
+"font_size1:line_len1:launchSiteVA_C",0.005,0.034,0.146,0.884

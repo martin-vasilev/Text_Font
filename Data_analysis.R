@@ -300,7 +300,11 @@ round(coef(summary(LM2)),3)
 
 write.csv(round(coef(summary(LM2)),3), 'Models/SaccLen_LM2.csv')
 
+contrasts(Alldata2$font_size)
+contrasts(Alldata2$Rtn_sweep)
 
+plot(effect('font_size', LM2))
+plot(effect('font_size:Rtn_sweep', LM2))
 
 #########################################
 #             RESULTS PLOTS             #
@@ -380,7 +384,7 @@ LP_plot
 ggsave(filename = 'Plots/LP.pdf', plot = LP_plot, width = 7, height = 7)
 
 #### merge two descriptives plots:
-figure <- ggarrange(LP_plot, USP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "bottom")
+figure <- ggarrange(LP_plot, USP_plot, ncol = 2, nrow = 1, common.legend = TRUE, legend = "top")
 ggsave(filename = 'Plots/Des_merged.pdf', plot = figure, width = 15, height = 7)
 
 
