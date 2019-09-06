@@ -193,26 +193,6 @@ mSLlet<- cast(SLlet, font_size + regress ~ variable
               ,function(x) c(M=signif(mean(x),3)
                              , SD= sd(x) ))
 
-#plots for undersweep probability per condtion 
-mUPPS =tapply(RS$undersweep_prob, list(RS$sub,RS$cond), FUN=mean)
-colnames(mUPPS)= c("small-font/short-line", "big-font/short-line", "small-font/long-line", "big-font/long-line")
-boxplot(mUPPS)
-
-
-#plots for land_pos per condition for visual angle
-
-RS$cond= factor(RS$cond, labels= c("small-font/short-line", "big-font/short-line", 
-                                   "small-font/long-line", "big-font/long-line"))
-
-ggplot(RS, aes(x=cond, y=LandStartVA, fill=cond)) +
-  geom_boxplot(alpha=0.4) +
-  stat_summary(fun.y=mean, geom="point", shape=20, size=5, color="red", fill="red") +
-  theme(legend.position="none") + 
-  scale_fill_brewer(pallete1) + ylim(0,10) + labs(y= "Return-sweep land position", x= "Conditions")
-
-#####
-
-
 
 #########################################
 #              (G)LMMS                  #
@@ -306,6 +286,13 @@ contrasts(Alldata2$Rtn_sweep)
 
 plot(effect('font_size', LM2))
 plot(effect('font_size:Rtn_sweep', LM2))
+
+
+### font size in letters
+dat3<- subset(Alldata2, Rtn_sweep==0)
+
+summary(LM3<- lmer(sacc_len ~ font_size+ (1|sub) + (1|item), dat3, REML=T))
+
 
 #########################################
 #             RESULTS PLOTS             #
