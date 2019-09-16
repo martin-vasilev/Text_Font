@@ -172,9 +172,9 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
 
 #mean incoming saccade length in visual angle per fixation type 
 Alldata2 <- Alldata[Alldata$regress < 1,]
-SLVA1<- melt(Alldata2, id=c('sub', 'item', 'font_size', 'Rtn_sweep'), 
+SLVA1<- melt(Alldata2, id=c('sub', 'item', 'line_len', 'font_size', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
-mSLVA1<- cast(SLVA1, font_size + Rtn_sweep ~ variable
+mSLVA1<- cast(SLVA1, line_len + font_size + Rtn_sweep ~ variable
             ,function(x) c(M=signif(mean(x),3)
                            , SD= sd(x) ))
 
