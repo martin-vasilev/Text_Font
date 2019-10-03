@@ -589,6 +589,68 @@ dev.off()
 
 
 
+
+### Post-hoc- centre of gravity effects on second line:
+sentexcel <- read.delim("Experiment/corpus/sentexcel.txt")
+sentexcel$Var6<- as.character(sentexcel$Var6)
+
+RS$line2Char<- NA
+RS$line2Pix<- NA
+
+for(i in 1:nrow(RS)){
+ a<- which(sentexcel$Var1== as.numeric(as.character(RS$item[i])))[1]
+ RS$line2Char[i]<- nchar(sentexcel$Var6[a])
+ 
+ if(is.element(RS$cond[i], c(1,3))){
+   RS$line2Pix[i]<- RS$line2Char[i]*12
+ }else{
+   RS$line2Pix[i]<- RS$line2Char[i]*16
+ }
+ 
+}
+
+RS$line2Pix_C<- scale(RS$line2Pix)
+
+summary(LM3P<- lmer(LandStartVA ~  font_size*line2Pix_C + (font_size|sub) + (1|item),
+           data=RS, REML=T))
+
+
+
+plot(effect('font_size', LM3P), ylab= "Landing position (in deg)")
+plot(effect('line2Pix_C', LM3P), xlab= 'Length of second line in pixels (centred)', ylab= "Landing position (in deg)",
+     main= "Length of second line (main effect)")
+plot(effect('font_size:line2Pix_C', LM3P), main= 'Length 2nd line x Font size interaction')
+
+
+# Undersweep probability:
+
+summary(GLM2P<- glmer(undersweep_prob ~ font_size* line2Pix_C +(font_size|sub)+(1|item),
+             data= RS, family= binomial))
+
+
+
+######
+# Length of line-initial word:
+sent <- read.delim("Experiment/corpus/sentexcel.txt")
+sent$Var6<- as.character(sentexcel$Var6)
+sent<- subset(sent, Var2==1)
+
+
+len<- NULL
+
+for(i in 1:nrow(sent)){
+  string<- sent$Var6[i]
+  len[i]<- nchar(unlist(strsplit(string, ' '))[1])
+  
+}
+
+hist(len)
+
+mean(len)
+sd(len)
+range(len)
+table(len)
+
 # ##############
 # # same analysis, but for undersweep probability
 # 
