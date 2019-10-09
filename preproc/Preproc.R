@@ -504,6 +504,33 @@ raw_fix$launchDistVA<- abs(raw_fix$xPos-raw_fix$prevX)*DPP
 raw_fix$sacc_len<- abs(raw_fix$char_line- raw_fix$prevChar)
 
 
+# add previous fixation to the data set
+
+raw_fix$prev_fix_dur<- NA
+new_dat<- NULL
+
+nsubs<- unique(raw_fix$sub)
+
+for(i in 1:length(nsubs)){
+  cat(i); cat(' ')
+  n<- subset(raw_fix, sub== nsubs[i])
+  
+  nitems<- unique(n$item)
+  
+  for(j in 1:length(nitems)){
+    m<- subset(n, item== nitems[j])
+    
+    for(k in 1:nrow(m)){
+      if(k>1){
+        m$prev_fix_dur[k]<- m$fix_dur[k-1] 
+      }
+    }
+    new_dat<- rbind(new_dat, m)
+  }
+}
+
+raw_fix<- new_dat
+
 ##################################
 ## Finally, save data for analysis:
 Alldata<- raw_fix
