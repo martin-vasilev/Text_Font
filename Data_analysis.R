@@ -45,6 +45,7 @@ rm(list= ls())
 # launchDistVA:     Launch site distance in degrees per visual angle
 # launchSite:       Launch site distance relative to end of the line (letters)
 # launchSiteVA:     Launch site distance relative to end of the line (visual angle)
+# prev_fix_dur      Duration of previous fixation
 
 # Please note: counting in the present data (e.g., fixation/ character/ line numbers) always starts at 1.
 
@@ -77,6 +78,34 @@ source("Functions/CohensD_raw.R")
 load("data/Alldata.Rda")
 load("data/Return_sweep.Rda")
 load("data/Quest.Rda")
+
+# 
+# Alldata$prev_reg<- NA
+# curr_item= 999
+# 
+# for(i in 1:nrow(Alldata)){
+#   
+#   if(i>1){
+#     if(!is.na(Alldata$regress[i-1])){
+#       if(Alldata$regress[i-1]==1){
+#         Alldata$prev_reg[i]<- 1
+#       }else{
+#         Alldata$prev_reg[i]<- 0
+#       }
+#     }
+#   }
+#   
+#   if(Alldata$item[i]!= curr_item){
+#     Alldata$prev_reg[i]<- NA
+#     curr_item= Alldata$item[i]
+#   }
+#   
+#   
+# }
+# 
+# RS2<- subset(Alldata, Rtn_sweep==1)
+# RS$prev_reg<- RS2$prev_reg
+# rm(RS2)
 
 #classify data
 RS$sub = as.factor(RS$sub)
@@ -170,6 +199,15 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
            ,function(x) c(M=signif(mean(x),3)
                           , SD= sd(x) ))
 
+#mean launch site in visual angle per condition 
+LS<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
+           measure=c("launchSiteVA"), na.rm=TRUE)
+mLS<- cast(LS, font_size + line_len ~ variable
+            ,function(x) c(M=signif(mean(x),3)
+                           , SD= sd(x) ))
+
+
+
 #mean incoming saccade length in visual angle per fixation type 
 Alldata2 <- Alldata[Alldata$regress < 1,]
 SLVA1<- melt(Alldata2, id=c('sub', 'item', 'line_len', 'font_size', 'Rtn_sweep'), 
@@ -262,8 +300,13 @@ CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baselin
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
 
+## Add previous fixation duration as a covariate:
 
-
+# RS$prev_fix_dur_c<- scale(RS$prev_fix_dur)
+# LM1_PH<- lmer(LandStartVA ~  font_size*line_len*launchSiteVA_C*prev_fix_dur_c + (line_len|sub) + (1|item),
+#            data=RS, REML=T)
+# 
+# summary(LM1_PH)
 #------------------------------#
 #        Saccade length        #
 #------------------------------#
