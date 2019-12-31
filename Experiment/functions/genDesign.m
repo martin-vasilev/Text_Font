@@ -3,6 +3,7 @@ function design = genDesign()
 % Victoria Adedeji & Martin Vasilev, 2019
 
 global const;
+rng('shuffle');
 
 design_same = load('design_same.dat');% load the data (from xLatinSquare):
 
