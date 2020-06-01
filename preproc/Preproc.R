@@ -562,3 +562,19 @@ for(i in 1:nrow(RS)){
 save(RS, file= "data/Return_sweep.Rda")
 write.csv(RS, file= "data/Return_sweep.csv")
 
+
+# check validation points:
+val<- Validate(data_list = data_dir)
+
+val$x_deg<- abs(val$x_offset*DPP)
+val$y_deg<- abs(val$y_offset*DPP)
+
+library(reshape)
+
+Des<- melt(val, id=c('sub'), 
+                measure=c("x_deg", "y_deg"), na.rm=TRUE)
+m<- cast(Des, sub ~ variable
+              ,function(x) c(M=signif(mean(x),3)
+                             , SD= sd(x) ))
+
+t.test(m$x_deg_M, m$y_deg_M)
