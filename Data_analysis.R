@@ -45,7 +45,6 @@ rm(list= ls())
 # launchDistVA:     Launch site distance in degrees per visual angle
 # launchSite:       Launch site distance relative to end of the line (letters)
 # launchSiteVA:     Launch site distance relative to end of the line (visual angle)
-# prev_fix_dur      Duration of previous fixation
 
 # Please note: counting in the present data (e.g., fixation/ character/ line numbers) always starts at 1.
 
@@ -78,34 +77,6 @@ source("Functions/CohensD_raw.R")
 load("data/Alldata.Rda")
 load("data/Return_sweep.Rda")
 load("data/Quest.Rda")
-
-# 
-# Alldata$prev_reg<- NA
-# curr_item= 999
-# 
-# for(i in 1:nrow(Alldata)){
-#   
-#   if(i>1){
-#     if(!is.na(Alldata$regress[i-1])){
-#       if(Alldata$regress[i-1]==1){
-#         Alldata$prev_reg[i]<- 1
-#       }else{
-#         Alldata$prev_reg[i]<- 0
-#       }
-#     }
-#   }
-#   
-#   if(Alldata$item[i]!= curr_item){
-#     Alldata$prev_reg[i]<- NA
-#     curr_item= Alldata$item[i]
-#   }
-#   
-#   
-# }
-# 
-# RS2<- subset(Alldata, Rtn_sweep==1)
-# RS$prev_reg<- RS2$prev_reg
-# rm(RS2)
 
 #classify data
 RS$sub = as.factor(RS$sub)
@@ -199,17 +170,8 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
            ,function(x) c(M=signif(mean(x),3)
                           , SD= sd(x) ))
 
-#mean launch site in visual angle per condition 
-LS<- melt(RS, id=c('sub', 'item', 'font_size', 'line_len'), 
-           measure=c("launchSiteVA"), na.rm=TRUE)
-mLS<- cast(LS, font_size + line_len ~ variable
-            ,function(x) c(M=signif(mean(x),3)
-                           , SD= sd(x) ))
-
-
-
 #mean incoming saccade length in visual angle per fixation type 
-Alldata2 <- Alldata[Alldata$regress < 1,]
+Alldata2 <- Alldata[which(Alldata$regress < 1), ]
 SLVA1<- melt(Alldata2, id=c('sub', 'item', 'line_len', 'font_size', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
 mSLVA1<- cast(SLVA1, line_len + font_size + Rtn_sweep ~ variable
@@ -300,13 +262,8 @@ CohensD_raw(data = RS, measure = 'LandStartVA', group_var = 'font_size', baselin
 plot(effect('font_size:launchSiteVA_C', LM1))
 plot(effect('line_len:font_size:launchSiteVA_C', LM1))
 
-## Add previous fixation duration as a covariate:
 
-# RS$prev_fix_dur_c<- scale(RS$prev_fix_dur)
-# LM1_PH<- lmer(LandStartVA ~  font_size*line_len*launchSiteVA_C*prev_fix_dur_c + (line_len|sub) + (1|item),
-#            data=RS, REML=T)
-# 
-# summary(LM1_PH)
+
 #------------------------------#
 #        Saccade length        #
 #------------------------------#
@@ -432,14 +389,6 @@ x= as.data.frame(lp)
 x=as.data.frame(x)
 colnames(x)= c("font_size", "line_len", "launchSiteVA_C", "fit", "se", "lower", "upper")
 
-#geom_errorbar(aes(ymin=fit-se, ymax=fit+se),  geom_point()
-# width=0.2)
-
-# ggplot(x, aes(x= launchSiteVA_C, y=fit, color=font_size)) + 
-#    theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)") +facet_wrap(~line_len)
-#   
-
 
 df<-  x
 df$line_len <- droplevels(df$line_len)
@@ -450,7 +399,7 @@ levels(df$line_len)<- c(" short line", " long line")
 G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
                     color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
   geom_line(size= 1)+ geom_point(size=4)+
-  labs(x= "Launch site from end of first line (centred in deg)", y= "Landing position (deg)", 
+  labs(x= "Return-sweep launch position from end of first line (centred in deg)", y= "Return-sweep landing position (deg)", 
        color= "", shape= '', linetype= '', fill= '') +
   facet_wrap(~font_size)+
   geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
@@ -604,21 +553,21 @@ plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block
 # GAMM panel plot: #
 ####################
 
-pdf('Plots/GAMMs.pdf', width = 11, height = 5)
-par(mfrow=c(1,2), mar= c(4,4,4,2))
+pdf('Plots/GAMMs.pdf', width = 11, height = 11)
+par(mfrow=c(2,2), mar= c(4,4,4,2))
 
 
 ## big font condition
 
-plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
-            ylab= "Landing position (deg)", main= "a) Big font sentences",
+plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
+            ylab= "Landing position (deg)", main= "a) Large font sentences",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.4, cex.lab= 1.5, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
             cex.main=1.5)
 
 
 # small font condition
-plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
+plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
             ylab= "Landing position (deg)", main= "b) Small font sentences",
             col = c(pallete1[2], pallete1[1]), family= "serif",
             cex.axis= 1.4, cex.lab= 1.5, legend_plot_all = list(x=0, y=0),
@@ -628,223 +577,189 @@ legend(x = 25, y= 2.37, legend = c("first block", "second block"), col = c(palle
        box.col = "white", lty= c(1,2), seg.len=2, cex = 1.3)
 
 
+### Add block order effect:
+plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
+          col = pallete1[2], main= "c) Large font sentences (1st- 2nd block difference)",
+          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
+
+
+plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
+          col = pallete1[2], main= "c) Small font sentences (1st- 2nd block difference)",
+          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
+
+
 dev.off()
 
 
+####################################################################
+#         Modulation of SACCADE LENGTH by trial order:             #
+####################################################################
 
+#-------------------------------
+# Prepare dataset for analsysis:
+#-------------------------------
 
-### Post-hoc- centre of gravity effects on second line:
-sentexcel <- read.delim("Experiment/corpus/sentexcel.txt")
-sentexcel$Var6<- as.character(sentexcel$Var6)
+# check contrast coding:
+contrasts(Alldata2$font_size)
+contrasts(Alldata2$line_len)
+Alldata2$sub<- as.numeric(as.character(Alldata2$sub))
 
-RS$line2Char<- NA
-RS$line2Pix<- NA
+Alldata2<- subset(Alldata2, Rtn_sweep==0) # remove return sweep saccades
+table(Alldata2$Rtn_sweep)
 
-for(i in 1:nrow(RS)){
- a<- which(sentexcel$Var1== as.numeric(as.character(RS$item[i])))[1]
- RS$line2Char[i]<- nchar(sentexcel$Var6[a])
- 
- if(is.element(RS$cond[i], c(1,3))){
-   RS$line2Pix[i]<- RS$line2Char[i]*12
- }else{
-   RS$line2Pix[i]<- RS$line2Char[i]*16
- }
- 
-}
+# Add block order:
 
-RS$line2Pix_C<- scale(RS$line2Pix)
+Alldata2$block_order<- NA
+Alldata2$big_font_block<- NA
+Alldata2$small_font_block<- NA
 
-summary(LM3P<- lmer(LandStartVA ~  font_size*line2Pix_C + (font_size|sub) + (1|item),
-           data=RS, REML=T))
-
-
-
-plot(effect('font_size', LM3P), ylab= "Landing position (in deg)")
-plot(effect('line2Pix_C', LM3P), xlab= 'Length of second line in pixels (centred)', ylab= "Landing position (in deg)",
-     main= "Length of second line (main effect)")
-plot(effect('font_size:line2Pix_C', LM3P), main= 'Length 2nd line x Font size interaction')
-
-
-# Undersweep probability:
-
-summary(GLM2P<- glmer(undersweep_prob ~ font_size* line2Pix_C +(font_size|sub)+(1|item),
-             data= RS, family= binomial))
-
-
-
-######
-# Length of line-initial word:
-sent <- read.delim("Experiment/corpus/sentexcel.txt")
-sent$Var6<- as.character(sentexcel$Var6)
-sent<- subset(sent, Var2==1)
-
-
-len<- NULL
-
-for(i in 1:nrow(sent)){
-  string<- sent$Var6[i]
-  len[i]<- nchar(unlist(strsplit(string, ' '))[1])
+for(i in 1:nrow(Alldata2)){
+  
+  if(Alldata2$sub[i]%%2==1){ # odd subject, small font first
+    
+    Alldata2$big_font_block[i]<- 2
+    Alldata2$small_font_block[i]<- 1
+    
+    if(Alldata2$font_size[i]== "small font"){ # small font, block seq= seq
+      Alldata2$block_order[i]<- Alldata2$seq[i]
+    }else{ # big font, block seq = seq-50 (50 is halfway point; 100 items)
+      Alldata2$block_order[i]<- Alldata2$seq[i]- 50
+    }
+    
+  }else{ # even subject, big font first
+    
+    Alldata2$big_font_block[i]<- 1
+    Alldata2$small_font_block[i]<- 2
+    
+    if(Alldata2$font_size[i]== "small font"){ # big font, block seq = seq-50 (50 is halfway point; 100 items)
+      Alldata2$block_order[i]<- Alldata2$seq[i]- 50
+    }else{ # small font, block seq= seq
+      Alldata2$block_order[i]<- Alldata2$seq[i] 
+    }
+    
+  }
   
 }
 
-hist(len)
 
-mean(len)
-sd(len)
-range(len)
-table(len)
+# take a smaller, more managable dataset:
+tDat2<- Alldata2[,c("sub", "item", "seq", "cond", "font_size", "line_len", "launchDistVA", "undersweep_prob" ,  "block_order",
+             "big_font_block", "small_font_block")]
 
-# ##############
-# # same analysis, but for undersweep probability
-# 
-# gam3 <- bam(undersweep_prob ~ big_font_block+
-#               s(sub, bs="re", k=10) +
-#               s(sub, big_font_block, bs="re", k=10) +
-#               s(item, bs= "re", k=10)+
-#               s(item, big_font_block, bs="re") +
-#               s(block_order, bs= "cr", k=10)+
-#               s(block_order, by= big_font_block, k=10, bs= "cr")+
-#               s(block_order, sub, bs= "fs", m=1, k=4),
-#             data= bigF, family = binomial)
-# 
-# summary(gam3)
-# 
-# plot_smooth(gam3, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
-#             ylab= "Undersweep probability", main= "Big font sentences as a function of block order",
-#             col = c(pallete1[1], pallete1[2]), family= "serif",
-#             cex.axis= 1.2, cex.lab= 1.4, lwd= 2, legend_plot_all = list(x=2, y=2))
-# legend(x = 2, y= 1.25, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-#        box.col = "white")
-# 
-# plot_diff(gam3, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
-#           col = pallete1[2], main= "Big font (2nd- 1st block difference)",
-#           ylab= "Mean diff. in undersweep probability", xlab= "Trial order within block", print.summary = T, 
-#           family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
-# 
-# 
-# 
-# ### small font
-# 
-# gam4 <- bam(undersweep_prob ~ small_font_block+
-#               s(sub, bs="re", k=10) +
-#               s(sub, small_font_block, bs="re", k=10) +
-#               s(item, bs= "re", k=10)+
-#               s(item, small_font_block, bs="re") +
-#               s(block_order, bs= "cr", k=10)+
-#               s(block_order, by= small_font_block, k=10, bs= "cr")+
-#               #              s(small_font_block, by= font_size, k=10, bs= "cr")+
-#               s(block_order, sub, bs= "fs", m=1, k=4),
-#             data= smallF, family = binomial)
-# 
-# summary(gam4)
-# 
-# #plot(gam2)
-# 
-# 
-# plot_smooth(gam4, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
-#             ylab= "Undersweep probability", main= "Small font sentences as a function of block order",
-#             col = c(pallete1[2], pallete1[1]), family= "serif",
-#             cex.axis= 1.2, cex.lab= 1.4, lwd= 2, legend_plot_all = list(x=-2, y=-2))
-# legend(x = 35, y= 1.4, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-#        box.col = "white")
-# 
-# plot_diff(gam4, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
-#           col = pallete1[2], main= "Small font (2nd- 1st block difference)",
-#           ylab= "Mean diff. in undersweep probability", xlab= "Trial order within block", print.summary = T, 
-#           family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+#tDat2$big_font_block<- as.factor(tDat2$big_font_block)
+#tDat2$big_font_block<- factor(tDat2$big_font_block, levels= c("small font", "big font"))
+#contrasts(tDat2$big_font_block)
+is.numeric(tDat2$block_order)
 
 
+# gamm model:
+tDat2$big_font_block<- as.factor(tDat2$big_font_block)
+contrasts(tDat2$big_font_block)<- c(-1, 1)
 
-#### Calvin, undersweep probability:
-
-
-# # Plots:
-# G= Effect(c("font_size", "line_len","launchSiteVA_C"), GLM1)
-# 
-# summary(G)
-# 
-# GD= as.data.frame(G)
-# NP4USP<- ggplot(GD, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
-#                         color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
-#   geom_line(size= 1)+ geom_point(size=4)+
-#   labs(x= "Launch distance from end of 1st line", y= "Undersweep Probability", 
-#        color= "", shape= '', linetype= '', fill= '') +
-#   geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-#                                              legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-#                                              panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-#                                              panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-#                                              strip.background = element_rect(colour="white", fill="white"),
-#                                              strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-#   scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-#   scale_color_manual(values=c(pallete1[1], pallete1[2])); NP4USP+facet_wrap(~font_size)
-# 
-# 
-#   #save(GD, file= "Models/GD.Rda")
-#   save(NP4USP,file="Plots/NP4USP.png")
+tDat2$small_font_block<- as.factor(tDat2$small_font_block)
+contrasts(tDat2$small_font_block)<- c(-1, 1)
 
 
-# Victoria, landing positions:
+### big font
+
+bigF2<- subset(tDat2, font_size== "big font")
+
+gam1S <- bam(launchDistVA ~ big_font_block+
+              s(sub, bs="re", k=10) +
+              s(sub, big_font_block, bs="re", k=10) +
+              s(item, bs= "re", k=10)+
+              s(item, big_font_block, bs="re") +
+              s(block_order, bs= "cr", k=10)+
+              s(block_order, by= big_font_block, k=10, bs= "cr")+
+              #              s(big_font_block, by= font_size, k=10, bs= "cr")+
+              s(block_order, sub, bs= "fs", m=1, k=4),
+            data= bigF2)
+
+summary(gam1S)
+
+#plot(gam1S)
 
 
-# #### EFFECT PLOT - TWO WAY INTERACTION 
-# twi= Effect(c("font_size", "launchSiteVA_C"), LM1)
-# summary(twi)
-# a= as.data.frame(twi)
-# a= as.data.frame(a)
-# 
-# ggplot(a,aes(x= launchSiteVA_C, y=fit, color= font_size)) + 
-#   theme_gray(base_size=15) +geom_line(aes(linetype = font_size), size=0.8, color= 1.5)+ geom_point(color=2)+
-#   labs(title= "", x= "Launch site from end of first line (deg)", y= "Landing position (deg)")
-# 
-# #### EFFECT PLOT - TWO WAY INTERACTION 
-# twi2= Effect(c("font_size", "line_len"), LM1)
-# summary(twi2)
-# b= as.data.frame(twi2)
-# b= as.data.frame(b)
-# 
-# ggplot(b,aes(x= line_len, y=fit, color= font_size)) + 
-#   theme_gray(base_size=15)+ geom_point()+ geom_line(aes(group = font_size), size=0.8, color= 1.5)+
-#   labs(title= "", x= "Line length", y= "Landing position (deg)")
-# 
-# ggplot(x, aes(fixtype, fit, color=Modality)) + geom_point() + 
-#   geom_errorbar(aes(ymin=fit-se, ymax=fit+se), 
-#                 width=0.1) + theme_gray(base_size=15) +geom_line(aes(group = Modality))
+plot_smooth(gam1S, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Intra-line saccade length (deg)", main= "Big font sentences as a function of block order",
+            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.2, cex.lab= 1.4)
+legend(x = 2, y= 2.5, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white")
+
+plot_diff(gam1S, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
+          col = pallete1[2], main= "Big font (2nd- 1st block difference)",
+          ylab= "Mean diff.in saccade length (deg)", xlab= "Trial order within block", print.summary = T, 
+          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
 
 
-## Tim, saccade length:
+###########
+
+### small font
+
+smallF2<- subset(tDat2, font_size== "small font")
+
+gam2S <- bam(launchDistVA ~ small_font_block+
+              s(sub, bs="re", k=10) +
+              s(sub, small_font_block, bs="re", k=10) +
+              s(item, bs= "re", k=10)+
+              s(item, small_font_block, bs="re") +
+              s(block_order, bs= "cr", k=10)+
+              s(block_order, by= small_font_block, k=10, bs= "cr")+
+              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
+              s(block_order, sub, bs= "fs", m=1, k=4),
+            data= smallF2)
+
+summary(gam2S)
+
+#plot(gam2)
 
 
-#SL= allEffects(LM2)
-#summary(SL)
-#z= as.data.frame(SL)
-#z=as.data.frame(z)
-#colnames(z)= c("font_size", "line_len", "Rtn_sweep", "fit", "se", "lower", "upper")
-# twiSL= Effect(c("font_size", "Rtn_sweep"), LM2)
-# summary(twiSL)
-# SLa= as.data.frame(twiSL)
-# SLa= as.data.frame(SLa)
-# dfSL<-  SLa
-# dfSL$font_size <- droplevels(dfSL$font_size)
-# dfSL$Rtn_sweep <- droplevels(dfSL$Rtn_sweep)
-# #levels(df$line_len)<- c("long", 'short')
-# #dfSL$Rtn_sweep<- factor(dfSL$Rtn_sweep, levels= c("Intra-line", "Return-sweep"))
-# levels(dfSL$Rtn_sweep)<- c("Intra-line", 'Return-sweep')
-# 
-# G7<- ggplot(dfSL, aes(x= font_size, y=fit, ymax= upper, ymin= lower,
-#                     color=Rtn_sweep, linetype= Rtn_sweep, fill= Rtn_sweep, shape= Rtn_sweep)) + theme_bw (22)+
-#   geom_line(size= 1)+ geom_point(size=4)+
-#   labs(x= "Saccade Type (intra-line vs. return-sweep)", y= "Saccade Length (deg)", 
-#        color= "", shape= '', linetype= '', fill= '') +
-#   geom_ribbon(alpha= 0.2, color= NA) + theme(legend.position = c(0.87, 0.88), legend.title=element_blank(),
-#                                              legend.key.width = unit(1.5, 'cm'), legend.key.height = unit(0.75, 'cm'), 
-#                                              panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "white"), 
-#                                              panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = "white"),
-#                                              strip.background = element_rect(colour="white", fill="white"),
-#                                              strip.text = element_text(size=22, face="bold"), text=element_text(family="serif"))+
-#   scale_fill_manual(values=c(pallete1[1], pallete1[2]))+
-#   scale_color_manual(values=c(pallete1[1], pallete1[2])); G7
-# 
-# ggsave(filename = 'Plots/SL.pdf', plot = G7, width = 10, height = 7)
-# 
-# plot(effect('Rtn_sweep', LM2))
-# plot(effect('line_len:Rtn_sweep', LM2))
+plot_smooth(gam2S, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
+            ylab= "Intra-line saccade length (deg)", main= "Small font sentences as a function of block order",
+            col = c(pallete1[2], pallete1[1]), family= "serif",
+            cex.axis= 1.2, cex.lab= 1.4, legend_plot_all = list(x=0, y=0))
+legend(x = 35, y= 2.4, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white")
+
+plot_diff(gam2S, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
+          col = pallete1[2], main= "Small font (2nd- 1st block difference)",
+          ylab= "Mean diff.in saccade length (deg)", xlab= "Trial order within block", print.summary = T, 
+          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
+
+
+
+
+####################
+# GAMM panel plot: #
+####################
+
+pdf('Plots/IntraLine_GAMMs.pdf', width = 11, height = 5)
+par(mfrow=c(1,2), mar= c(4,4,4,2))
+
+
+## big font condition
+
+plot_smooth(gam1S, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
+            ylab= "Intra-line saccade length (deg)", main= "a) Big font sentences",
+            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.4, cex.lab= 1.5, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(2.2, 3.6),
+            cex.main=1.5)
+
+
+# small font condition
+plot_smooth(gam2S, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
+            ylab= "Intra-line saccade length", main= "b) Small font sentences",
+            col = c(pallete1[2], pallete1[1]), family= "serif",
+            cex.axis= 1.4, cex.lab= 1.5, legend_plot_all = list(x=0, y=0),
+            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(2.2, 3.6), cex.main=1.5)
+
+legend(x = 25, y= 3.6, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.3)
+
+
+dev.off()
+
+
