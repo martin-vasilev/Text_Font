@@ -423,6 +423,28 @@ ggsave(filename = 'Plots/3-way.pdf', plot = G1, width = 10, height = 7)
 # Prepare dataset for analsysis:
 #-------------------------------
 
+# fix seq issues for a few subjects where the gaze-box was not triggered properly:
+a<- which(RS$sub==6)
+RS$seq[a]<- 1:length(a)
+
+a<- which(RS$sub==12)
+RS$seq[a[1:25]]<- c(1:25)
+RS$seq[a[26:38]]<- 26:38 
+RS$seq[a[39:99]]<- 40:100
+
+a<- which(RS$sub==16) # seq 72 rpt
+RS$seq[a[70:98]]<- 72:100
+
+a<- which(RS$sub==22) # seq 11, 67 rpt
+RS$seq[a[6:60]]<- RS$seq[a[6:60]]-1 
+
+a<- which(RS$sub==46) #seq 53
+RS$seq[a[53:100]]<- RS$seq[a[53:100]]-1
+
+a<- which(RS$sub==51)
+RS$seq[a[5:95]]<- RS$seq[a[5:95]]-1
+
+
 # check contrast coding:
 contrasts(RS$font_size)
 contrasts(RS$line_len)
@@ -579,13 +601,13 @@ legend(x = 25, y= 2.37, legend = c("first block", "second block"), col = c(palle
 
 ### Add block order effect:
 plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
-          col = pallete1[2], main= "c) Large font sentences (1st- 2nd block difference)",
+          col = pallete1[3], main= "c) Large font sentences (1st- 2nd block difference)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
 
 
 plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
-          col = pallete1[2], main= "c) Small font sentences (1st- 2nd block difference)",
+          col = pallete1[3], main= "c) Small font sentences (1st- 2nd block difference)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
 
