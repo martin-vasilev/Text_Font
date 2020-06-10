@@ -576,7 +576,7 @@ plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block
 ####################
 
 pdf('Plots/GAMMs.pdf', width = 11, height = 11)
-par(mfrow=c(2,2), mar= c(4,4,4,2))
+par(mfrow=c(2,2), mar= c(5,5,4,3))
 
 
 ## big font condition
@@ -584,32 +584,32 @@ par(mfrow=c(2,2), mar= c(4,4,4,2))
 plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
             ylab= "Landing position (deg)", main= "a) Large font sentences",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
-            cex.axis= 1.4, cex.lab= 1.5, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
-            cex.main=1.5)
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
+            cex.main=1.7)
 
 
 # small font condition
 plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
             ylab= "Landing position (deg)", main= "b) Small font sentences",
             col = c(pallete1[2], pallete1[1]), family= "serif",
-            cex.axis= 1.4, cex.lab= 1.5, legend_plot_all = list(x=0, y=0),
-            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1.15, 2.35), cex.main=1.5)
+            cex.axis= 1.6, cex.lab= 1.7, legend_plot_all = list(x=0, y=0),
+            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1.15, 2.35), cex.main=1.7)
 
 legend(x = 25, y= 2.37, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.3)
+       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.5)
 
 
 ### Add block order effect:
 plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
           col = pallete1[3], main= "c) Large font sentences (1st- 2nd block difference)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
 
 
 plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
-          col = pallete1[3], main= "c) Small font sentences (1st- 2nd block difference)",
+          col = pallete1[3], main= "d) Small font sentences (1st- 2nd block difference)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.4, cex.lab= 1.5, cex.main= 1.5, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
 
 
 dev.off()
@@ -784,4 +784,50 @@ legend(x = 25, y= 3.6, legend = c("first block", "second block"), col = c(pallet
 
 dev.off()
 
+
+
+#########################################################################################################################
+#                                  Post-hoc analyses suggested by Reviewers                                             #
+#########################################################################################################################
+
+####### Do variences of under-sweep probability differs between the two font size conditions:
+
+# Since the data is binomial, we average over items to get a single mean for each condition:
+
+
+
+small_font<- subset(RS, font_size== "small font")
+small_font<- small_font$LandStartVA
+
+
+big_font<- subset(RS, font_size== "big font")
+big_font<- big_font$LandStartVA
+
+#db<- data.frame(small= small_font, big= big_font)
+
+#db2<- data.frame(Mean= c(db$small, db$big))
+#db2$Font<- c(rep("small", 128), rep("big", 128))
+
+library(tidyverse)
+library(ggpubr)
+library(ggplot2)
+
+# let's check normality distribution:
+ggqqplot(small_font)
+ggqqplot(small_font)
+
+shapiro.test(small_font)
+shapiro.test(big_font)
+
+# density plot:
+p <- ggplot(RS, aes(x=LandStartVA, color= font_size)) + 
+  geom_density()+scale_color_brewer(palette="Dark2")+ theme_minimal(22)+ xlab("Landing position(deg)")
+p
+
+
+
+
+
+# normality assumption is violated in both conditions, so we use non-parametric test:
+fligner.test(LandStartVA ~ font_size, data = RS)
 
