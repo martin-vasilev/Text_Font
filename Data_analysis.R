@@ -171,12 +171,21 @@ mLP1<- cast(LP1, font_size + line_len ~ variable
                           , SD= sd(x) ))
 
 #mean incoming saccade length in visual angle per fixation type 
-Alldata2 <- Alldata[which(Alldata$regress < 1), ]
+Alldata2 <- Alldata[- which(Alldata$regress== 1 & Alldata$Rtn_sweep==0), ]
 SLVA1<- melt(Alldata2, id=c('sub', 'item', 'line_len', 'font_size', 'Rtn_sweep'), 
            measure=c("launchDistVA"), na.rm=TRUE)
 mSLVA1<- cast(SLVA1, line_len + font_size + Rtn_sweep ~ variable
             ,function(x) c(M=signif(mean(x),3)
                            , SD= sd(x) ))
+
+# get just intra-line saccades (forward vs regressive)
+Alldata4<- Alldata[-which(Alldata$regress==0 & Alldata$Rtn_sweep==0), ]
+RegVA<- melt(Alldata4, id=c('sub', 'item', 'line_len', 'font_size', 'Rtn_sweep'), 
+             measure=c("launchDistVA"), na.rm=TRUE)
+mReg<- cast(RegVA, line_len + font_size + Rtn_sweep ~ variable
+              ,function(x) c(M=signif(mean(x),3)
+                             , SD= sd(x) ))
+
 
 #mean incoming saccade length in visual angle per saccade type 
 Alldata3 <- Alldata[Alldata$Rtn_sweep < 1,]
@@ -186,12 +195,12 @@ mSLVA2<- cast(SLVA2, font_size + regress ~ variable
               ,function(x) c(M=signif(mean(x),3)
                              , SD= sd(x) ))
 
-#mean incoming saccade length in letters per saccade type 
-SLlet<- melt(Alldata3, id=c('sub', 'item', 'font_size', 'regress'), 
-             measure=c("launchDistLet"), na.rm=TRUE)
-mSLlet<- cast(SLlet, font_size + regress ~ variable
-              ,function(x) c(M=signif(mean(x),3)
-                             , SD= sd(x) ))
+# #mean incoming saccade length in letters per saccade type 
+# SLlet<- melt(Alldata3, id=c('sub', 'item', 'font_size', 'regress'), 
+#              measure=c("launchDistLet"), na.rm=TRUE)
+# mSLlet<- cast(SLlet, font_size + regress ~ variable
+#               ,function(x) c(M=signif(mean(x),3)
+#                              , SD= sd(x) ))
 
 
 #########################################
@@ -201,15 +210,19 @@ mSLlet<- cast(SLlet, font_size + regress ~ variable
 #setting contrast
 contrasts(RS$line_len) <- c(-1, 1)  
 contrasts(RS$font_size) <- c(-1, 1)  
-Alldata2$Rtn_sweep = as.factor(Alldata2$Rtn_sweep)
+Alldata2$Rtn_sweep = as.factor(Alldata2$Rtn_sweep) # contains only forward intra-line saccades (+return-sweeps)
 contrasts(Alldata2$Rtn_sweep) <- c(-1, 1)  
 contrasts(Alldata2$font_size) <- c(-1, 1)  
 
+Alldata4$Rtn_sweep = as.factor(Alldata4$Rtn_sweep) # contains only regressive intra-line saccades (+return-sweeps)
+contrasts(Alldata4$Rtn_sweep) <- c(-1, 1)  
+contrasts(Alldata4$font_size) <- c(-1, 1)  
+
+
 #centering launch distance
 RS$launchDistVA_C<- scale(RS$launchDistVA)
-RS$launchDistLet_C<- scale(RS$launchDistLet)
 Alldata2$launchDistVA_C<- scale(Alldata2$launchDistVA)
-Alldata2$launchDistLet_C<- scale(Alldata2$launchDistLet)
+Alldata4$launchDistVA_C<- scale(Alldata4$launchDistVA)
 
 # centre launch site:
 RS$launchSiteVA_C<- scale(RS$launchSiteVA)
@@ -268,8 +281,10 @@ plot(effect('line_len:font_size:launchSiteVA_C', LM1))
 #        Saccade length        #
 #------------------------------#
 
+# forward saccades:
+
 if(!file.exists("Models/LM2.Rda")){
-  LM2<- lmer(launchDistVA ~ font_size*line_len*Rtn_sweep + (1|item) + (font_size|sub), Alldata2, REML=T)
+  LM2<- lmer(launchDistVA ~ font_size*line_len*Rtn_sweep + (font_size|sub) + (1|item), Alldata2, REML=T)
   save(LM2, file= "Models/LM2.Rda")
 }else{
   load("Models/LM2.Rda")
@@ -286,12 +301,37 @@ contrasts(Alldata2$Rtn_sweep)
 
 plot(effect('font_size', LM2))
 plot(effect('font_size:Rtn_sweep', LM2))
+effect('font_size:Rtn_sweep', LM2)
 
 
-### font size in letters
-dat3<- subset(Alldata2, Rtn_sweep==0)
 
-summary(LM3<- lmer(sacc_len ~ font_size+ (1|sub) + (1|item), dat3, REML=T))
+# Regressive saccades:
+if(!file.exists("Models/LM3.Rda")){
+  LM3<- lmer(launchDistVA ~ font_size*line_len*Rtn_sweep + (font_size|sub) + (1|item), Alldata4, REML=T)
+  save(LM3, file= "Models/LM3.Rda")
+}else{
+  load("Models/LM3.Rda")
+}
+
+summary(LM3)
+
+round(coef(summary(LM3)),3)
+
+write.csv(round(coef(summary(LM3)),3), 'Models/SaccLen_LM3.csv')
+
+contrasts(Alldata4$font_size)
+contrasts(Alldata4$Rtn_sweep)
+
+plot(effect('font_size:Rtn_sweep', LM3))
+effect('font_size:Rtn_sweep', LM3)
+
+
+
+
+# ### font size in letters
+# dat3<- subset(Alldata2, Rtn_sweep==0)
+# 
+# summary(LM4<- lmer(sacc_len ~ font_size+ (1|sub) + (1|item), dat3, REML=T))
 
 
 #########################################
@@ -623,6 +663,89 @@ dev.off()
 # Prepare dataset for analsysis:
 #-------------------------------
 
+# fix seq issues for a few subjects where the gaze-box was not triggered properly:
+
+for(i in 1:nrow(Alldata2)){
+  
+  # subject 6
+  if(Alldata2$sub[i]==6){
+    # 40 & 55
+    if(is.element(Alldata2$seq[i], c(51:54))){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+    
+    if(is.element(Alldata2$seq[i], c(56:102))){
+      Alldata2$seq[i]<- Alldata2$seq[i]-2 
+    }
+    
+  } # end of subject 6
+  
+  
+  # subject 12
+  if(Alldata2$sub[i]== 12){
+    # 25, 46
+    
+    if(is.element(Alldata2$seq[i], c(26:46))){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+    
+    if(Alldata2$seq[i]>46){
+      Alldata2$seq[i]<- Alldata2$seq[i]-2 
+    }
+    
+  } # end of subject 12
+  
+  
+  # subject 16
+  if(Alldata2$sub[i]== 16){
+    # 72
+    if(Alldata2$seq[i]>71){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+    
+  } # end of subject 16
+  
+  
+  # subject 22
+  if(Alldata2$sub[i]== 22){
+    # 11, 67
+    
+    if(is.element(Alldata2$seq[i], c(12:66))){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+    
+    if(Alldata2$seq[i]>66){
+      Alldata2$seq[i]<- Alldata2$seq[i]-2 
+    }
+    
+  } # end of subject 22
+  
+  
+  # subject 46
+  if(Alldata2$sub[i]== 46){
+    # 53
+    if(Alldata2$seq[i]>53){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+  } # end of subject 46
+  
+  
+  # subject 51
+  if(Alldata2$sub[i]== 51){
+    # 5
+    
+    if(Alldata2$seq[i]>5){
+      Alldata2$seq[i]<- Alldata2$seq[i]-1 
+    }
+    
+  }# subject 51
+  
+}
+
+
+
+
+
 # check contrast coding:
 contrasts(Alldata2$font_size)
 contrasts(Alldata2$line_len)
@@ -758,29 +881,41 @@ plot_diff(gam2S, view = "block_order", rm.ranef = F, comp = list(small_font_bloc
 # GAMM panel plot: #
 ####################
 
-pdf('Plots/IntraLine_GAMMs.pdf', width = 11, height = 5)
-par(mfrow=c(1,2), mar= c(4,4,4,2))
+pdf('Plots/IntraLine_GAMMs.pdf', width = 11, height = 11)
+par(mfrow=c(2,2), mar= c(5,5,4,3))
 
 
 ## big font condition
 
 plot_smooth(gam1S, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Intra-line saccade length (deg)", main= "a) Big font sentences",
+            ylab= "Intra-line saccade length (deg)", main= "a) Large font sentences",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
-            cex.axis= 1.4, cex.lab= 1.5, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(2.2, 3.6),
-            cex.main=1.5)
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(2, 4),
+            cex.main=1.7)
 
 
 # small font condition
 plot_smooth(gam2S, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Intra-line saccade length", main= "b) Small font sentences",
+            ylab= "Intra-line saccade length (deg)", main= "b) Small font sentences",
             col = c(pallete1[2], pallete1[1]), family= "serif",
-            cex.axis= 1.4, cex.lab= 1.5, legend_plot_all = list(x=0, y=0),
-            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(2.2, 3.6), cex.main=1.5)
+            cex.axis= 1.6, cex.lab= 1.7, legend_plot_all = list(x=0, y=0),
+            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(2, 4), cex.main=1.7)
 
-legend(x = 25, y= 3.6, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.3)
+legend(x = 25, y= 3.85, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.5)
 
+
+### Add block order effect:
+plot_diff(gam1S, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
+          col = pallete1[3], main= "c) Large font sentences (1st- 2nd block difference)",
+          ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
+
+
+plot_diff(gam2S, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
+          col = pallete1[3], main= "d) Small font sentences (1st- 2nd block difference)",
+          ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
 
 dev.off()
 

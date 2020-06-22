@@ -1,9 +1,9 @@
 "","Estimate","Std. Error","t value"
-"(Intercept)",7.496,0.051,145.985
-"font_size1",-0.06,0.019,-3.17
-"line_lenlong line",4.983,0.022,227.062
-"Rtn_sweep1",4.635,0.016,292.643
-"font_size1:line_lenlong line",-0.004,0.022,-0.179
-"font_size1:Rtn_sweep1",-0.338,0.016,-21.336
-"line_lenlong line:Rtn_sweep1",4.792,0.022,218.44
-"font_size1:line_lenlong line:Rtn_sweep1",-0.012,0.022,-0.553
+"(Intercept)",7.566,0.05,151.627
+"font_size1",-0.075,0.019,-3.986
+"line_lenlong line",4.944,0.022,225.129
+"Rtn_sweep1",4.721,0.016,303.109
+"font_size1:line_lenlong line",0.007,0.022,0.3
+"font_size1:Rtn_sweep1",-0.344,0.016,-22.127
+"line_lenlong line:Rtn_sweep1",4.759,0.022,216.765
+"font_size1:line_lenlong line:Rtn_sweep1",-0.009,0.022,-0.4
