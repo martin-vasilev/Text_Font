@@ -966,3 +966,126 @@ p
 # normality assumption is violated in both conditions, so we use non-parametric test:
 fligner.test(LandStartVA ~ font_size, data = RS)
 
+
+
+##################################################################################################################################
+
+
+# Reviewer 1:
+# Compare fixations before regression and under-sweeps
+
+
+
+Alldata$pre_Reg<- NA
+Dat<- NULL
+
+nsubs<- unique(Alldata$sub)
+
+for(i in 1:length(nsubs)){
+  n<- subset(Alldata, sub== nsubs[i])
+  
+  nitems<- unique(n$item)
+  
+  for(j in 1:length(nitems)){
+    m<- subset(n, item== nitems[j])
+    
+    for(k in 1:nrow(m)){
+      
+      if(k>1){
+        if(!is.na(m$regress[k]) & !is.na(m$regress[k-1])){
+          if(m$regress[k]==1){
+            if(m$regress[k-1]==1){
+              next
+            }else{
+              m$pre_Reg[k-1]<- 1
+            }
+            
+          }
+        }
+
+      }
+      
+    } # end of k
+    #c<- m[, c('regress', 'pre_Reg')]
+    
+    Dat<- rbind(Dat, m)
+    
+  } # end of j
+  cat(i); cat(" ")
+}
+
+table(Dat$pre_Reg)
+
+d1<- subset(Dat, pre_Reg==1)
+d1$pre_Reg<- NULL
+d1$fix_type<- "Pre-regression fixation"
+d1$distance<- d1$xPos -d1$nextX
+d1<- d1[-which(d1$distance<0),]
+
+
+d2<- subset(Alldata, undersweep_prob==1)
+d2$pre_Reg<- NULL
+d2$fix_type<- "Under-sweep fixation"
+d2$distance<- d2$xPos - d2$nextX
+
+Dat<- rbind(d1, d2)
+rm(d1, d2)
+table(Dat$fix_type)
+
+
+
+### plot:
+library(ggplot2)
+
+P1<- ggplot(Dat, aes(x=fix_dur, color=fix_type, fill=fix_type)) +
+ # geom_histogram(aes(y=..density..), position="identity", alpha=0.5, bins=20)+
+  geom_density(alpha=0.6)+ theme_classic2(22) + xlab("Fixation duration (ms)")+ ylab("Density")+
+  scale_color_manual(values=c("#E69F00", "#999999"))+
+  scale_fill_manual(values=c("#E69F00", "#999999")) +theme(legend.position = c(0.7, 0.8))+
+  scale_x_continuous(breaks = c(150, 350, 550 , 750))
+P1
+
+ggsave(filename = "Plots/Fix_comp.pdf", plot = P1, width = 7, heigh=6)
+
+
+library(lme4)
+
+Dat$fix_type<- as.factor(Dat$fix_type)
+contrasts(Dat$fix_type)<- c(1, -1)
+
+Dat$distance<- scale((Dat$xPos - Dat$nextX)*0.02461393513610085)
+
+summary(FDM<- lmer(log(fix_dur)~ fix_type*distance +(fix_type|sub) + (1|item), data= Dat)) 
+
+library(effects)
+
+plot(effect('distance', FDM))
+plot(effect('fix_type', FDM))
+plot(effect('fix_type:distance', FDM))
+
+
+fd= allEffects(FDM)
+
+x= as.data.frame(fd)
+x=as.data.frame(x)
+colnames(x)= c("fix_type", "distance", "fit", "se", "lower", "upper")
+
+
+df<-  x
+df$fix_type<- as.factor(df$fix_type)
+df$fix_type<- droplevels(df$fix_type)
+levels(df$fix_type)
+
+G1<- ggplot(df, aes(x= distance, y=fit, ymax= upper, ymin= lower,
+                    color=fix_type, linetype= fix_type, fill= fix_type, shape= fix_type)) + theme_classic(20)+
+  geom_line(size= 1)+ geom_point(size=4)+
+  scale_color_manual(values=c("#E69F00", "#999999"))+
+  scale_fill_manual(values=c("#E69F00", "#999999"))+
+  labs(x= "Distance to next saccade location (centred in deg)", y= "Fixation duration (log)", 
+       color= "", shape= '', linetype= '', fill= '') +geom_ribbon(alpha= 0.2, color= NA) +
+  theme(legend.position = c(0.32, 0.15))
+
+G1
+  
+
+ggsave(filename = 'Plots/fix_dur_x_Dist.pdf', plot = G1, width = 8, height = 8)
