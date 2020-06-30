@@ -542,237 +542,99 @@ contrasts(tDat$big_font_block)<- c(-1, 1)
 tDat$small_font_block<- as.factor(tDat$small_font_block)
 contrasts(tDat$small_font_block)<- c(-1, 1)
 
-### big font
-
-bigF<- subset(tDat, font_size== "big font")
-
-gam1 <- bam(LandStartVA ~ big_font_block+
-              s(sub, bs="re", k=10) +
-              s(sub, big_font_block, bs="re", k=10) +
-              s(item, bs= "re", k=10)+
-              s(item, big_font_block, bs="re") +
-              s(block_order, bs= "cr", k=10)+
-              s(block_order, by= big_font_block, k=10, bs= "cr")+
-#              s(big_font_block, by= font_size, k=10, bs= "cr")+
-              s(block_order, sub, bs= "fs", m=1, k=4),
-            data= bigF)
-
-summary(gam1)
-
-#plot(gam1)
-
-
-plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial order within block",
-            ylab= "Landing position (deg)", main= "Big font sentences as a function of block order",
-            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
-            cex.axis= 1.2, cex.lab= 1.4)
-legend(x = 2, y= 2.5, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-       box.col = "white")
-
-plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
-          col = pallete1[2], main= "Big font (2nd- 1st block difference)",
-          ylab= "Mean diff.in landing position (deg)", xlab= "Trial order within block", print.summary = T, 
-          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
-
-
-###########
-
-### small font
-
-smallF<- subset(tDat, font_size== "small font")
-
-gam2 <- bam(LandStartVA ~ small_font_block+
-              s(sub, bs="re", k=10) +
-              s(sub, small_font_block, bs="re", k=10) +
-              s(item, bs= "re", k=10)+
-              s(item, small_font_block, bs="re") +
-              s(block_order, bs= "cr", k=10)+
-              s(block_order, by= small_font_block, k=10, bs= "cr")+
-              #              s(small_font_block, by= font_size, k=10, bs= "cr")+
-              s(block_order, sub, bs= "fs", m=1, k=4),
-            data= smallF)
-
-summary(gam2)
-
-#plot(gam2)
-
-
-plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial order within block",
-            ylab= "Landing position (deg)", main= "Small font sentences as a function of block order",
-            col = c(pallete1[2], pallete1[1]), family= "serif",
-            cex.axis= 1.2, cex.lab= 1.4, legend_plot_all = list(x=0, y=0))
-legend(x = 35, y= 2.4, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-       box.col = "white")
-
-plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
-          col = pallete1[2], main= "Small font (2nd- 1st block difference)",
-          ylab= "Mean diff.in landing position (deg)", xlab= "Trial order within block", print.summary = T, 
-          family= "serif", cex.axis= 1.2, cex.lab= 1.4, cex.main= 1.3, lwd= 2, hide.label = T)
-
-
-
-####################
-# GAMM panel plot: #
-####################
-
-pdf('Plots/GAMMs.pdf', width = 11, height = 11)
-par(mfrow=c(2,2), mar= c(5,5,4,3))
-
-
-## big font condition
-
-plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "a) Large font sentences",
-            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
-            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
-            cex.main=1.7)
-
-
-# small font condition
-plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "b) Small font sentences",
-            col = c(pallete1[2], pallete1[1]), family= "serif",
-            cex.axis= 1.6, cex.lab= 1.7, legend_plot_all = list(x=0, y=0),
-            hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1.15, 2.35), cex.main=1.7)
-
-legend(x = 25, y= 2.37, legend = c("first block", "second block"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
-       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.5)
-
-
-### Add block order effect:
-plot_diff(gam1, view = "block_order", rm.ranef = F, comp = list(big_font_block = c(1,  2)), 
-          col = pallete1[3], main= "c) Large font sentences (1st- 2nd block difference)",
-          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
-
-
-plot_diff(gam2, view = "block_order", rm.ranef = F, comp = list(small_font_block = c(1,  2)), 
-          col = pallete1[3], main= "d) Small font sentences (1st- 2nd block difference)",
-          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-0.6, 0.6))
-
-
-dev.off()
-
-
-##############################
-# GAMM panel plot: VERSION 2 #
-##############################
+contrasts(tDat$font_size)
 
 tDat$block<- ifelse(tDat$small_font_block==1, "first", "second")
 tDat$block<- as.factor(tDat$block)
 
 contrasts(tDat$font_size)
 
-#contrasts(tDat$block)<- c(-1, 1)
-#contrasts(tDat$block)
-
 block1<- subset(tDat, block== "first")
 block2<- subset(tDat, block== "second")
 
 
-### first block
+##############################################################################
 
-gam1V2 <- bam(LandStartVA ~ font_size+
+# small block first, large block second
+gamLP1 <- bam(LandStartVA ~ font_size+
               s(sub, bs="re", k=10) +
               s(sub, font_size, bs="re", k=10) +
               s(item, bs= "re", k=10)+
               s(item, font_size, bs="re") +
               s(block_order, bs= "cr", k=10)+
               s(block_order, by= font_size, k=10, bs= "cr")+
-              #              s(big_font_block, by= font_size, k=10, bs= "cr")+
+              #              s(font_size, by= font_size, k=10, bs= "cr")+
               s(block_order, sub, bs= "fs", m=1, k=4),
             data= block1)
 
-summary(gam1V2)
+summary(gamLP1)
 
-plot_diff(gam1V2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "d) Small font sentences (1st- 2nd block difference)",
-          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-1, 0.4))
-
-
-### second block
-
-gam2V2 <- bam(LandStartVA ~ font_size+
+# large block first, small block second
+gamLP2 <- bam(LandStartVA ~ font_size+
                 s(sub, bs="re", k=10) +
                 s(sub, font_size, bs="re", k=10) +
                 s(item, bs= "re", k=10)+
                 s(item, font_size, bs="re") +
                 s(block_order, bs= "cr", k=10)+
                 s(block_order, by= font_size, k=10, bs= "cr")+
-                #              s(big_font_block, by= font_size, k=10, bs= "cr")+
+                #              s(font_size, by= font_size, k=10, bs= "cr")+
                 s(block_order, sub, bs= "fs", m=1, k=4),
               data= block2)
 
-summary(gam2V2)
-
-plot_diff(gam2V2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "d) Small font sentences (1st- 2nd block difference)",
-          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-1, 0.4))
+summary(gamLP2)
 
 
 
-pdf('Plots/GAMMs_V2.pdf', width = 11, height = 11)
+
+##############
+# GAMM PLot: #
+##############
+
+pdf('Plots/GAMMs.pdf', width = 11, height = 11)
 par(mfrow=c(2,2), mar= c(5,5,4,3))
 
-
-## big font condition
-
-plot_smooth(gam1, view="block_order", plot_all="big_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "a) Large font sentences",
+# small block first, large block second
+plot_smooth(gamLP1, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
+            ylab= "Landing position (deg)", main= "a) Font size means (small - large block order)",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
-            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35),
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1, 2.7),
             cex.main=1.7)
 
-
-# small font condition
-plot_smooth(gam2, view="block_order", plot_all="small_font_block", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "b) Small font sentences",
-            col = c(pallete1[1], pallete1[2]), family= "serif",
-            cex.axis= 1.6, cex.lab= 1.7, legend_plot_all = list(x=0, y=0),
-            hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1.15, 2.35), cex.main=1.7)
-
-legend(x = 16, y= 2.35, legend = c("large 1st - small 2nd", "small 1st - large 2nd"), title = "Block order:",
-       col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+#legend:
+legend(x = 28, y= 2.6, legend = c("Large font", "Small font"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
        box.col = "white", lty= c(1,2), seg.len=2, cex = 1.5)
 
 
-# Add font size effect:
-
-# plot(NA, main= "c) Font size effect (large 1st - small 2nd)",
-#           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", 
-#           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, ylim= c(-1, 0.5), xlim = c(0, 50), axes = F)
-# rect(5.94, -2, 50, 2, col= 'gray90', border = NA)
-# axis(side = 1, at = c(0,10, 20, 30, 40, 50), cex.axis= 1.6, cex.lab= 1.7, family= "serif")
-# axis(side=2, at= c(-1, -0.5, 0, 0.5, 1), cex.axis= 1.6, cex.lab= 1.7, family= "serif")
-# 
-# plot_diff(gam2V2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")),
-#           col = pallete1[2], print.summary = T,
-#           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, add = T, col.diff = 'gray60')
+# large block first, small block second
+plot_smooth(gamLP2, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
+            ylab= "Landing position (deg)", main= "b) Font size means (large - small block order)",
+            col = c(pallete1[2], pallete1[1]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1, 2.7),
+            cex.main=1.7)
 
 
-plot_diff(gam2V2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")),
-          col = pallete1[2], main= "c) Font size effect (large 1st - small 2nd)",
-          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T,
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, hide.label = T, ylim= c(-1, 0.5), mark.diff = T, 
-          col.diff = NA)
-abline(v = c(5.949495, 50), col= pallete1[6], lwd= 2.5, lty= 4 )
-segments(x0 = 5.949495, x1 = 50, y0 = -1.06, y1 = -1.06, col= pallete1[6], lwd= 3)
-
-
-plot_diff(gam1V2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[1], main= "d) Font size effect (small 1st- large 2nd)",
+# Font size effect: small - large
+plot_diff(gamLP1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
+          col = pallete1[3], main= "c) Font size effect (small - large block order)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
-          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=2 , hide.label = T, ylim= c(-1, 0.5), 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
           mark.diff = T, col.diff = NA)
-abline(v = c(14.858586, 50), col= pallete1[6], lwd= 2.5, lty= 4 )
-segments(x0 = 14.858586, x1 = 50, y0 = -1.06, y1 = -1.06, col= pallete1[6], lwd= 3)
+abline(v = c(14.858586, 50), col= "red", lwd= 2.5, lty= 3 )
+segments(x0 = 14.858586, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
 
+
+# Font size effect: large - small
+plot_diff(gamLP2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
+          col = pallete1[3], main= "d) Font size effect (large - small block order)",
+          ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
+          mark.diff = T, col.diff = NA)
+abline(v = c(5.949495, 50), col= "red", lwd= 2.5, lty= 3 )
+segments(x0 = 5.949495, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
 
 dev.off()
 
+##############################################################################
 
 
 
@@ -914,10 +776,111 @@ for(i in 1:nrow(Alldata2)){
 tDat2<- Alldata2[,c("sub", "item", "seq", "cond", "font_size", "line_len", "launchDistVA", "undersweep_prob" ,  "block_order",
              "big_font_block", "small_font_block")]
 
-#tDat2$big_font_block<- as.factor(tDat2$big_font_block)
-#tDat2$big_font_block<- factor(tDat2$big_font_block, levels= c("small font", "big font"))
-#contrasts(tDat2$big_font_block)
+tDat2<- subset(tDat2, block_order>0)
+
+
 is.numeric(tDat2$block_order)
+contrasts(tDat2$font_size)
+
+
+tDat2$block<- ifelse(tDat2$small_font_block==1, "first", "second")
+tDat2$block<- as.factor(tDat2$block)
+
+contrasts(tDat2$font_size)
+
+block1S<- subset(tDat2, block== "first")
+block2S<- subset(tDat2, block== "second")
+
+##############################################################################################
+
+# small block first, large block second
+gamSL1 <- bam(launchDistVA ~ font_size+
+                s(sub, bs="re", k=10) +
+                s(sub, font_size, bs="re", k=10) +
+                s(item, bs= "re", k=10)+
+                s(item, font_size, bs="re") +
+                s(block_order, bs= "cr", k=10)+
+                s(block_order, by= font_size, k=10, bs= "cr")+
+                #              s(font_size, by= font_size, k=10, bs= "cr")+
+                s(block_order, sub, bs= "fs", m=1, k=4),
+              data= block1S)
+
+summary(gamSL1)
+
+# large block first, small block second
+gamSL2 <- bam(launchDistVA ~ font_size+
+                s(sub, bs="re", k=10) +
+                s(sub, font_size, bs="re", k=10) +
+                s(item, bs= "re", k=10)+
+                s(item, font_size, bs="re") +
+                s(block_order, bs= "cr", k=10)+
+                s(block_order, by= font_size, k=10, bs= "cr")+
+                #              s(font_size, by= font_size, k=10, bs= "cr")+
+                s(block_order, sub, bs= "fs", m=1, k=4),
+              data= block2S)
+
+summary(gamSL2)
+
+
+
+##############
+# GAMM PLot: #
+##############
+
+pdf('Plots/GAMMs_intra_line.pdf', width = 11, height = 11)
+par(mfrow=c(2,2), mar= c(5,5,4,3))
+
+# small block first, large block second
+plot_smooth(gamSL1, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
+            ylab= "Saccade length (deg)", main= "a) Font size means (small - large block order)",
+            col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(2.1, 3.5),
+            cex.main=1.7)
+
+# large block first, small block second
+plot_smooth(gamSL2, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
+            ylab= "Saccade length (deg)", main= "b) Font size means (large - small block order)",
+            col = c(pallete1[2], pallete1[1]), legend_plot_all = list(x=0, y=0), family= "serif",
+            cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(1,2), ylim= c(2.1, 3.5),
+            cex.main=1.7)
+
+#legend:
+legend(x = 28, y= 2.4, legend = c("Large font", "Small font"), col = c(pallete1[2], pallete1[1]), lwd = c(2, 2), 
+       box.col = "white", lty= c(1,2), seg.len=2, cex = 1.5)
+
+
+# Font size effect: small - large
+plot_diff(gamSL1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
+          col = pallete1[3], main= "c) Font size effect (small - large block order)",
+          ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
+          mark.diff = T, col.diff = NA)
+abline(v = c(1, 50), col= "red", lwd= 2.5, lty= 3 )
+segments(x0 = 1, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
+
+
+# Font size effect: large - small
+plot_diff(gamSL2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
+          col = pallete1[3], main= "d) Font size effect (large - small block order)",
+          ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
+          family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
+          mark.diff = T, col.diff = NA)
+abline(v = c(1, 50), col= "red", lwd= 2.5, lty= 3 )
+segments(x0 = 1, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
+
+dev.off()
+
+
+
+
+
+
+##############################################################################################
+
+
+
+
+
 
 
 # gamm model:
