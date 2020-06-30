@@ -927,6 +927,7 @@ contrasts(tDat2$big_font_block)<- c(-1, 1)
 tDat2$small_font_block<- as.factor(tDat2$small_font_block)
 contrasts(tDat2$small_font_block)<- c(-1, 1)
 
+contrasts(tDat2$font_size)
 
 ### big font
 
