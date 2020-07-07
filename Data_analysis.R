@@ -435,6 +435,7 @@ df$line_len <- droplevels(df$line_len)
 #levels(df$line_len)<- c("long", 'short')
 df$line_len<- factor(df$line_len, levels= c("short line", "long line"))
 levels(df$line_len)<- c(" short line", " long line")
+levels(df$font_size)<- c('large font', 'small font', NA)
 
 G1<- ggplot(df, aes(x= launchSiteVA_C, y=fit, ymax= upper, ymin= lower,
                     color=line_len, linetype= line_len, fill= line_len, shape= line_len)) + theme_bw (22)+
@@ -595,7 +596,7 @@ par(mfrow=c(2,2), mar= c(5,5,4,3))
 
 # small block first, large block second
 plot_smooth(gamLP1, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "a) Font size means (small - large block order)",
+            ylab= "Landing position (deg)", main= "a) Font size means (small -> large block order)",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(1, 2.7),
             cex.main=1.7)
@@ -607,7 +608,7 @@ legend(x = 28, y= 2.6, legend = c("Large font", "Small font"), col = c(pallete1[
 
 # large block first, small block second
 plot_smooth(gamLP2, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Landing position (deg)", main= "b) Font size means (large - small block order)",
+            ylab= "Landing position (deg)", main= "b) Font size means (large -> small block order)",
             col = c(pallete1[2], pallete1[1]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(1,2), ylim= c(1, 2.7),
             cex.main=1.7)
@@ -615,7 +616,7 @@ plot_smooth(gamLP2, view="block_order", plot_all="font_size", rug=F, xlab= "Tria
 
 # Font size effect: small - large
 plot_diff(gamLP1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "c) Font size effect (small - large block order)",
+          col = pallete1[3], main= "c) Font size effect (small -> large block order)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
           mark.diff = T, col.diff = NA)
@@ -625,7 +626,7 @@ segments(x0 = 14.858586, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
 
 # Font size effect: large - small
 plot_diff(gamLP2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "d) Font size effect (large - small block order)",
+          col = pallete1[3], main= "d) Font size effect (large -> small block order)",
           ylab= "Mean diff. in landing position (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
           mark.diff = T, col.diff = NA)
@@ -832,14 +833,14 @@ par(mfrow=c(2,2), mar= c(5,5,4,3))
 
 # small block first, large block second
 plot_smooth(gamSL1, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Intra-line saccade length (deg)", main= "a) Font size means (small - large block order)",
+            ylab= "Intra-line saccade length (deg)", main= "a) Font size means (small -> large block order)",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(2.1, 3.5),
             cex.main=1.7)
 
 # large block first, small block second
 plot_smooth(gamSL2, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Intra-line saccade length (deg)", main= "b) Font size means (large - small block order)",
+            ylab= "Intra-line saccade length (deg)", main= "b) Font size means (large -> small block order)",
             col = c(pallete1[2], pallete1[1]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(1,2), ylim= c(2.1, 3.5),
             cex.main=1.7)
@@ -851,7 +852,7 @@ legend(x = 28, y= 2.4, legend = c("Large font", "Small font"), col = c(pallete1[
 
 # Font size effect: small - large
 plot_diff(gamSL1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "c) Font size effect (small - large block order)",
+          col = pallete1[3], main= "c) Font size effect (small -> large block order)",
           ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
           mark.diff = T, col.diff = NA)
@@ -861,7 +862,7 @@ segments(x0 = 1, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
 
 # Font size effect: large - small
 plot_diff(gamSL2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "d) Font size effect (large - small block order)",
+          col = pallete1[3], main= "d) Font size effect (large -> small block order)",
           ylab= "Mean diff. in saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-1, 0.5), 
           mark.diff = T, col.diff = NA)
@@ -918,7 +919,7 @@ par(mfrow=c(2,2), mar= c(5,5,4,3))
 
 # small block first, large block second
 plot_smooth(gamRS1, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Return-sweep saccade length (deg)", main= "a) Font size means (small - large block order)",
+            ylab= "Return-sweep saccade length (deg)", main= "a) Font size means (small -> large block order)",
             col = c(pallete1[1], pallete1[2]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(2,1), ylim= c(15.5, 18.5),
             cex.main=1.7)
@@ -930,7 +931,7 @@ legend(x = 2, y= 16.2, legend = c("Large font", "Small font"), col = c(pallete1[
 
 # large block first, small block second
 plot_smooth(gamRS2, view="block_order", plot_all="font_size", rug=F, xlab= "Trial number within block",
-            ylab= "Return-sweep saccade length (deg)", main= "b) Font size means (large - small block order)",
+            ylab= "Return-sweep saccade length (deg)", main= "b) Font size means (large -> small block order)",
             col = c(pallete1[2], pallete1[1]), legend_plot_all = list(x=0, y=0), family= "serif",
             cex.axis= 1.6, cex.lab= 1.7, hide.label = T, lwd= 2, lty= c(1,2), ylim= c(15.5, 18.5),
             cex.main=1.7)
@@ -938,7 +939,7 @@ plot_smooth(gamRS2, view="block_order", plot_all="font_size", rug=F, xlab= "Tria
 
 # Font size effect: small - large
 plot_diff(gamRS1, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "c) Font size effect (small - large block order)",
+          col = pallete1[3], main= "c) Font size effect (small -> large block order)",
           ylab= "Mean diff. in RS saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-0.8, 2.2), 
           mark.diff = T, col.diff = NA)
@@ -948,7 +949,7 @@ segments(x0 = 13.373737, x1 = 50, y0 = -1.06, y1 = -1.06, col= "red", lwd= 3)
 
 # Font size effect: large - small
 plot_diff(gamRS2, view = "block_order", rm.ranef = F, comp = list(font_size = c("small font", "big font")), 
-          col = pallete1[3], main= "d) Font size effect (large - small block order)",
+          col = pallete1[3], main= "d) Font size effect (large -> small block order)",
           ylab= "Mean diff. in RS saccade length (deg)", xlab= "Trial number within block", print.summary = T, 
           family= "serif", cex.axis= 1.6, cex.lab= 1.7, cex.main= 1.7, lwd= 2, lty=1 , hide.label = T, ylim= c(-0.8, 2.2), 
           mark.diff = T, col.diff = NA)
