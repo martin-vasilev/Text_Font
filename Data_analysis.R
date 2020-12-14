@@ -1133,3 +1133,9 @@ G1
   
 
 ggsave(filename = 'Plots/fix_dur_x_Dist.pdf', plot = G1, width = 8, height = 8)
+
+
+## get correlation for Revision 2:
+s<- subset(Dat, fix_type== "Under-sweep fixation")
+cor.test(s$distance, s$fix_dur)
+
